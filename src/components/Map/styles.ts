@@ -10,12 +10,7 @@ const styles = [
         stylers: [{ visibility: "off" }]
     },
     {
-        featureType: "road.arterial",
-        elementType: "labels.text",
-        stylers: [{ visibility: "off" }]
-    },
-    {
-        featureType: "road.local",
+        featureType: "road",
         elementType: "labels.text",
         stylers: [{ visibility: "off" }]
     },

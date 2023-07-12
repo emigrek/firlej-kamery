@@ -4,6 +4,8 @@ import { Marker as M } from '@react-google-maps/api';
 import { FC, memo } from 'react'
 import { TbDeviceCctv } from 'react-icons/tb';
 
+import './Marker.css';
+
 interface MarkerProps {
     camera: Camera
 }

@@ -34,7 +34,7 @@ const Map: FC = () => {
             const lat = center.lat();
             const lng = center.lng();
 
-            if (lat > defaultCenter.lat + 0.05 || lat < defaultCenter.lat - 0.05 || lng > defaultCenter.lng + 0.05 || lng < defaultCenter.lng - 0.05) {
+            if (lat > defaultCenter.lat + 0.1 || lat < defaultCenter.lat - 0.1 || lng > defaultCenter.lng + 0.1 || lng < defaultCenter.lng - 0.1) {
                 map?.panTo(defaultCenter);
             }
         }

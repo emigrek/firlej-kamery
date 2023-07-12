@@ -1,7 +1,6 @@
 import cams from '@/cameras'
 import { FC } from 'react'
 
-import "./Markers.css";
 import Marker from './Marker/Marker'
 
 const Markers: FC = () => {
