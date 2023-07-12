@@ -1,46 +1,66 @@
-import { FC, memo, useState } from 'react'
+import { FC, memo, useCallback, useMemo } from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 import options from './options';
 import Markers from './elements/Markers';
 import Radiuses from './elements/Radiuses';
 
-const containerStyle = {
-    width: '100vw',
-    height: '100vh'
-}
-
-const center = {
-    lat: 51.55408654852067,
-    lng: 22.516873298793552
-}
+import useMapStore from '@/stores/mapStore';
 
 const Map: FC = () => {
-    const [map, setMap] = useState<google.maps.Map | null>(null);
+    const { map, setMap } = useMapStore();
+    const defaultCenter = useMemo(() => ({
+        lat: 51.55408654852067,
+        lng: 22.516873298793552
+    }), []);
 
     const { isLoaded, loadError } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string
     });
 
-    const render = () => {
-        return (
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                options={options}
-                center={center}
-                onLoad={(map) => setMap(map)}
-                zoom={14}
-            >
-                <Markers />
-                <Radiuses />
-            </GoogleMap>
-        )
-    }
+    const onLoad = useCallback((map: google.maps.Map) => {
+        setMap(map);
+    }, [setMap]);
+
+    const onUnmount = useCallback(() => {
+        setMap(null);
+    }, [setMap]);
+
+    const handleCenterChange = useCallback(() => {
+        const center = map?.getCenter();
+
+        if (center) {
+            const lat = center.lat();
+            const lng = center.lng();
+
+            if (lat > defaultCenter.lat + 0.05 || lat < defaultCenter.lat - 0.05 || lng > defaultCenter.lng + 0.05 || lng < defaultCenter.lng - 0.05) {
+                map?.panTo(defaultCenter);
+            }
+        }
+    }, [map, defaultCenter]);
 
     if (loadError) return <></>;
 
-    return isLoaded ? render() : <></>;
+    if (!isLoaded) return <></>;
+
+    return (
+        <GoogleMap
+            mapContainerStyle={{
+                width: '100vw',
+                height: '100vh'
+            }}
+            options={options}
+            center={defaultCenter}
+            onCenterChanged={handleCenterChange}
+            zoom={14}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+        >
+            <Markers />
+            <Radiuses />
+        </GoogleMap>
+    )
 }
 
 const Memoized = memo(Map);

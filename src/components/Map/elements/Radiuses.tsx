@@ -1,19 +1,11 @@
 import cams from '@/cameras'
-import { Circle } from '@react-google-maps/api'
 import { FC } from 'react'
 
+import Radius from './Radius'
+
 const Radiuses: FC = () => {
-    return cams.map(({ id, position }) => (
-        <Circle
-            key={id}
-            center={position}
-            radius={100}
-            options={{
-                strokeWeight: 0,
-                fillColor: '#eaa540',
-                fillOpacity: 0.1
-            }}
-        />
+    return cams.map(( camera ) => (
+        <Radius key={camera.id} camera={camera} />
     ))
 }
 

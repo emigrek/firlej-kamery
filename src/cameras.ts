@@ -1,9 +1,9 @@
-interface Position {
+export interface Position {
     lat: number;
     lng: number;
 }
 
-interface Camera {
+export interface Camera {
     id: number;
     name: string;
     position: Position
