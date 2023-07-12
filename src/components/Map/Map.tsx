@@ -1,11 +1,10 @@
 import { FC, memo, useCallback, useMemo } from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import useMapStore from '@/stores/mapStore';
 
 import options from './options';
-import Markers from './elements/Markers';
-import Radiuses from './elements/Radiuses';
 
-import useMapStore from '@/stores/mapStore';
+import Cameras from './elements/Cameras';
 
 const Map: FC = () => {
     const { map, setMap } = useMapStore();
@@ -57,8 +56,7 @@ const Map: FC = () => {
             onLoad={onLoad}
             onUnmount={onUnmount}
         >
-            <Markers />
-            <Radiuses />
+            <Cameras/>
         </GoogleMap>
     )
 }
