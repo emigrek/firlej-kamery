@@ -1,7 +1,7 @@
 import cams from '@/cameras'
 import { FC } from 'react'
 
-import Radius from './Radius'
+import Radius from './Radius/Radius'
 
 const Radiuses: FC = () => {
     return cams.map(( camera ) => (
