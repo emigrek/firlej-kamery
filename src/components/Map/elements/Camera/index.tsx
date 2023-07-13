@@ -5,14 +5,24 @@ import { FC, memo } from 'react'
 import { TbDeviceCctv } from 'react-icons/tb';
 
 import "./Camera.css";
+import useMapStore from '@/stores/mapStore';
 
 const markerSize = 28;
 
 const Camera: FC<Camera> = ({ name, position }) => {
+    const { map } = useMapStore();
+
+    const handleCameraClick = () => {
+        map?.panTo(position);
+        map?.setCenter(position);
+        map?.setZoom(17);
+    };
+    
     return (
         <>
             <Marker
                 position={position}
+                onClick={handleCameraClick}
                 options={{
                     label: {
                         text: name,
@@ -24,7 +34,7 @@ const Camera: FC<Camera> = ({ name, position }) => {
                 }}
                 icon={{
                     url: jsxToString(
-                        <TbDeviceCctv stroke="#eaa540" fill="#171717" size={markerSize} />
+                        <TbDeviceCctv stroke="#eaa540" fill="#171717AA" size={markerSize} />
                     ),
                     scaledSize: new window.google.maps.Size(markerSize, markerSize),
                     anchor: new window.google.maps.Point(markerSize/2, markerSize/2),
@@ -32,6 +42,7 @@ const Camera: FC<Camera> = ({ name, position }) => {
             />
             <Circle
                 center={position}
+                onClick={handleCameraClick}
                 radius={100}
                 options={{
                     strokeWeight: 0,

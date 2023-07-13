@@ -5,21 +5,15 @@ import cn from '@/utils/cn';
 
 
 const navigationVariants = cva(
-    "w-full absolute top-0 left-0 right-0 z-10 shadow-md",
+    "w-full sticky absolute top-0 left-0 right-0 z-10 h-14 shadow-md",
     {
         variants: {
             variant: {
                 dark: "bg-neutral-950/60 backdrop-blur-sm text-neutral-200"
-            },
-            size: {
-                sm: "h-12",
-                md: "h-14",
-                lg: "h-20"
             }
         },
         defaultVariants: {
-            variant: "dark",
-            size: "md"
+            variant: "dark"
         }
     }
 );
