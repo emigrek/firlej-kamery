@@ -3,8 +3,9 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import useMapStore from '@/stores/mapStore';
 
 import options from './options';
+import cameras from '@/cameras';
 
-import Cameras from './elements/Cameras';
+import Camera from './elements/Camera';
 
 const Map: FC = () => {
     const { map, setMap } = useMapStore();
@@ -56,7 +57,11 @@ const Map: FC = () => {
             onLoad={onLoad}
             onUnmount={onUnmount}
         >
-            <Cameras/>
+            {
+                cameras.map((camera) => (
+                    <Camera key={camera.id} {...camera} />
+                ))
+            }
         </GoogleMap>
     )
 }

@@ -1,8 +1,10 @@
-import Map from "@/components/Map/Map"
+import Map from "@/components/Map"
+import Navbar from "@/components/Navbar"
 
 function App() {
   return (
     <>
+      <Navbar />
       <Map />
     </>
   )

@@ -1,6 +1,7 @@
 .marker-label {
-    background-color: #1717178a;
-    transform: translateY(24px) scale(0.9);
+    background-color: #17171750;
+    transform: translateY(28px) scale(0.9);
     padding: theme('spacing.1');
-    border-radius: theme('borderRadius.full')
+    border-radius: theme('borderRadius.full');
+    font-weight: bold;
 }

@@ -6,6 +6,8 @@ import { TbDeviceCctv } from 'react-icons/tb';
 
 import "./Camera.css";
 
+const markerSize = 28;
+
 const Camera: FC<Camera> = ({ name, position }) => {
     return (
         <>
@@ -14,7 +16,7 @@ const Camera: FC<Camera> = ({ name, position }) => {
                 options={{
                     label: {
                         text: name,
-                        color: "#eaa540",
+                        color: "#efba6c",
                         className: "marker-label"
                     },
                     anchorPoint: new window.google.maps.Point(0, 15),
@@ -22,10 +24,10 @@ const Camera: FC<Camera> = ({ name, position }) => {
                 }}
                 icon={{
                     url: jsxToString(
-                        <TbDeviceCctv stroke="#eaa540" fill="#171717" size={24} />
+                        <TbDeviceCctv stroke="#eaa540" fill="#171717" size={markerSize} />
                     ),
-                    scaledSize: new window.google.maps.Size(24, 24),
-                    anchor: new window.google.maps.Point(12, 12)
+                    scaledSize: new window.google.maps.Size(markerSize, markerSize),
+                    anchor: new window.google.maps.Point(markerSize/2, markerSize/2),
                 }}
             />
             <Circle
