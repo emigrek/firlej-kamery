@@ -8,6 +8,19 @@ body {
     user-select: none;
 }
 
+* {
+    -webkit-user-drag: none;
+}
+
+html {
+    overflow: hidden;
+}
+
+body {
+    position: fixed;
+    -webkit-overflow-scrolling: touch;
+}
+
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity 200ms ease-in-out;
@@ -21,6 +34,3 @@ body {
     opacity: 0;
 }
 
-* {
-    -webkit-user-drag: none;
-}
