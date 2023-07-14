@@ -1,5 +1,5 @@
 import cn from '@/utils/cn'
-import { FC, HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react'
 import Cell from './Cell'
 
 type GridProps = HTMLAttributes<HTMLDivElement>
