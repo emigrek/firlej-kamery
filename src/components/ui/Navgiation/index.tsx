@@ -4,7 +4,7 @@ import { VariantProps } from 'class-variance-authority';
 import cn from '@/utils/cn';
 
 const navigationVariants = cva(
-    "w-full sticky absolute top-0 left-0 right-0 z-10 h-14 shadow-md",
+    "w-full sticky absolute bottom-0 md:top-0 left-0 right-0 z-10 h-14 shadow-md",
     {
         variants: {
             variant: {

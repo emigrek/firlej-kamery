@@ -5,7 +5,7 @@ const options: MapOptions = {
     backgroundColor: "#171717",
     disableDefaultUI: true,
     styles: styles,
-    zoomControl: true,
+    zoomControl: false,
     minZoom: 14,
     maxZoom: 18
 }
