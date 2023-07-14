@@ -18,9 +18,12 @@ cd firlej-kamery
 npm install
 ```
 
-Fill .env file with your Google Maps API key (**restrict it to your domain!**)
+Fill .env file with:
+* Google Maps API key (**restrict it to your domain!**)
+* Google Analytics ID (optional)
 ```
 VITE_GOOGLE_MAPS_API_KEY=
+VITE_GOOGLE_ANALYTICS_ID=
 ```
 
 Run development server
