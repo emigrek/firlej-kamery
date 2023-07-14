@@ -6,16 +6,25 @@ import { TbDeviceCctv } from 'react-icons/tb';
 
 import "./Camera.css";
 import useMapStore from '@/stores/mapStore';
+import useCameraModalStore from '@/stores/cameraModalStore';
 
 const markerSize = 28;
 
-const Camera: FC<Camera> = ({ name, position }) => {
+const Camera: FC<Camera> = (camera) => {
+    const { name, position } = camera;
+
     const { map } = useMapStore();
+    const { setIsOpen, setCamera, setPreviousCameraZoom } = useCameraModalStore();
 
     const handleCameraClick = () => {
+        setCamera(camera);
+        setPreviousCameraZoom(map?.getZoom() || 14);
         map?.panTo(position);
         map?.setCenter(position);
-        map?.setZoom(17);
+        map?.setZoom(18);
+        setTimeout(() => {
+            setIsOpen(true);
+        }, 500)
     };
     
     return (
@@ -26,7 +35,7 @@ const Camera: FC<Camera> = ({ name, position }) => {
                 options={{
                     label: {
                         text: name,
-                        color: "#efba6c",
+                        color: "#edb95c",
                         className: "marker-label"
                     },
                     anchorPoint: new window.google.maps.Point(0, 15),
@@ -34,7 +43,7 @@ const Camera: FC<Camera> = ({ name, position }) => {
                 }}
                 icon={{
                     url: jsxToString(
-                        <TbDeviceCctv stroke="#eaa540" fill="#171717AA" size={markerSize} />
+                        <TbDeviceCctv stroke="#eaa540" fill="#171717CC" size={markerSize} />
                     ),
                     scaledSize: new window.google.maps.Size(markerSize, markerSize),
                     anchor: new window.google.maps.Point(markerSize/2, markerSize/2),

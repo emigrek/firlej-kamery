@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-import Navigation from '@/components/Navgiation'
-import NavigationItem from '@/components/Navgiation/NavigationItem'
+import Navigation from '@/components/ui/Navgiation'
+import NavigationItem from '@/components/ui/Navgiation/NavigationItem'
 
 import { views } from '@/views/views'
 

@@ -1,14 +1,17 @@
-import cameras from '@/cameras'
-import CameraCell from '@/components/CameraCell'
-import Grid from '@/components/Grid'
 import { FC } from 'react'
+import cameras from '@/cameras'
+
+import Grid from '@/components/ui/Grid'
+import Camera from '@/components/Camera'
 
 const GridView: FC = () => {
     return (
         <Grid>
             {
                 cameras.map((camera, index) => (
-                    <CameraCell key={index} {...camera} />
+                    <Grid.Cell key={index}>
+                        <Camera {...camera}/>
+                    </Grid.Cell>
                 ))
             }
         </Grid>

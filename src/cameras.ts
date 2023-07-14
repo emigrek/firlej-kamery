@@ -6,13 +6,15 @@ export interface Position {
 export interface Camera {
     id: number;
     name: string;
-    position: Position
+    url: string;
+    position: Position;
 }
 
 const cameras: Camera[] = [
     {
         id: 10,
         name: "Gęsia",
+        url: `http://jezioro.firlej.pl/images/Kamery/Kamera10.jpg`,
         position: {
             lat: 51.553710004271245,
             lng: 22.508268430196598
@@ -21,6 +23,7 @@ const cameras: Camera[] = [
     {
         id: 4,
         name: "GOSiR",
+        url: `http://jezioro.firlej.pl/images/Kamery/Kamera4.jpg`,
         position: {
             lat: 51.55634027829508,
             lng: 22.524142214172443
@@ -29,6 +32,7 @@ const cameras: Camera[] = [
     {
         id: 11,
         name: `eFeS`,
+        url: `http://jezioro.firlej.pl/images/Kamery/Kamera11.jpg`,
         position: {
             lat: 51.549347915472296,
             lng: 22.513844985167022
@@ -37,6 +41,7 @@ const cameras: Camera[] = [
     {
         id: 12,
         name: `Marta`,
+        url: `http://jezioro.firlej.pl/images/Kamery/Kamera12.jpg`,
         position: {
             lat: 51.54890758620527,
             lng: 22.518421540137446

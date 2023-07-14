@@ -7,7 +7,7 @@ const options: MapOptions = {
     styles: styles,
     zoomControl: true,
     minZoom: 14,
-    maxZoom: 17
+    maxZoom: 18
 }
 
 export default options;

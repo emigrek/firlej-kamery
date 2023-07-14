@@ -15,11 +15,11 @@ const NavigationItem: FC<NavigationItemProps> = ({ icon: Icon, label, view }) =>
     return (
         <div onClick={handleNavgationItemClick} className={
             cn("flex items-center justify-center h-full gap-2 px-4 cursor-pointer md:px-10 transition-all duration-300 select-none",
-                currentView === view ? "text-neutral-100" : "text-neutral-600 hover:text-neutral-200"
+                currentView === view ? "text-tulip-tree-400" : "text-neutral-600 hover:text-tulip-tree-300"
             )
         }>
-            <Icon className="w-6 h-6" />
-            <span className='text-sm font-semibold'>{label}</span>
+            <Icon className="w-7 h-7" />
+            <span className="text-sm font-semibold">{label}</span>
         </div>
     )
 }
