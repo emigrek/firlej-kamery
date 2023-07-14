@@ -7,7 +7,7 @@ interface ViewState {
 }
 
 const useViewStore = create<ViewState>(set => ({
-    view: Views.Map,
+    view: Views.Grid,
     setView: (view: View) => set({ view })
 }));
 

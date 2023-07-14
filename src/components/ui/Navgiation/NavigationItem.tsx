@@ -5,7 +5,7 @@ import { FC } from 'react'
 
 type NavigationItemProps = ViewItem;
 
-const NavigationItem: FC<NavigationItemProps> = ({ icon: Icon, label, view }) => {
+const NavigationItem: FC<NavigationItemProps> = ({ icon: Icon, label, view, newFeature }) => {
     const { view: currentView, setView } = useViewStore();
 
     const handleNavgationItemClick = () => {
@@ -18,8 +18,11 @@ const NavigationItem: FC<NavigationItemProps> = ({ icon: Icon, label, view }) =>
                 currentView === view ? "text-tulip-tree-400" : "text-neutral-600 hover:text-tulip-tree-300"
             )
         }>
-            <Icon className="w-7 h-7" />
-            <span className="text-sm font-semibold">{label}</span>
+            <Icon className="w-9 h-9 md:w-8 md:h-8" />
+            <span className="font-semibold">{label}</span>
+            {newFeature && <span className="px-1 mb-2 text-xs font-bold rounded-full shadow-md text-neutral-950 bg-tulip-tree-300 shadow-tulip-tree-400/40">
+                Nowe    
+            </span>}
         </div>
     )
 }

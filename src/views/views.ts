@@ -12,17 +12,20 @@ export interface ViewItem {
     label: string;
     view: View;
     icon: IconType;
+    newFeature?: boolean;
 }
 
 export const views: ViewItem[] = [
-    {
-        label: "Mapa",
-        view: Views.Map,
-        icon: PiMapTrifoldFill as IconType
-    },
+    
     {
         label: "Siatka",
         view: Views.Grid,
         icon: PiGridFourFill as IconType
+    },
+    {
+        label: "Mapa",
+        view: Views.Map,
+        icon: PiMapTrifoldFill as IconType,
+        newFeature: true
     }
 ];
