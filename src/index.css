@@ -12,6 +12,12 @@ body {
     -webkit-user-drag: none;
 }
 
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity 200ms ease-in-out;
@@ -24,4 +30,3 @@ body {
 .ReactModal__Overlay--before-close {
     opacity: 0;
 }
-
