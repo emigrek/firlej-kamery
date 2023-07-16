@@ -35,7 +35,7 @@ const Camera: FC<Camera> = (camera) => {
                 options={{
                     label: {
                         text: name,
-                        color: "#edb95c",
+                        color: "#cccccc",
                         className: "marker-label"
                     },
                     anchorPoint: new window.google.maps.Point(0, 15),
@@ -43,7 +43,7 @@ const Camera: FC<Camera> = (camera) => {
                 }}
                 icon={{
                     url: jsxToString(
-                        <TbDeviceCctv stroke="#eaa540" fill="#171717CC" size={markerSize} />
+                        <TbDeviceCctv stroke="#dddddd" fill="#171717CC" size={markerSize} />
                     ),
                     scaledSize: new window.google.maps.Size(markerSize, markerSize),
                     anchor: new window.google.maps.Point(markerSize/2, markerSize/2),
@@ -55,7 +55,7 @@ const Camera: FC<Camera> = (camera) => {
                 radius={100}
                 options={{
                     strokeWeight: 0,
-                    fillColor: '#eaa540',
+                    fillColor: '#dddddd',
                     fillOpacity: 0.05,
                     zIndex: 999
                 }}

@@ -1,9 +1,10 @@
 import { IconType } from "react-icons/lib";
-import { PiGridFourFill, PiMapTrifoldFill } from "react-icons/pi";
+import { PiGridFourFill, PiInfo, PiMapTrifoldFill } from "react-icons/pi";
 
 export enum Views {
     Map = "map",
-    Grid = "grid"
+    Grid = "grid",
+    About = "about",
 }
 
 export type View = `${Views}`;
@@ -27,5 +28,10 @@ export const views: ViewItem[] = [
         view: Views.Map,
         icon: PiMapTrifoldFill as IconType,
         newFeature: true
+    },
+    {
+        label: "O aplikacji",
+        view: Views.About,
+        icon: PiInfo as IconType
     }
 ];

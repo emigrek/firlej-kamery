@@ -5,7 +5,7 @@ type CellProps = HTMLAttributes<HTMLDivElement>;
 
 const Cell: FC<CellProps> = ({ className, ...props }) => {
     return (
-        <div className={cn("w-auto h-[calc((100vh-theme(spacing.16)-3*theme(spacing.1))/4)] md:h-[calc((100vh-theme(spacing.16)-theme(spacing.1))/2)]", className)} {...props}/>
+        <div className={cn("h-[calc((100vh-theme(spacing.16)-3*theme(spacing.1))/4)] md:h-[calc((100vh-theme(spacing.16)-theme(spacing.1))/2)] aspect-video", className)} {...props}/>
     )
 }
 

@@ -8,7 +8,7 @@ const navigationVariants = cva(
     {
         variants: {
             variant: {
-                dark: "bg-neutral-950 md:bg-neutral-950/80 md:backdrop-blur-sm text-neutral-200 rounded-t-3xl md:rounded-none"
+                dark: "bg-neutral-950 md:bg-neutral-950/80 md:backdrop-blur-sm text-neutral-200 rounded-t-3xl md:rounded-none md:border-b-2 md:border-b-neutral-800/80 md:border-t-none border-t-neutral-800/80 border-t-2"
             }
         },
         defaultVariants: {

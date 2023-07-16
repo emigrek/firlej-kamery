@@ -4,7 +4,7 @@ export const customStyles = {
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 50,
+        zIndex: 19,
         backgroundColor: 'rgba(0, 0, 0, 0.77)'
     },
     content: {

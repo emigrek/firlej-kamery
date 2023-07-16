@@ -10,7 +10,7 @@ const GridView: FC = () => {
             {
                 cameras.map((camera, index) => (
                     <Grid.Cell key={index}>
-                        <Camera {...camera}/>
+                        <Camera camera={camera}/>
                     </Grid.Cell>
                 ))
             }

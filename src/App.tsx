@@ -3,6 +3,8 @@ import useViewStore from "@/stores/viewStore";
 import MapView from "@/views/Map";
 import GridView from "@/views/Grid";
 import { Views } from "@/views/views";
+import AboutView from "@/views/About";
+import CameraModal from "@/components/modals/CameraModal";
 
 function App() {
   const { view } = useViewStore();
@@ -16,6 +18,10 @@ function App() {
       {
         view === Views.Grid && <GridView />
       }
+      {
+        view === Views.About && <AboutView />
+      }
+      <CameraModal />
     </>
   )
 }

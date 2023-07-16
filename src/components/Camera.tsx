@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, HTMLAttributes } from 'react'
 import { Camera } from '@/cameras'
 
 import Loader from '@/components/Loader';
@@ -6,13 +6,15 @@ import Error from '@/components/Error';
 
 import { AnimatePresence } from 'framer-motion';
 
-type CameraProps = Camera & {
+interface CameraProps extends HTMLAttributes<HTMLDivElement> {
+    camera: Camera;
     onLoad?: () => void;
-};
+}
 
-const Camera: FC<CameraProps> = ({ name, url, onLoad }) => {
+const Camera: FC<CameraProps> = ({ camera, onLoad }) => {
+    const { name, url } = camera;
     const [random, setRandom] = useState(Math.random());
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
     const handleRefresh = () => {
@@ -29,12 +31,12 @@ const Camera: FC<CameraProps> = ({ name, url, onLoad }) => {
     }
 
     return (
-        <div onClick={handleRefresh} className='relative w-full h-full rounded-lg cursor-pointer'>
+        <div onClick={handleRefresh} className='relative w-full overflow-hidden cursor-pointer rounded-xl aspect-video bg-neutral-900'>
             <AnimatePresence>
                 {(loading && !error) && <Loader />}
                 {error && <Error />}
             </AnimatePresence>
-            <img src={`${url}?r=${random}`} onLoad={handleLoad} onError={() => setError(true)} alt={name} width={1280} height={720} className="w-full h-full rounded-lg" />
+            <img style={{opacity: error ? 0 : 100}} src={`${url}?r=${random}`} onLoad={handleLoad} onError={() => setError(true)} alt={name} className="w-full h-full rounded-lg" />
         </div>
     )
 }
