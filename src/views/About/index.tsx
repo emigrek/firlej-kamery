@@ -14,7 +14,17 @@ const AboutView: FC = () => {
                     Github
                 </a>
             </div>
-            <span className='text-xs text-neutral-400'>Aplikacja nie należy do <a target="_blank" rel="noreferrer" href="https://www.firlej.pl/">Gminy Firlej</a>.</span>
+            <div className='flex flex-col max-w-sm gap-2 text-xs text-center text-neutral-600'>
+                <p>
+                    Aplikacja nie należy do <a className='underline' target="_blank" rel="noreferrer" href="https://www.firlej.pl/">Gminy Firlej</a>.
+                </p>
+                <p>
+                    Aplikacja wykorzystuje kamery ze <a className='underline' target="_blank" rel="noreferrer" href="https://jezioro.firlej.pl/">strony internetowej Gminy Firlej</a>.
+                </p>
+                <p>
+                    Prosimy pamiętać, że wszelkie informacje i obrazy dostarczane przez aplikację są oparte na publicznie dostępnych źródłach. Nie ponosimy odpowiedzialności za ich dokładność i aktualność.
+                </p>
+            </div>
         </div>
     )
 }

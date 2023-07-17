@@ -5,7 +5,7 @@ export const customStyles = {
         right: 0,
         bottom: 0,
         zIndex: 19,
-        backgroundColor: 'rgba(0, 0, 0, 0.77)'
+        backgroundColor: 'rgba(0, 0, 0, 0.7)'
     },
     content: {
         top: '50%',

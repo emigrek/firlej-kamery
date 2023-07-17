@@ -14,7 +14,7 @@ interface CameraProps extends HTMLAttributes<HTMLDivElement> {
 const Camera: FC<CameraProps> = ({ camera, onLoad }) => {
     const { name, url } = camera;
     const [random, setRandom] = useState(Math.random());
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
     const handleRefresh = () => {
@@ -25,18 +25,18 @@ const Camera: FC<CameraProps> = ({ camera, onLoad }) => {
 
     const handleLoad = () => {
         onLoad?.();
-        setTimeout(() => {
-            setLoading(false);
-        }, 400);
+        setLoading(false);
     }
 
     return (
-        <div onClick={handleRefresh} className='relative w-full overflow-hidden cursor-pointer rounded-xl aspect-video bg-neutral-900'>
+        <div onClick={handleRefresh} className='relative w-full p-[1px] overflow-hidden rounded-lg cursor-pointer aspect-video bg-transparent'>
             <AnimatePresence>
                 {(loading && !error) && <Loader />}
                 {error && <Error />}
             </AnimatePresence>
-            <img style={{opacity: error ? 0 : 100}} src={`${url}?r=${random}`} onLoad={handleLoad} onError={() => setError(true)} alt={name} className="w-full h-full rounded-lg" />
+            <img style={{
+                opacity: error ? 0 : 100
+            }} src={`${url}?r=${random}`} onLoad={handleLoad} onError={() => setError(true)} alt={name} className="w-full h-full rounded-lg" />
         </div>
     )
 }

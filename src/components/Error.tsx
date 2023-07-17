@@ -4,7 +4,7 @@ import { motion as m } from 'framer-motion';
 
 const Error: FC = () => {
     return (
-        <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{  duration: 0.3 }} className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg backdrop-blur bg-neutral-900 group">
+        <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{  duration: 0.3 }} className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg bg-neutral-900 group">
             <div className='relative my-1'>
                 <TbDeviceCctvOff className='w-8 h-8 text-red-500 group-hover:hidden lg:w-14 lg:h-14' />
                 <TbRefresh className='hidden w-8 h-8 text-sky-600 group-hover:block lg:w-14 lg:h-14' />

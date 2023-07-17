@@ -19,12 +19,13 @@ const CameraModal: FC = () => {
 
     return (
         <Modal closeTimeoutMS={200} isOpen={isOpen} style={customStyles} onRequestClose={handleCameraModalClose}>
-            <div className="flex flex-col gap-5">
-                <h1 className="flex items-center justify-center gap-2 text-xl font-bold text-center md:text-3xl text-neutral-200">
-                    {camera?.name}
-                </h1>
-                <div className='relative px-2 md:w-auto w-screen md:h-[60vh] aspect-video'>
-                    <Camera camera={camera}/>
+            <div className='flex flex-col gap-1 py-4'>
+                <div className='relative px-2 lg:w-auto w-screen lg:h-[50vh] aspect-video'>
+                    <Camera camera={camera} />
+                </div>
+                <div className='flex flex-col gap-2 px-5'>
+                    <h1 className='text-4xl font-bold text-neutral-100'>Plaża {camera.name}</h1>
+                    <a className='text-sm text-neutral-500'>{camera.position.lat}, {camera.position.lng}</a>
                 </div>
             </div>
         </Modal>
