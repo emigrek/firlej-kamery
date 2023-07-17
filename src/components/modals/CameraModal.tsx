@@ -21,7 +21,7 @@ const CameraModal: FC = () => {
         <Modal closeTimeoutMS={200} isOpen={isOpen} style={customStyles} onRequestClose={handleCameraModalClose}>
             <div className='flex flex-col gap-1 py-4'>
                 <div className='relative px-2 lg:w-auto w-screen lg:h-[50vh] aspect-video'>
-                    <Camera camera={camera} />
+                    <Camera refreshable camera={camera} />
                 </div>
                 <div className='flex flex-col gap-2 px-5'>
                     <h1 className='text-4xl font-bold text-neutral-100'>Plaża {camera.name}</h1>

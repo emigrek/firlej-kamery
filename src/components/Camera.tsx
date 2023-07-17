@@ -8,16 +8,19 @@ import { AnimatePresence } from 'framer-motion';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: Camera;
+    refreshable?: boolean;
     onLoad?: () => void;
 }
 
-const Camera: FC<CameraProps> = ({ camera, onLoad }) => {
+const Camera: FC<CameraProps> = ({ camera, refreshable, onLoad }) => {
     const { name, url } = camera;
     const [random, setRandom] = useState(Math.random());
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
     const handleRefresh = () => {
+        if (!refreshable) return;
+
         setError(false);
         setLoading(true);
         setRandom(Math.random());

@@ -5,7 +5,8 @@ export const customStyles = {
         right: 0,
         bottom: 0,
         zIndex: 19,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)'
+        backgroundColor: 'rgba(15, 15, 15, 0.90)',
+        backdropFilter: "blur(5px)"
     },
     content: {
         top: '50%',
