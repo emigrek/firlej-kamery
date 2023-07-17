@@ -7,7 +7,7 @@ import { Views, views } from '@/views/views'
 import useViewStore from '@/stores/viewStore'
 
 const Navbar: FC = () => {
-    const { view: currentView, setView } = useViewStore();
+    const { setView } = useViewStore();
 
     return (
         <Navigation>
