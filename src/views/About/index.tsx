@@ -14,7 +14,7 @@ const AboutView: FC = () => {
                     Github
                 </a>
             </div>
-            <div className='flex flex-col max-w-sm gap-2 text-xs text-center text-neutral-600'>
+            <div className='flex flex-col max-w-md gap-2 text-sm text-center text-neutral-600'>
                 <p>
                     Aplikacja nie należy do <a className='underline' target="_blank" rel="noreferrer" href="https://www.firlej.pl/">Gminy Firlej</a>.
                 </p>
