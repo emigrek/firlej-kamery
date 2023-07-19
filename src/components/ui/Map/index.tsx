@@ -6,6 +6,8 @@ import options from './options';
 import cameras from '@/cameras';
 
 import Camera from './elements/Camera';
+import Error from './error';
+import Loader from './loader';
 
 const Map: FC = () => {
     const { map, setMap } = useMapStore();
@@ -40,9 +42,9 @@ const Map: FC = () => {
         }
     }, [map, defaultCenter]);
 
-    if (loadError) return <></>;
+    if (loadError) return <Error />;
 
-    if (!isLoaded) return <></>;
+    if (!isLoaded) return <Loader />;
 
     return (
         <GoogleMap
@@ -59,7 +61,7 @@ const Map: FC = () => {
         >
             {
                 cameras.map((camera) => (
-                    <Camera key={camera.id} {...camera} />
+                    <Camera key={camera.id} camera={camera} />
                 ))
             }
         </GoogleMap>
@@ -67,5 +69,4 @@ const Map: FC = () => {
 }
 
 const Memoized = memo(Map);
-
 export default Memoized;

@@ -20,6 +20,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-modal": "^3.16.1",
+    "react-swipeable": "^7.0.1",
     "tailwind-merge": "^1.13.2",
     "zustand": "^4.3.9"
   },

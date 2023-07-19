@@ -5,23 +5,47 @@ import NavigationItem from '@/components/ui/Navgiation/NavigationItem'
 
 import { Views, views } from '@/views/views'
 import useViewStore from '@/stores/viewStore'
+import { useSwipeable } from 'react-swipeable'
+
+enum Directions {
+    Left = 'left',
+    Right = 'right'
+}
+
+type Direction = `${Directions}`;
 
 const Navbar: FC = () => {
-    const { setView } = useViewStore();
+    const { view, setView } = useViewStore();
+
+    const onSwiped = (direction: Direction) => {
+        const currentIndex = views.findIndex(v => v.view === view);
+        const nextIndex = direction === 'left' ? currentIndex + 1 : currentIndex - 1;
+        const nextView = views[nextIndex];
+
+        if (!nextView) return;
+
+        setView(nextView.view);
+    }
+
+    const swipeableHandlers = useSwipeable({
+        onSwipedLeft: () => onSwiped(Directions.Left),
+        onSwipedRight: () => onSwiped(Directions.Right),
+        preventScrollOnSwipe: true,
+        trackMouse: true,
+        delta: 10
+    });
 
     return (
-        <Navigation>
-            <div className="flex items-center h-full px-5">
-                <img onClick={() => setView(Views.Grid)} src="/logo_firlej.png" alt="Firlej Logo" className="cursor-pointer h-14" />
-                <div className="flex items-center justify-center w-full">
-                    {
-                        views.map((view, index) => {
-                            return (
-                                <NavigationItem {...view} key={index} />
-                            )
-                        })
-                    }
-                </div>
+        <Navigation {...swipeableHandlers}>
+            <img onClick={() => setView(Views.Map)} src="/logo_firlej.png" alt="Firlej Logo" className="h-16 cursor-pointer" />
+            <div className="flex items-center justify-center">
+                {
+                    views.map((view, index) => {
+                        return (
+                            <NavigationItem {...view} key={index} />
+                        )
+                    })
+                }
             </div>
         </Navigation>
     )

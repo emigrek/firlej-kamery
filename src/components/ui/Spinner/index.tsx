@@ -7,7 +7,7 @@ interface SpinnerProps {
 }
 
 const Spinner: FC<SpinnerProps> = ({ className }) => {
-  return <VscLoading className={cn("animate-spin w-6 h-6", className)} />
+  return <VscLoading className={cn("animate-spin w-6 h-6 md:w-7 md:h-7", className)} />
 }
 
 export default Spinner;

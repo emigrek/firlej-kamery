@@ -1,6 +1,6 @@
 import { Camera } from '@/cameras'
 import jsxToString from '@/utils/jsxToString';
-import { Circle, Marker } from '@react-google-maps/api';
+import { CircleF, MarkerF } from '@react-google-maps/api';
 import { FC, memo } from 'react'
 import { TbDeviceCctv } from 'react-icons/tb';
 
@@ -10,7 +10,11 @@ import useCameraModalStore from '@/stores/cameraModalStore';
 
 const markerSize = 28;
 
-const Camera: FC<Camera> = (camera) => {
+interface CameraProps {
+    camera: Camera
+}
+
+const Camera: FC<CameraProps> = ({ camera }) => {
     const { name, position } = camera;
 
     const { map } = useMapStore();
@@ -19,9 +23,11 @@ const Camera: FC<Camera> = (camera) => {
     const handleCameraClick = () => {
         setCamera(camera);
         setPreviousCameraZoom(map?.getZoom() || 14);
+        
         map?.panTo(position);
         map?.setCenter(position);
         map?.setZoom(18);
+
         setTimeout(() => {
             setIsOpen(true);
         }, 500)
@@ -29,7 +35,7 @@ const Camera: FC<Camera> = (camera) => {
     
     return (
         <>
-            <Marker
+            <MarkerF
                 position={position}
                 onClick={handleCameraClick}
                 options={{
@@ -49,7 +55,7 @@ const Camera: FC<Camera> = (camera) => {
                     anchor: new window.google.maps.Point(markerSize/2, markerSize/2),
                 }}
             />
-            <Circle
+            <CircleF
                 center={position}
                 onClick={handleCameraClick}
                 radius={100}

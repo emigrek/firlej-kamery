@@ -8,19 +8,19 @@ import CameraModal from "@/components/modals/CameraModal";
 
 function App() {
   const { view } = useViewStore();
-
+  
   return (
     <>
       <Navbar />
-      {
-        view === Views.Map && <MapView />
-      }
-      {
-        view === Views.Grid && <GridView />
-      }
-      {
-        view === Views.About && <AboutView />
-      }
+        {
+          view === Views.Map && <MapView />
+        }
+        {
+          view === Views.Grid && <GridView />
+        }
+        {
+          view === Views.About && <AboutView />
+        }
       <CameraModal />
     </>
   )

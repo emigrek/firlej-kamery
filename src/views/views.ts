@@ -17,17 +17,16 @@ export interface ViewItem {
 }
 
 export const views: ViewItem[] = [
-    
-    {
-        label: "Siatka",
-        view: Views.Grid,
-        icon: PiGridFourFill as IconType
-    },
     {
         label: "Mapa",
         view: Views.Map,
         icon: PiMapTrifoldFill as IconType,
         newFeature: true
+    },
+    {
+        label: "Siatka",
+        view: Views.Grid,
+        icon: PiGridFourFill as IconType
     },
     {
         label: "O aplikacji",
