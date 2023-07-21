@@ -38,7 +38,7 @@ const Navbar: FC = () => {
     return (
         <Navigation {...swipeableHandlers}>
             <img onClick={() => setView(Views.Map)} src="/logo_firlej.png" alt="Firlej Logo" className="h-16 cursor-pointer" />
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center gap-5 md:gap-10">
                 {
                     views.map((view, index) => {
                         return (

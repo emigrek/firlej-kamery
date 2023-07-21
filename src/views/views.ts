@@ -20,8 +20,7 @@ export const views: ViewItem[] = [
     {
         label: "Mapa",
         view: Views.Map,
-        icon: PiMapTrifoldFill as IconType,
-        newFeature: true
+        icon: PiMapTrifoldFill as IconType
     },
     {
         label: "Siatka",

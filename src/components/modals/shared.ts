@@ -1,3 +1,5 @@
+import colors from "tailwindcss/colors";
+
 export const customStyles = {
     overlay: {
         top: 0,
@@ -5,7 +7,7 @@ export const customStyles = {
         right: 0,
         bottom: 0,
         zIndex: 19,
-        backgroundColor: 'rgba(10,10,10,0.8)',
+        backgroundColor: `${colors.neutral[950]}CC`,
         backdropFilter: "blur(4px)"
     },
     content: {

@@ -3,6 +3,7 @@ import jsxToString from '@/utils/jsxToString';
 import { CircleF, MarkerF } from '@react-google-maps/api';
 import { FC, memo } from 'react'
 import { TbDeviceCctv } from 'react-icons/tb';
+import colors from 'tailwindcss/colors';
 
 import "./Camera.css";
 import useMapStore from '@/stores/mapStore';
@@ -23,7 +24,7 @@ const Camera: FC<CameraProps> = ({ camera }) => {
     const handleCameraClick = () => {
         setCamera(camera);
         setPreviousCameraZoom(map?.getZoom() || 14);
-        
+
         map?.panTo(position);
         map?.setCenter(position);
         map?.setZoom(18);
@@ -32,7 +33,7 @@ const Camera: FC<CameraProps> = ({ camera }) => {
             setIsOpen(true);
         }, 500)
     };
-    
+
     return (
         <>
             <MarkerF
@@ -41,7 +42,7 @@ const Camera: FC<CameraProps> = ({ camera }) => {
                 options={{
                     label: {
                         text: name,
-                        color: "#cccccc",
+                        color: colors.neutral[300],
                         className: "marker-label"
                     },
                     anchorPoint: new window.google.maps.Point(0, 15),
@@ -49,10 +50,10 @@ const Camera: FC<CameraProps> = ({ camera }) => {
                 }}
                 icon={{
                     url: jsxToString(
-                        <TbDeviceCctv stroke="#dddddd" fill="#171717CC" size={markerSize} />
+                        <TbDeviceCctv stroke={colors.neutral[200]} fill={`${colors.neutral[950]}CC`} size={markerSize} />
                     ),
                     scaledSize: new window.google.maps.Size(markerSize, markerSize),
-                    anchor: new window.google.maps.Point(markerSize/2, markerSize/2),
+                    anchor: new window.google.maps.Point(markerSize / 2, markerSize / 2),
                 }}
             />
             <CircleF
@@ -61,7 +62,7 @@ const Camera: FC<CameraProps> = ({ camera }) => {
                 radius={100}
                 options={{
                     strokeWeight: 0,
-                    fillColor: '#dddddd',
+                    fillColor: colors.neutral[100],
                     fillOpacity: 0.05,
                     zIndex: 999
                 }}

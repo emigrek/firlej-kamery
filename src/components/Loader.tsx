@@ -18,7 +18,7 @@ const Loader: FC<LoaderProps> = ({ ...props }) => {
       <div className='relative w-20 h-20 md:w-28 md:h-28'>
         <img src="/logo_firlej.png" alt="Firlej Logo" className="w-full h-full" />
       </div>
-      <Spinner className='fill-tulip-tree-400' />
+      <Spinner className='fill-primary' />
     </m.div>
   )
 }

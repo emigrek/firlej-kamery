@@ -9,7 +9,7 @@ const Loader: FC<LoaderProps> = ({ ...props }) => {
             className='h-[calc(100vh-theme(spacing.16))] mt-0 mb-16 md:mb-0 md:mt-16 text-white p-4 flex items-center justify-center gap-10 flex-col bg-neutral-950'
             {...props}
         >
-            <Spinner className='fill-tulip-tree-400'/>
+            <Spinner className='fill-primary'/>
         </div>
     )
 }

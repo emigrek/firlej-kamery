@@ -4,7 +4,7 @@
 
 html,
 body {
-    background-color: theme("colors.neutral.950");
+    background-color: theme("colors.background.950");
     user-select: none;
 }
 

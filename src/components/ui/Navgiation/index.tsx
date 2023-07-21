@@ -22,7 +22,7 @@ const navigationContentVariants = cva(
     {
         variants: {
             variant: {
-                dark: "bg-neutral-950 md:bg-neutral-950/80 text-neutral-200"
+                dark: "bg-background md:bg-background/80 text-neutral-200"
             }
         },
         defaultVariants: {
@@ -33,6 +33,7 @@ const navigationContentVariants = cva(
 
 interface NavigationProps extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof navigationVariants> { }
+
 
 const Navigation: FC<NavigationProps> = forwardRef<HTMLDivElement, NavigationProps>(({ className, variant, children, ...props }, ref) => {
     return (

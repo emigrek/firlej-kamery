@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
   content: [
     "./index.html",
@@ -7,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'tulip-tree': {
+        primary: {
           '50': '#fdf8ed',
           '100': '#f9eacc',
           '200': '#f3d494',
@@ -19,7 +21,9 @@ export default {
           '800': '#873519',
           '900': '#6f2c18',
           '950': '#3f1509',
-        }
+          DEFAULT: '#eaa540'
+        },
+        background: { ...colors.neutral, DEFAULT: colors.neutral[950] },
       }
     },
   },
