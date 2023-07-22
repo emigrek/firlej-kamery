@@ -19,12 +19,12 @@ const REFRESH_INTERVAL = 1000 * 60 * 5;
 const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
     const { name, url } = camera;
     const { setIsOpen, setCamera } = useCameraModalStore();
-    const [random, setRandom] = useState(Math.random());
+    const [date, setDate] = useState(Date.now);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
 
-    const cameraUrl = useMemo(() => `${url}?r=${random}`, [url, random]);
+    const cameraUrl = useMemo(() => `${url}?d=${date}`, [url, date]);
 
     const handleOpenModal = () => {
         if (!openModalOnClick || error) return;
@@ -35,7 +35,7 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
 
     const handleRefresh = () => {
         setLoading(true);
-        setRandom(Math.random());
+        setDate(Date.now);
     }
 
     const handleLoad = () => {
@@ -51,7 +51,7 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
     useEffect(() => {
         if (!refreshInterval) {
             setRefreshInterval(setInterval(() => {
-                setRandom(Math.random());
+                setDate(Date.now);
             }, REFRESH_INTERVAL));
         }
 
