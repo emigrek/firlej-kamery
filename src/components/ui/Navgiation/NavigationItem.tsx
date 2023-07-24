@@ -19,7 +19,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ icon: Icon, label, view, newF
 
     return (
         <div onClick={handleNavgationItemClick} className={
-            cn("relative flex flex-col md:flex-row items-center justify-center h-16 md:gap-2 px-2 cursor-pointer transition-all duration-300 select-none",
+            cn("relative flex flex-col md:flex-row items-center justify-center h-16 md:gap-2 px-6 md:px-5 cursor-pointer transition-all duration-300 select-none",
                 active ? "text-primary" : "text-neutral-400 hover:text-tulip-tree-300"
             )
         }>

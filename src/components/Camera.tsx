@@ -5,6 +5,7 @@ import Loader from '@/components/Loader';
 import Error from '@/components/Error';
 
 import { AnimatePresence } from 'framer-motion';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import useCameraModalStore from '@/stores/cameraModalStore';
 import cn from '@/utils/cn';
 
@@ -14,7 +15,7 @@ interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     onLoad?: () => void;
 }
 
-const REFRESH_INTERVAL = 1000 * 60 * 5;
+const REFRESH_INTERVAL = 1000 * 60 * 2;
 
 const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
     const { name, url } = camera;
@@ -66,24 +67,34 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
         <div
             className={cn(
                 "relative w-full p-[1px] overflow-hidden rounded-lg aspect-video bg-neutral-900",
-                openModalOnClick && "cursor-pointer"
+                openModalOnClick && "cursor-pointer",
+                !openModalOnClick && "cursor-grab"
             )}
         >
             <AnimatePresence>
                 {(loading && !error) && <Loader />}
                 {error && <Error onClick={handleRefresh} />}
             </AnimatePresence>
-            <img
+            <div
                 onClick={handleOpenModal}
-                style={{
-                    opacity: error ? 0 : 100
-                }}
-                src={cameraUrl}
-                onLoad={handleLoad}
-                onError={handleError}
-                alt={name}
-                className="w-full h-full rounded-lg"
-            />
+            >
+                <TransformWrapper
+                    disabled={openModalOnClick}
+                >
+                    <TransformComponent>
+                        <img
+                            style={{
+                                opacity: error ? 0 : 100
+                            }}
+                            src={cameraUrl}
+                            onLoad={handleLoad}
+                            onError={handleError}
+                            alt={name}
+                            className="w-full h-full rounded-lg"
+                        />
+                    </TransformComponent>
+                </TransformWrapper>
+            </div>
         </div>
     )
 }

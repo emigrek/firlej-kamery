@@ -19,7 +19,6 @@ export const customStyles = {
         padding: 0,
         transform: 'translate(-50%, -50%)',
         backgroundColor: `rgba(0,0,0,0)`,
-        border: 'none',
-        borderRadius: '0.75rem'
+        border: 'none'
     }
 };

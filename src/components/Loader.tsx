@@ -15,10 +15,10 @@ const Loader: FC<LoaderProps> = ({ ...props }) => {
       className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg bg-neutral-900/60 backdrop-blur-xl"
       {...props}
     >
-      <div className='relative w-20 h-20 md:w-28 md:h-28'>
+      <div className='relative w-16 h-16 md:w-24 md:h-24'>
         <img src="/logo_firlej.png" alt="Firlej Logo" className="w-full h-full" />
       </div>
-      <Spinner className='fill-primary' />
+      <Spinner className='w-4 h-4 fill-primary' />
     </m.div>
   )
 }

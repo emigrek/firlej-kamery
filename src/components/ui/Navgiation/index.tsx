@@ -18,7 +18,7 @@ const navigationVariants = cva(
 );
 
 const navigationContentVariants = cva(
-    "flex items-center h-full gap-8 px-8 md:backdrop-blur-sm rounded-t-3xl md:rounded-b-3xl md:rounded-t-none shadow-xl",
+    "w-full sm:w-auto flex items-center justify-center h-full gap-8 px-8 md:backdrop-blur-sm rounded-t-3xl md:rounded-b-3xl md:rounded-t-none shadow-xl",
     {
         variants: {
             variant: {

@@ -22,8 +22,6 @@ const Navbar: FC = () => {
         const nextIndex = direction === 'left' ? currentIndex + 1 : currentIndex - 1;
         const nextView = views[nextIndex];
 
-        if (!nextView) return;
-
         setView(nextView.view);
     }
 
@@ -37,7 +35,7 @@ const Navbar: FC = () => {
 
     return (
         <Navigation {...swipeableHandlers}>
-            <img onClick={() => setView(Views.Map)} src="/logo_firlej.png" alt="Firlej Logo" className="h-16 cursor-pointer" />
+            <img onClick={() => setView(Views.Map)} src="/logo_firlej.png" alt="Firlej Logo" className="hidden h-16 cursor-pointer md:block" />
             <div className="flex items-center justify-center gap-5 md:gap-10">
                 {
                     views.map((view, index) => {

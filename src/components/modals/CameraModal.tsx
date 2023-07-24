@@ -27,7 +27,7 @@ const CameraModal: FC = () => {
     return (
         <Modal closeTimeoutMS={200} isOpen={isOpen} style={customStyles} onRequestClose={handleCameraModalClose}>
             <div className='flex flex-col gap-2 py-4'>
-                <div className='relative px-2 lg:w-auto w-screen lg:h-[50vh] aspect-video'>
+                <div className='px-2 w-screen lg:w-auto lg:h-[66vh] aspect-video'>
                     <Camera key={random} camera={camera} />
                 </div>
                 <div className='flex flex-col gap-5 px-3 md:items-center md:justify-between md:flex-row'>
