@@ -2,6 +2,8 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 
+import Routes from '@/routes';
+
 class Server {
     public static bootstrap(): Server {
         return new Server();
@@ -11,7 +13,7 @@ class Server {
 
     constructor() {
         this.app = express();
-
+        
         this.init();
         this.routes();
     }
@@ -22,6 +24,7 @@ class Server {
     }
     
     private routes(): void {
+        this.app.use(Routes.path, Routes.router);
     }
 }
 
