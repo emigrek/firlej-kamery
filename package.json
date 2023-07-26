@@ -15,7 +15,6 @@
     "start": "concurrently \"npm run backend-start\" \"npm run frontend-start\""
   },
   "devDependencies": {
-    "@types/node-cron": "^3.0.8",
     "concurrently": "^8.2.0"
   }
 }
