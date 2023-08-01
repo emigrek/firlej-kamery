@@ -1,1 +1,1 @@
-export * from "./validIds";
+export * from "./validCameraIds";

@@ -1,1 +1,0 @@
-export const validIds = [4, 10, 11, 12];

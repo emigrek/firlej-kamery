@@ -1,41 +1,61 @@
 import axios from "axios";
 
-import { CameraImage } from "@/models/CameraImage";
-import { validIds } from "@/utils";
+import { Snapshot } from "@/models/Snapshot";
+import { validCameraIds } from "@/utils";
+import { Cache, Files } from "@/services";
 
 export class Camera {
     public id: number;
 
     constructor(id: number) {
-        if (!validIds.includes(id)) {
+        if (!validCameraIds.includes(id)) {
             throw new Error('Invalid camera id');
         }
 
         this.id = id;
     }
 
-    public snapshot = async (): Promise<CameraImage> => {
+    public snapshot = async (): Promise<Snapshot> => {
         const { id } = this;
 
-        if (!validIds.includes(id)) {
-            throw new Error('Invalid camera id');
-        }
-
-        const response = await axios.get(this.getUrl(), { responseType: 'arraybuffer' });
-        if (response.status !== 200) {
+        const { status, data } = await axios.get(this.url, { responseType: 'arraybuffer' });
+        if (status !== 200) {
             throw new Error('Error while downloading image');
         }
-        
-        const buffer = Buffer.from(response.data, 'binary');
+
+        const buffer = Buffer.from(data, 'binary');
         const timestamp = Date.now();
-        return {
-            id,
-            timestamp,
-            buffer
-        }
+
+        return new Snapshot(id, timestamp, buffer);
     }
 
-    public getUrl = (): string => {
+    public getSnapshots = async (): Promise<Snapshot[]> => {
+        const { id } = this;
+
+        const cached = Cache.get(id);
+        
+        if (!cached.length) {
+            throw new Error('No snapshots found');
+        }
+
+        return cached;
+    }
+
+    public getSnapshot = async (timestamp: number): Promise<Snapshot> => {
+        const { id } = this;
+
+        const cached = Cache.get(id);
+        const snapshot = cached.find((snapshot) => snapshot.timestamp === timestamp);
+        
+        if (!snapshot) {
+            throw new Error('Snapshot not found');
+        }
+
+        return snapshot;
+    }
+
+
+    public get url (): string {
         return `http://jezioro.firlej.pl/images/Kamery/Kamera${this.id}.jpg?d=${Date.now()}`;
     }
 }

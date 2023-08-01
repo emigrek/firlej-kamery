@@ -1,4 +1,6 @@
-import { validIds } from "@/utils";
+import { Camera } from "@/models/Camera";
+import { Files } from "@/services";
+import { validCameraIds } from "@/utils";
 import { NextFunction, Request, Response, Router } from "express";
 
 class CameraRoute {
@@ -7,7 +9,8 @@ class CameraRoute {
     private router = Router();
 
     constructor() {
-        this.router.get("/:id", this.get);
+        this.router.get("/:cameraId", this.get);
+        this.router.get("/:cameraId/snapshot/:timestamp", this.getBySnapshot);
     }
 
     static get router() {
@@ -19,22 +22,50 @@ class CameraRoute {
     }
 
     private get = async (req: Request, res: Response, next: NextFunction) => {
-        const id = Number(req.params.id);
-        if (!validIds.includes(id)) {
+        const cameraId = Number(req.params.cameraId);
+        if (!validCameraIds.includes(cameraId)) {
             return res
                 .status(400)
-                .send({ message: `Invalid camera id, valid ids: ${validIds.join(", ")}` });
+                .send({ message: `Invalid camera id, valid ids: ${validCameraIds.join(", ")}` });
         }
 
-        // TODO
-        // on init read all images from disk and cache them
-        // on request check if cache contains images for given id
-        // if not, read images from disk and cache them
-        // else return images from cache
-        
-        res.json({
-            id
-        });
+        const camera = new Camera(cameraId);
+        const snapshots = await camera.getSnapshots();
+
+        return res
+            .status(200)
+            .send(
+                snapshots.map((snapshot) => ({
+                    cameraId: snapshot.cameraId,
+                    timestamp: snapshot.timestamp,
+                    url: snapshot.url
+                }))
+            );
+    }
+
+    private getBySnapshot = async (req: Request, res: Response, next: NextFunction) => {
+        const cameraId = Number(req.params.cameraId);
+        if (!validCameraIds.includes(cameraId)) {
+            return res
+                .status(400)
+                .send({ message: `Invalid camera id, valid ids: ${validCameraIds.join(", ")}` });
+        }
+
+        const timestamp = Number(req.params.timestamp);
+        if (isNaN(timestamp)) {
+            return res
+                .status(400)
+                .send({ message: "Invalid timestamp" });
+        }
+
+        const camera = new Camera(cameraId);
+        const snapshot = await camera.getSnapshot(timestamp);
+
+        return res
+            .status(200)
+            .sendFile(
+                `${Files.IMAGES_PATH}/${snapshot.path}`
+            );
     }
 }
 

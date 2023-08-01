@@ -2,11 +2,9 @@ import 'module-alias/register';
 import config from '@/config';
 import Server from '@/server';
 
-import { Cron } from '@/services';
-import { tasks } from './tasks';
+import { Cron, Cache } from '@/services';
 Cron.init();
-
-tasks.at(0)?.execute();
+Cache.init();
 
 export const app = Server.bootstrap().app;
 export const server = app.listen(config.port, config.host);
