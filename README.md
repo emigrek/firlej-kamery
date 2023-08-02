@@ -4,8 +4,9 @@ Tool to see my home city CCTV's in one place.
 ## 📦 Used packages
 | 📦 Package  | 📋 Reasons |
 | ------------- | ------------- |
-| Vite | React frontend  |
-| Express | Node.js backend  |
+| Vite | React client  |
+| Express | Node.js server  |
+| vite-express | Vite + Express  |
 | react-google-maps/api | Google Maps API wrapper  |
 | zustand | state management  |
 | Tailwind CSS  | css framework  |
@@ -16,41 +17,27 @@ Tool to see my home city CCTV's in one place.
 ```
 git clone https://github.com/emigrek/firlej-kamery
 cd firlej-kamery
-```
-### Frontend
-Install dependencies
-```
-cd frontend
 npm install
 ```
 
-Fill .env file with:
-* Google Maps API key (**restrict it to your domain!**)
-* Google Analytics ID (optional)
+Fill .env file
 ```
+# CLIENT
 VITE_GOOGLE_MAPS_API_KEY=
 VITE_GOOGLE_ANALYTICS_ID=
-```
-### Backend
-Install dependencies
-```
-cd backend
-npm install
+
+# SERVER (optional)
+HOST=
+PORT=
 ```
 
-Make changes in .env file if needed
-```
-HOST=localhost
-PORT=3001
-```
-
-### Run
-Run development
+Run dev server
 ```
 npm run dev
 ```
-or run production build
+or build and run production server
 ```
 npm run build
 npm run start
 ```
+

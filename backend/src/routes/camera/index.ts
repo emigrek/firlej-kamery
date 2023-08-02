@@ -1,1 +1,0 @@
-export * from "@/routes/camera/camera.route";
