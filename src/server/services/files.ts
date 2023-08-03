@@ -1,10 +1,11 @@
 import fs from "fs";
+import path from "path";
 
 import { Snapshot } from "@server/models/Snapshot";
 import { validCameraIds } from "@shared/cameras";
 
 export class Files {
-    public static IMAGES_PATH = `${process.cwd()}\\images`;
+    public static IMAGES_PATH = path.join(__dirname, '..', '..', '..', 'images');
     public static EXPIRE_TIME = 1000 * 60 * 60 * 24 * 3;
 
     public static save = (snapshot: Snapshot) => {
