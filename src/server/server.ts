@@ -22,7 +22,8 @@ class Server {
     private init(): void {
         this.app.use(cors());
         this.app.use(helmet({
-            contentSecurityPolicy: false
+            contentSecurityPolicy: false, 
+            frameguard: false
         }));
 
         Cron.init();
