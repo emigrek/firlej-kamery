@@ -51,16 +51,19 @@ class CameraRoute {
                 .json({ message: `Invalid camera id, valid ids: ${validCameraIds.join(", ")}` });
         }
 
-        const timestamp = Number(req.params.timestamp);
-        if (isNaN(timestamp)) {
+        const camera = new Camera(cameraId);
+
+        const timestamp = req.params.timestamp;
+        if (timestamp === 'latest') {
+            const snapshot = await camera.snapshot();
+
             return res
-                .status(400)
-                .json({ message: "Invalid timestamp" });
+                .status(200)
+                .contentType('image/jpeg')
+                .send(snapshot.buffer);
         }
 
-        const camera = new Camera(cameraId);
-        const snapshot = await camera.getSnapshot(timestamp);
-
+        const snapshot = await camera.getSnapshot(Number(timestamp));
         if (!snapshot) {
             return res
                 .status(404)

@@ -8,6 +8,7 @@ import { AnimatePresence } from 'framer-motion';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import useCameraModalStore from '@client/stores/cameraModalStore';
 import cn from '@client/utils/cn';
+import useTimer from '@client/hooks/useTimer';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
@@ -15,17 +16,18 @@ interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     onLoad?: () => void;
 }
 
-const REFRESH_INTERVAL = 1000 * 60 * 2;
+const REFRESH_INTERVAL = 1000 * 60 * 5;
 
 const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
-    const { name, url } = camera;
+    const { name, id } = camera;
     const { setIsOpen, setCamera } = useCameraModalStore();
     const [date, setDate] = useState(Date.now);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
 
-    const cameraUrl = useMemo(() => `${url}?d=${date}`, [url, date]);
+    useTimer(REFRESH_INTERVAL, () => {
+        setDate(Date.now);
+    });
 
     const handleOpenModal = () => {
         if (!openModalOnClick || error) return;
@@ -48,20 +50,6 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
     const handleError = () => {
         setError(true);
     }
-
-    useEffect(() => {
-        if (!refreshInterval) {
-            setRefreshInterval(setInterval(() => {
-                setDate(Date.now);
-            }, REFRESH_INTERVAL));
-        }
-
-        return () => {
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
-            }
-        }
-    }, [refreshInterval]);
 
     return (
         <div
@@ -86,7 +74,7 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
                             style={{
                                 opacity: error ? 0 : 100
                             }}
-                            src={cameraUrl}
+                            src={`/api/camera/${id}/snapshot/latest?d=${date}`}
                             onLoad={handleLoad}
                             onError={handleError}
                             alt={name}

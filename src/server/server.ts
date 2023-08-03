@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import Routes from '@server/routes';
+import { Cron, Cache } from '@server/services';
 
 class Server {
     public static bootstrap(): Server {
@@ -13,7 +14,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        
+
         this.init();
         this.routes();
     }
@@ -23,8 +24,11 @@ class Server {
         this.app.use(helmet({
             contentSecurityPolicy: false
         }));
+
+        Cron.init();
+        Cache.init();
     }
-    
+
     private routes(): void {
         this.app.use(Routes.path, Routes.router);
     }

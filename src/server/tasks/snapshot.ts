@@ -7,8 +7,6 @@ export const snapshot: Task = {
     name: "snapshot",
     cron: "0 * * * *",
     execute: async () => {
-        Files.deleteOld();
-
         const snapshotPromises = validCameraIds.map(async (id) => {
             const camera = new Camera(id);
             const image = await camera.snapshot();
