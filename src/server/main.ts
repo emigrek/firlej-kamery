@@ -10,9 +10,6 @@ dotenv.config({
 import { config } from '@server/config';
 import Server from '@server/server';
 
-import { snapshot } from './tasks/snapshot';
-snapshot.execute();
-
 export const app = Server.bootstrap().app;
 export const server = app.listen(config.port, config.host);
 
