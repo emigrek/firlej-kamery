@@ -9,6 +9,7 @@ class CameraRoute {
     private router = Router();
 
     constructor() {
+        this.router.use(this.cacheControlMiddleware);
         this.router.get("/:cameraId", this.get);
         this.router.get("/:cameraId/snapshot/:timestamp", this.getBySnapshot);
     }
@@ -19,6 +20,11 @@ class CameraRoute {
         }
 
         return CameraRoute.instance.router;
+    }
+
+    private cacheControlMiddleware = (req: Request, res: Response, next: NextFunction) => {
+        res.set('Cache-Control', 'public, max-age=360');
+        next();
     }
 
     private get = async (req: Request, res: Response, next: NextFunction) => {

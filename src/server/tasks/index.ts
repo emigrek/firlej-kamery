@@ -1,9 +1,9 @@
 import { Task } from "@server/models/Task";
 
 import { snapshot } from "@server/tasks/snapshot";
-import { deleteExpired } from "@server/tasks/deleteExpired";
+import { expire } from "@server/tasks/expire";
 
 export const tasks: Task[] = [
     snapshot,
-    deleteExpired
+    expire
 ];

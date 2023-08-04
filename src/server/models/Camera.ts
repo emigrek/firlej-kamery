@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { Snapshot } from "@server/models/Snapshot";
-import { Cache } from "@server/services";
+import { Cache, Files } from "@server/services";
 
 import { validCameraIds } from "@shared/cameras";
 
@@ -32,15 +32,30 @@ export class Camera {
 
     public getSnapshots = async (): Promise<Snapshot[]> => {
         const { id } = this;
-        const cached = Cache.get(id);
+        const cached = Cache.getCameraSnapshots(id);
+
+        if (!cached.length) {
+            const snapshots = Files.getCameraSnapshots(id);
+            Cache.set([...cached, ...snapshots]);
+            return snapshots;
+        }
+
         return cached;
     }
 
     public getSnapshot = async (timestamp: number): Promise<Snapshot | undefined> => {
         const { id } = this;
-        const cached = Cache.get(id);
-        const snapshot = cached.find((snapshot) => snapshot.timestamp === timestamp);
-        return snapshot;
+        const cached = Cache.getCameraSnapshot(id, timestamp);
+
+        if (!cached) {
+            const snapshot = Files.getCameraSnapshot(id, timestamp);
+            if (snapshot) {
+                Cache.add(snapshot);
+            }
+            return snapshot;
+        }
+
+        return cached;
     }
 
     public get url (): string {

@@ -27,7 +27,6 @@ class Server {
         }));
 
         Cron.init();
-        Cache.init();
     }
 
     private routes(): void {

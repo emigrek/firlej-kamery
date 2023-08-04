@@ -15,9 +15,8 @@ export class Files {
         fs.writeFileSync(`${path}/${snapshot.timestamp}.jpg`, snapshot.buffer);
     }
 
-    public static get = (cameraId: number): Snapshot[] => {
+    public static getCameraSnapshots = (cameraId: number): Snapshot[] => {
         const path = `${Files.IMAGES_PATH}/${cameraId}`;
-
         if (!fs.existsSync(path)) {
             return [];
         }
@@ -32,17 +31,27 @@ export class Files {
         return snapshots;
     }
 
+    public static getCameraSnapshot = (cameraId: number, timestamp: number): Snapshot | undefined => {
+        const path = `${Files.IMAGES_PATH}/${cameraId}/${timestamp}.jpg`;
+        if (!fs.existsSync(path)) {
+            return;
+        }
+
+        const buffer = fs.readFileSync(path);
+        return new Snapshot(cameraId, timestamp, buffer);
+    }
+
     public static getAll = (): Snapshot[] => {
         const snapshots: Snapshot[] = [];
 
         validCameraIds.forEach((id) => {
-            snapshots.push(...Files.get(id));
+            snapshots.push(...Files.getCameraSnapshots(id));
         });
 
         return snapshots;
     }
 
-    public static deleteExpired = () => {
+    public static expire = () => {
         const snapshots = Files.getAll();
         const now = Date.now();
 

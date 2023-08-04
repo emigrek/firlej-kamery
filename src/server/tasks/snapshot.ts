@@ -12,7 +12,7 @@ export const snapshot: Task = {
             const image = await camera.snapshot();
 
             Files.save(image);
-            Cache.add(id, image);
+            Cache.add(image);
         });
 
         await Promise.all(snapshotPromises)
