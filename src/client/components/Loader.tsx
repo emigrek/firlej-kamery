@@ -12,7 +12,7 @@ const Loader: FC<LoaderProps> = ({ ...props }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg bg-neutral-900/60 backdrop-blur-xl"
+      className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg bg-neutral-900"
       {...props}
     >
       <div className='relative w-16 h-16 md:w-24 md:h-24'>

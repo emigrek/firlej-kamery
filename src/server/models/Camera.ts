@@ -4,6 +4,7 @@ import { Snapshot } from "@server/models/Snapshot";
 import { Cache, Files } from "@server/services";
 
 import { validCameraIds } from "@shared/cameras";
+import { nanoid } from "nanoid";
 
 export class Camera {
     public id: number;
@@ -16,18 +17,28 @@ export class Camera {
         this.id = id;
     }
 
-    public snapshot = async (): Promise<Snapshot> => {
+    public snapshot = async (): Promise<Snapshot | undefined> => {
         const { id } = this;
-
-        const { status, data } = await axios.get(this.url, { responseType: 'arraybuffer' });
-        if (status !== 200) {
-            throw new Error('Error while downloading image');
-        }
+        const { data } = await axios.get(this.url, { responseType: 'arraybuffer' })
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw new Error('Invalid response status');
+                }
+                return response;
+            })
+            .catch((error) => {
+                throw error;
+            });
 
         const buffer = Buffer.from(data, 'binary');
         const timestamp = Date.now();
 
-        return new Snapshot(id, timestamp, buffer);
+        return new Snapshot({
+            id: nanoid(),
+            cameraId: id,
+            timestamp,
+            buffer
+        });
     }
 
     public getSnapshots = async (): Promise<Snapshot[]> => {
@@ -43,12 +54,12 @@ export class Camera {
         return cached;
     }
 
-    public getSnapshot = async (timestamp: number): Promise<Snapshot | undefined> => {
-        const { id } = this;
-        const cached = Cache.getCameraSnapshot(id, timestamp);
+    public getSnapshot = async (id: string): Promise<Snapshot | undefined> => {
+        const { id: cameraId } = this;
+        const cached = Cache.getCameraSnapshot(cameraId, id);
 
         if (!cached) {
-            const snapshot = Files.getCameraSnapshot(id, timestamp);
+            const snapshot = Files.getCameraSnapshot(cameraId, id);
             if (snapshot) {
                 Cache.add(snapshot);
             }

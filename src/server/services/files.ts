@@ -12,7 +12,7 @@ export class Files {
         const path = `${Files.IMAGES_PATH}/${snapshot.cameraId}`;
 
         !fs.existsSync(path) && fs.mkdirSync(path);
-        fs.writeFileSync(`${path}/${snapshot.timestamp}.jpg`, snapshot.buffer);
+        fs.writeFileSync(`${path}/${snapshot.filename}.jpg`, snapshot.buffer);
     }
 
     public static getCameraSnapshots = (cameraId: number): Snapshot[] => {
@@ -23,22 +23,28 @@ export class Files {
 
         const files = fs.readdirSync(path);
         const snapshots = files.map((name: string) => {
-            const timestamp = parseInt(name.split('.').shift() || '');
-            const buffer = fs.readFileSync(`${path}/${name}`);
-            return new Snapshot(cameraId, timestamp, buffer);
+            const filename = name.replace('.jpg', '');
+            const buffer = fs.readFileSync(`${path}/${filename}.jpg`);
+            const { birthtimeMs: timestamp } = fs.statSync(`${path}/${filename}.jpg`);
+
+            return new Snapshot({
+                id: filename,
+                cameraId,
+                timestamp,
+                buffer
+            });
         });
 
         return snapshots;
     }
 
-    public static getCameraSnapshot = (cameraId: number, timestamp: number): Snapshot | undefined => {
-        const path = `${Files.IMAGES_PATH}/${cameraId}/${timestamp}.jpg`;
+    public static getCameraSnapshot = (cameraId: number, id: string): Snapshot | undefined => {
+        const path = `${Files.IMAGES_PATH}/${cameraId}`;
         if (!fs.existsSync(path)) {
             return;
         }
-
-        const buffer = fs.readFileSync(path);
-        return new Snapshot(cameraId, timestamp, buffer);
+        const snapshots = Files.getCameraSnapshots(cameraId);
+        return snapshots.find((snapshot) => snapshot.id === id);
     }
 
     public static getAll = (): Snapshot[] => {
@@ -55,11 +61,15 @@ export class Files {
         const snapshots = Files.getAll();
         const now = Date.now();
 
-        snapshots.forEach((snapshot) => {
+        for (const snapshot of snapshots) {
             if (snapshot.timestamp < now - Files.EXPIRE_TIME) {
-                const path = `${Files.IMAGES_PATH}/${snapshot.cameraId}/${snapshot.timestamp}.jpg`;
-                fs.unlinkSync(path);
+                Files.delete(snapshot);
             }
-        });
+        }
+    }
+
+    public static delete = (snapshot: Snapshot) => {
+        const path = `${Files.IMAGES_PATH}/${snapshot.path}`;
+        fs.unlinkSync(path);
     }
 }

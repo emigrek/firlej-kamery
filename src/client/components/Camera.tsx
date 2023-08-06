@@ -1,4 +1,5 @@
-import { FC, useState, HTMLAttributes, useEffect, useMemo } from 'react'
+import { FC, useState, HTMLAttributes } from 'react'
+import cn from '@client/utils/cn';
 import { Camera as CameraInterface } from '@shared/cameras'
 
 import Loader from '@client/components/Loader';
@@ -6,8 +7,8 @@ import Error from '@client/components/Error';
 
 import { AnimatePresence } from 'framer-motion';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+
 import useCameraModalStore from '@client/stores/cameraModalStore';
-import cn from '@client/utils/cn';
 import useTimer from '@client/hooks/useTimer';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,11 +17,12 @@ interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     onLoad?: () => void;
 }
 
-const REFRESH_INTERVAL = 1000 * 60 * 5;
+const REFRESH_INTERVAL = 1000 * 60 * 1;
 
 const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
-    const { name, id } = camera;
+    const { name, url } = camera;
     const { setIsOpen, setCamera } = useCameraModalStore();
+    
     const [date, setDate] = useState(Date.now);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -54,7 +56,7 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
     return (
         <div
             className={cn(
-                "relative w-full p-[1px] overflow-hidden rounded-lg aspect-video bg-neutral-900",
+                "relative w-full overflow-hidden rounded-lg aspect-video bg-neutral-900",
                 openModalOnClick && "cursor-pointer",
                 !openModalOnClick && "cursor-grab"
             )}
@@ -74,7 +76,7 @@ const Camera: FC<CameraProps> = ({ camera, onLoad, openModalOnClick }) => {
                             style={{
                                 opacity: error ? 0 : 100
                             }}
-                            src={`/api/camera/${id}/snapshot/latest?d=${date}`}
+                            src={`${url}?d=${date}`}
                             onLoad={handleLoad}
                             onError={handleError}
                             alt={name}

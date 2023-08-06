@@ -5,8 +5,8 @@ export class Cache {
     private static cache: Snapshot[] = [];
 
     public static init = (): Cache => {
-        const images = Files.getAll();
-        this.cache = images;
+        const snapshots = Files.getAll();
+        this.cache = snapshots;
         return this;
     }
 
@@ -19,8 +19,8 @@ export class Cache {
         return this.cache.filter((image) => image.cameraId === cameraId);
     }
 
-    public static getCameraSnapshot = (cameraId: number, timestamp: number): Snapshot | undefined => {
-        return this.cache.find((image) => image.cameraId === cameraId && image.timestamp === timestamp);
+    public static getCameraSnapshot = (cameraId: number, id: string): Snapshot | undefined => {
+        return this.cache.find((image) => image.cameraId === cameraId && image.id === id);
     }
 
     public static getAll = (): Snapshot[] => {
@@ -32,8 +32,8 @@ export class Cache {
         return this.cache;
     }
 
-    public static expire = (cameraId: number, timestamp: number): Cache => {
-        this.cache = this.cache.filter((image) => image.cameraId !== cameraId || image.timestamp !== timestamp);
+    public static expire = (cameraId: number, id: string): Cache => {
+        this.cache = this.cache.filter((image) => image.cameraId !== cameraId || image.id !== id);
         return this.cache;
     }
 

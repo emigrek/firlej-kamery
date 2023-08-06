@@ -11,7 +11,7 @@ class CameraRoute {
     constructor() {
         this.router.use(this.cacheControlMiddleware);
         this.router.get("/:cameraId", this.get);
-        this.router.get("/:cameraId/snapshot/:timestamp", this.getBySnapshot);
+        this.router.get("/:cameraId/snapshot/:id", this.getBySnapshot);
     }
 
     static get router() {
@@ -59,28 +59,25 @@ class CameraRoute {
 
         const camera = new Camera(cameraId);
 
-        const timestamp = req.params.timestamp;
-        if (timestamp === 'latest') {
-            const snapshot = await camera.snapshot();
+        const id = req.params.id;
+        try {
+            const snapshot = await camera.getSnapshot(id);
+            if (!snapshot) {
+                return res
+                    .status(404)
+                    .json({ message: "Snapshot not found" });
+            }
 
             return res
                 .status(200)
-                .contentType('image/jpeg')
-                .send(snapshot.buffer);
-        }
-
-        const snapshot = await camera.getSnapshot(Number(timestamp));
-        if (!snapshot) {
+                .sendFile(
+                    `${Files.IMAGES_PATH}/${snapshot.path}`
+                );
+        } catch (error) {
             return res
-                .status(404)
-                .json({ message: "Snapshot not found" });
+                .status(500)
+                .json({ message: "Failed to get snapshot" });
         }
-
-        return res
-            .status(200)
-            .sendFile(
-                `${Files.IMAGES_PATH}/${snapshot.path}`
-            );
     }
 }
 

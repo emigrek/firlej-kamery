@@ -5,14 +5,18 @@ import { validCameraIds } from "@shared/cameras";
 
 export const snapshot: Task = {
     name: "snapshot",
-    cron: "0 * * * *",
+    cron: "*/30 * * * *",
     execute: async () => {
         const snapshotPromises = validCameraIds.map(async (id) => {
             const camera = new Camera(id);
-            const image = await camera.snapshot();
+            const snapshot = await camera.snapshot();
 
-            Files.save(image);
-            Cache.add(image);
+            if (!snapshot) {
+                return;
+            }
+            
+            Files.save(snapshot);
+            Cache.add(snapshot);
         });
 
         await Promise.all(snapshotPromises)
