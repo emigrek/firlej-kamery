@@ -2,7 +2,7 @@ import { FC } from 'react'
 import cameras from '@shared/cameras'
 
 import Grid from '@client/components/ui/Grid'
-import Camera from '@client/components/Camera'
+import CameraPreview from '@client/components/CameraPreview'
 
 const GridView: FC = () => {
     return (
@@ -10,7 +10,7 @@ const GridView: FC = () => {
             {
                 cameras.map((camera, index) => (
                     <Grid.Cell key={index}>
-                        <Camera openModalOnClick camera={camera} />
+                        <CameraPreview camera={camera} />
                     </Grid.Cell>
                 ))
             }

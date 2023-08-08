@@ -11,7 +11,7 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default: "text-neutral-200 bg-neutral-500/20 hover:bg-neutral-500/60 focus:ring-2 focus:ring-neutral-500/50",
-                accent: "bg-tulip-tree-300/20 hover:bg-atulip-tree-300/60 focus:ring-2 focus:ring-tulip-tree-300/50",
+                accent: "text-neutral-100 bg-primary-300/20 hover:bg-primary-300/60 focus:ring-2 focus:ring-primary-300/50",
                 transparent: "text-neutral-100 bg-transparent hover:bg-neutral-500/10 focus:ring-2 focus:ring-neutral-500/20",
             },
             size: {

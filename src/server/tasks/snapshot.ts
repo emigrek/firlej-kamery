@@ -16,7 +16,6 @@ export const snapshot: Task = {
             }
             
             Files.save(snapshot);
-            Cache.add(snapshot);
         });
 
         await Promise.all(snapshotPromises)
