@@ -16,6 +16,7 @@ export const customStyles = {
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
+        overflow: 'visible',
         padding: 0,
         transform: 'translate(-50%, -50%)',
         backgroundColor: `rgba(0,0,0,0)`,

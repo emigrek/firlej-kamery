@@ -1,11 +1,13 @@
-import { FC, useCallback, useEffect } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import { useTimer } from 'react-use-precision-timer';
-import { Button } from '@client/components/ui/Button'
 import { IoPlay, IoStop } from 'react-icons/io5'
 
+import { Button } from '@client/components/ui/Button'
 import Slider from './Slider';
-import { usePlayerState, PlayStateEnum } from './usePlayerState';
+
+import { PlaybackAction, usePlayerState } from '@client/stores/playerStore';
+import { cacheImages } from '@client/utils/cacheImages';
 
 interface PlayerProps {
     snapshots: Snapshot[]
@@ -18,7 +20,8 @@ interface PlayerProps {
 }
 
 const Player: FC<PlayerProps> = ({ snapshots, snapshot, setSnapshot, defaultSnapshot }) => {
-    const { toggle, state, setState, index, setIndex, interval } = usePlayerState();
+    const [preloading, setPreloading] = useState<boolean>(false);
+    const { toggle, state, setState, index, setIndex, speed } = usePlayerState();
 
     const nextImage = useCallback(() => {
         if (index >= snapshots.length) {
@@ -28,27 +31,40 @@ const Player: FC<PlayerProps> = ({ snapshots, snapshot, setSnapshot, defaultSnap
             return;
         }
 
-        setIndex(prev => prev + 1);
+        setIndex(index + 1);
         setSnapshot(snapshots[index]);
     }, [setState, setSnapshot, snapshots, index]);
 
-    const playTimer = useTimer({
-        delay: interval,
+    const timer = useTimer({
+        delay: speed,
         fireOnStart: true
     }, nextImage);
 
     useEffect(() => {
-        state === PlayStateEnum.PLAY ? playTimer.start() : playTimer.stop();
+        state === PlaybackAction.Play ? timer.start() : timer.stop();
     }, [state]);
 
+    const togglePlayback = async () => {
+        if (state === PlaybackAction.Stop) {
+            setPreloading(true);
+            cacheImages(snapshots.map(s => s.url))
+                .then(() => {
+                    setPreloading(false);
+                    toggle();
+                });
+        } else {
+            toggle();
+        }
+    }
+
     return (
-        <div className='flex justify-between gap-2 px-3 text-white'>
+        <div className='flex justify-between gap-2 px-4 text-white'>
             <div className='flex items-center'>
                 <Button
-                    variant={'accent'}
-                    onClick={toggle}
+                    loading={preloading}
+                    onClick={togglePlayback}
                     iconRight={
-                        state === PlayStateEnum.PLAY ? IoStop : IoPlay
+                        state === PlaybackAction.Play ? IoStop : IoPlay
                     }
                 />
             </div>

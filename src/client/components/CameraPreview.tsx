@@ -5,25 +5,15 @@ import { Camera as CameraInterface } from '@shared/cameras'
 import Snapshot from '@client/components/Snapshot';
 import useCameraModalStore from '@client/stores/cameraModalStore';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { fetchSnapshots } from '@client/queries/snapshots';
-
 interface CameraPreviewProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
 }
 
 const CameraPreview: FC<CameraPreviewProps> = ({ camera }) => {
     const { id } = camera;
-
-    const queryClient = useQueryClient();
     const { setIsOpen, setCamera } = useCameraModalStore();
 
-    const handleCameraPreviewClick = () => {
-        queryClient.prefetchQuery({
-            queryKey: ['snapshots', id],
-            queryFn: () => fetchSnapshots(id),
-        });
-
+    const handleCameraPreviewClick = async () => {
         setCamera(camera);
         setIsOpen(true);
     }

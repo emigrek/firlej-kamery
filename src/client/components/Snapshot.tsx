@@ -31,11 +31,12 @@ const Wrapper = ({ children, zoomable }: { children: ReactNode, zoomable?: boole
 };
 
 const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick, className }) => {
-    const { url, cameraId } = snapshot;
+    const { url, cameraId, latest } = snapshot;
 
     const [date, setDate] = useState(Date.now);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+
     useTimer({
         delay: REFRESH_INTERVAL,
         startImmediately: autoRefresh || false,
@@ -60,7 +61,7 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
 
     return (
         <div className={
-            cn(zoomable && 'cursor-grab', 'relative overflow-hidden aspect-video rounded-lg bg-neutral-900', className)
+            cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900', className)
         }>
             <AnimatePresence>
                 {(loading && !error) && <Loader />}
@@ -68,10 +69,13 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
             </AnimatePresence>
             <Wrapper zoomable={zoomable}>
                 <img
+                    key={date}
                     style={{
                         opacity: error ? 0 : 100
                     }}
-                    src={`${url}?d=${date}`}
+                    src={
+                        latest ? `${url}?d=${date}` : url
+                    }
                     onClick={onClick}
                     onLoad={handleLoad}
                     onError={handleError}

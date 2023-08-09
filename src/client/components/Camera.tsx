@@ -1,6 +1,5 @@
-import { FC, useState, HTMLAttributes, useMemo } from 'react'
-import cn from '@client/utils/cn';
-import { Camera as CameraInterface } from '@shared/cameras'
+import { FC, useState, HTMLAttributes, useMemo } from 'react';
+import { Camera as CameraInterface } from '@shared/cameras';
 
 import Snapshot from '@client/components/Snapshot';
 import Player from '@client/components/ui/Player';
@@ -17,13 +16,14 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     const defaultSnapshot = {
         cameraId: id,
         timestamp: Date.now(),
-        url: camera.url
+        url: camera.url,
+        latest: true
     };
     const [snapshot, setSnapshot] = useState<Snapshot>(defaultSnapshot);
     const { snapshots, isLoading, isError, refetch } = useSnapshots(camera);
 
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col gap-1'>
             <div {...props}>
                 <Snapshot
                     snapshot={snapshot}
