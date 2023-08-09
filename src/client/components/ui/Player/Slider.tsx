@@ -32,7 +32,7 @@ const Slider: FC<SliderProps> = ({ snapshot, setSnapshot, snapshots }) => {
     return (
         <Tooltip.Provider>
             <S.Root
-                className='relative flex items-center w-full h-5 cursor-pointer select-none'
+                className='relative flex items-center w-full h-5 cursor-pointer select-none touch-none'
                 value={value}
                 onValueChange={onValueChange}
                 min={0}
