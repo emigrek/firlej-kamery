@@ -1,6 +1,6 @@
 import { Camera } from "@server/models/Camera";
 import { Task } from "@server/models/Task";
-import { Cache, Files } from "@server/services";
+import { Files } from "@server/services";
 import { validCameraIds } from "@shared/cameras";
 
 export const snapshot: Task = {

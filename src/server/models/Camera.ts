@@ -47,7 +47,7 @@ export class Camera {
 
         if (!cached.length) {
             const snapshots = Files.getCameraSnapshots(id);
-            Cache.set([...cached, ...snapshots]);
+            Cache.set(snapshots);
             return snapshots;
         }
 

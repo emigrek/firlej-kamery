@@ -4,3 +4,8 @@ interface Snapshot {
     url: string;
     latest?: boolean;
 }
+
+interface SnapshotFilter {
+    label: string;
+    function: (snapshot: Snapshot) => boolean;
+}

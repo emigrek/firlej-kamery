@@ -33,7 +33,7 @@ export class Cache {
     }
 
     public static expire = (cameraId: number, id: string): Cache => {
-        this.cache = this.cache.filter((image) => image.cameraId !== cameraId || image.id !== id);
+        this.cache = this.cache.filter((image) => image.cameraId !== cameraId && image.id !== id);
         return this.cache;
     }
 

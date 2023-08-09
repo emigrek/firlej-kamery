@@ -30,7 +30,7 @@ const Wrapper = ({ children, zoomable }: { children: ReactNode, zoomable?: boole
     )
 };
 
-const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick, className }) => {
+const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick, ...props }) => {
     const { url, cameraId, latest } = snapshot;
 
     const [date, setDate] = useState(Date.now);
@@ -60,29 +60,29 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
     }
 
     return (
-        <div className={
-            cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900', className)
-        }>
-            <AnimatePresence>
-                {(loading && !error) && <Loader />}
-                {error && <Error onClick={handleRefresh} />}
-            </AnimatePresence>
-            <Wrapper zoomable={zoomable}>
-                <img
-                    key={date}
-                    style={{
-                        opacity: error ? 0 : 100
-                    }}
-                    src={
-                        latest ? `${url}?d=${date}` : url
-                    }
-                    onClick={onClick}
-                    onLoad={handleLoad}
-                    onError={handleError}
-                    alt={`camera-${cameraId}`}
-                    className="w-full h-full rounded-lg"
-                />
-            </Wrapper>
+        <div {...props}>
+            <div className={cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900')}>
+                <AnimatePresence>
+                    {(loading && !error) && <Loader />}
+                    {error && <Error onClick={handleRefresh} />}
+                </AnimatePresence>
+                <Wrapper zoomable={zoomable}>
+                    <img
+                        key={date}
+                        style={{
+                            opacity: error ? 0 : 100
+                        }}
+                        src={
+                            latest ? `${url}?d=${date}` : url
+                        }
+                        onClick={onClick}
+                        onLoad={handleLoad}
+                        onError={handleError}
+                        alt={`camera-${cameraId}`}
+                        className="w-full h-full rounded-lg"
+                    />
+                </Wrapper>
+            </div>
         </div>
     )
 }

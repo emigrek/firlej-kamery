@@ -1,4 +1,3 @@
-import { Timer } from "react-use-precision-timer";
 import { create } from "zustand";
 
 enum PlaybackAction {
@@ -14,18 +13,20 @@ interface PlayerState {
     speed: number;
     setSpeed: (speed: number) => void;
     toggle: () => void;
+    clear: () => void;
 }
 
-const usePlayerState = create<PlayerState>(set => ({
+const usePlayerStore = create<PlayerState>(set => ({
     state: PlaybackAction.Stop,
     setState: (state: PlaybackAction) => set({ state }),
     index: 0,
     setIndex: (index: number) => set({ index }),
-    speed: 1000,
+    speed: 888,
     setSpeed: (speed: number) => set({ speed }),
     toggle: () => set(state => ({
         state: state.state === PlaybackAction.Play ? PlaybackAction.Stop : PlaybackAction.Play
-    }))
+    })),
+    clear: () => set({}, true)
 }));
 
-export { usePlayerState, PlaybackAction };
+export { usePlayerStore, PlaybackAction };
