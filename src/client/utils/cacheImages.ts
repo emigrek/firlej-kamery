@@ -1,5 +1,7 @@
-export const cacheImages = async (srcs: string[]) => {
-    const promises = srcs.map(src => {
+export const cacheImages = async (startIndex: number, srcs: string[]) => {
+    const promises = srcs.map((src, index) => {
+        if (index < startIndex) return;
+        
         return new Promise((resolve, reject) => {
             const img = new Image();
             img.src = src;

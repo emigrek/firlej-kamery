@@ -47,7 +47,7 @@ const Player: FC<PlayerProps> = ({ snapshots, snapshot, setSnapshot, defaultSnap
     const togglePlayback = async () => {
         if (state === PlaybackAction.Stop) {
             setPreloading(true);
-            cacheImages(snapshots.map(s => s.url))
+            cacheImages(index, snapshots.map(s => s.url))
                 .then(() => {
                     setPreloading(false);
                     toggle();

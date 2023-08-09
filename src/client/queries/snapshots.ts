@@ -1,6 +1,5 @@
-import axios from "axios";
-
 export const fetchSnapshots = async (cameraId: number): Promise<Snapshot[]> => {
-    const { data } = await axios.get(`/api/camera/${cameraId}`);
+    const response = await fetch(`/api/camera/${cameraId}`);
+    const data = await response.json();
     return data;
 };
