@@ -1,6 +1,5 @@
 import { FC } from 'react'
 
-import { differenceInHours } from 'date-fns';
 import * as Select from '@client/components/ui/Select';
 import { filters } from '@shared/filters';
 import { IoCheckmark, IoChevronDown } from 'react-icons/io5';
@@ -30,7 +29,7 @@ const PlayerSelect: FC = () => {
             onValueChange={onChange}
             disabled={state === PlaybackAction.Play}
         >
-            <Select.Trigger placeholder='select'>
+            <Select.Trigger className='h-10 px-3 md:h-12' placeholder='select'>
                 <Select.Value />
                 <Select.Icon>
                     <IoChevronDown />

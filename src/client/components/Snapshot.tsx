@@ -44,7 +44,8 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
         setDate(Date.now);
     });
 
-    const handleRefresh = () => {
+    const handleRefresh = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.preventDefault();
         setLoading(true);
         setError(false);
         setDate(Date.now);

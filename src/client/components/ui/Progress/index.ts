@@ -3,4 +3,4 @@ export {
     Range,
     Thumb,
     Track
-} from "./Slider";
+} from "./Progress";

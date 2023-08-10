@@ -7,7 +7,7 @@ import colors from 'tailwindcss/colors';
 
 import "./Camera.css";
 import useMapStore from '@client/stores/mapStore';
-import useCameraModalStore from '@client/stores/cameraModalStore';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const markerSize = 28;
 
@@ -18,20 +18,22 @@ interface CameraProps {
 const Camera: FC<CameraProps> = ({ camera }) => {
     const { name, position } = camera;
 
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
     const { map } = useMapStore();
-    const { setIsOpen, setCamera, setPreviousCameraZoom } = useCameraModalStore();
 
     const handleCameraClick = () => {
-        setCamera(camera);
-        setPreviousCameraZoom(map?.getZoom() || 14);
+        const previousZoom = map?.getZoom();
 
         map?.panTo(position);
         map?.setCenter(position);
         map?.setZoom(18);
 
         setTimeout(() => {
-            setIsOpen(true);
-        }, 500)
+            navigate(
+                `${pathname}/camera/${encodeURIComponent(name.toLowerCase())}${previousZoom ? '?' + new URLSearchParams({ zoom: previousZoom.toString() }).toString() : ''}`
+            );
+        }, 500);
     };
 
     return (

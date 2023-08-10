@@ -1,24 +1,26 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react'
 
 import { useTimer } from 'react-use-precision-timer';
 import { cacheSnapshots } from '@client/utils/cacheSnapshots';
-import { IoPlay, IoStop } from 'react-icons/io5'
+import { IoPause, IoPlay } from 'react-icons/io5'
 
 import { Button } from '@client/components/ui/Button'
-import Slider from './Slider';
+import Progress from './Progress';
 import Select from './Select';
 
 import { PlaybackAction, usePlayerStore } from '@client/stores/playerStore';
 import useCameraStore from '@client/stores/cameraStore';
+import cn from '@client/utils/cn';
+import { usePlayerTimer } from './usePlayerTimer';
 
-interface PlayerProps {
+interface PlayerProps extends HTMLAttributes<HTMLDivElement> {
     defaultSnapshot: Snapshot
     isLoading: boolean
     isError: boolean
     refetch: () => void
 }
 
-const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch }) => {
+const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch, className, isError, isLoading, ...props }) => {
     const [preloading, setPreloading] = useState<boolean>(false);
     const { toggle, state, setState, index, setIndex, speed } = usePlayerStore();
     const { filteredSnapshots, setSnapshot } = useCameraStore();
@@ -35,14 +37,7 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch }) => {
         setSnapshot(filteredSnapshots.at(index) || defaultSnapshot);
     }, [setState, setSnapshot, filteredSnapshots, index]);
 
-    const timer = useTimer({
-        delay: speed,
-        fireOnStart: true
-    }, nextImage);
-
-    useEffect(() => {
-        state === PlaybackAction.Play ? timer.start() : timer.stop();
-    }, [state]);
+    usePlayerTimer(nextImage, speed);
 
     const togglePlayback = async () => {
         if (state != PlaybackAction.Stop) {
@@ -53,7 +48,7 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch }) => {
         setPreloading(true);
         cacheSnapshots(filteredSnapshots, index)
             .catch((src) => {
-                console.error(`Couldn't cache snapshot src: ${src}`);
+                console.error(src);
                 refetch();
             })
             .finally(() => {
@@ -63,21 +58,24 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch }) => {
     }
 
     return (
-        <div className='flex justify-between gap-3 px-3 py-1 mx-1 text-white'>
-            <div className='flex items-center'>
+        <div
+            className={
+                cn('flex flex-col text-white bg-gradient-to-b from-transparent to-neutral-950/60', className)
+            }
+            {...props}
+        >
+            <Progress />
+            <div className='flex items-center justify-between px-2 pb-2'>
                 <Button
+                    className='h-10 px-3 md:px-4 md:h-12'
+                    variant={'transparent'}
                     loading={preloading}
                     onClick={togglePlayback}
                     iconRight={
-                        state === PlaybackAction.Play ? IoStop : IoPlay
+                        state === PlaybackAction.Play ? IoPause : IoPlay
                     }
                 />
-            </div>
-            <div className='flex items-center'>
                 <Select />
-            </div>
-            <div className='flex items-center flex-grow'>
-                <Slider />
             </div>
         </div>
     )

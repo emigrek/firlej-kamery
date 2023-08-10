@@ -3,46 +3,27 @@ import { FC } from 'react'
 import Navigation from '@client/components/ui/Navgiation'
 import NavigationItem from '@client/components/ui/Navgiation/NavigationItem'
 
-import { Views, views } from '@client/views/views'
-import useViewStore from '@client/stores/viewStore'
-import { useSwipeable } from 'react-swipeable'
-
-enum Directions {
-    Left = 'left',
-    Right = 'right'
-}
-
-type Direction = `${Directions}`;
+import { Link } from 'react-router-dom'
+import { useRoutes } from '@client/hooks/useRoutes'
 
 const Navbar: FC = () => {
-    const { view, setView } = useViewStore();
-
-    const onSwiped = (direction: Direction) => {
-        const currentIndex = views.findIndex(v => v.view === view);
-        const nextIndex = direction === 'left' ? currentIndex + 1 : currentIndex - 1;
-        const nextView = views[nextIndex];
-
-        setView(nextView.view);
-    }
-
-    const swipeableHandlers = useSwipeable({
-        onSwipedLeft: () => onSwiped(Directions.Left),
-        onSwipedRight: () => onSwiped(Directions.Right),
-        preventScrollOnSwipe: true,
-        trackMouse: true,
-        delta: 10
-    });
+    const routes = useRoutes();
 
     return (
-        <Navigation {...swipeableHandlers}>
-            <img onClick={() => setView(Views.Map)} src="/logo_firlej.png" alt="Firlej Logo" className="hidden h-16 cursor-pointer md:block" />
+        <Navigation>
+            <Link to="/">
+                <img src="/logo_firlej.png" alt="Firlej Logo" className="hidden h-16 cursor-pointer md:block" />
+            </Link>
             <div className="flex items-center justify-center gap-5 md:gap-10">
                 {
-                    views.map((view, index) => {
-                        return (
-                            <NavigationItem {...view} key={index} />
-                        )
-                    })
+                    routes.map(({ active, view }, index) => (
+                        <Link
+                            key={index}
+                            to={view.link}
+                        >
+                            <NavigationItem active={active} {...view} />
+                        </Link>
+                    ))
                 }
             </div>
         </Navigation>

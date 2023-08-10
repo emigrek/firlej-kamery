@@ -1,28 +1,27 @@
 import Navbar from "@client/components/Navbar"
-import useViewStore from "@client/stores/viewStore";
-import MapView from "@client/views/Map";
-import GridView from "@client/views/Grid";
-import { Views } from "@client/views/views";
-import AboutView from "@client/views/About";
+import { views } from "@client/views/views";
 import CameraModal from "@client/components/modals/CameraModal";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFoundView from "./views/404";
 
 function App() {
-  const { view } = useViewStore();
-  
   return (
-    <>
+    <Router>
       <Navbar />
+      <Routes>
         {
-          view === Views.Map && <MapView />
+          views.map(({ component, path }, index) => (
+            <Route
+              key={index}
+              Component={component}
+              path={path}
+            />
+          ))
         }
-        {
-          view === Views.Grid && <GridView />
-        }
-        {
-          view === Views.About && <AboutView />
-        }
+        <Route path="*" Component={NotFoundView} />
+      </Routes>
       <CameraModal />
-    </>
+    </Router>
   )
 }
 

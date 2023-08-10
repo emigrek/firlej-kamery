@@ -13,7 +13,7 @@ const Root = forwardRef<
     return (
         <RootPrimitive
             ref={ref}
-            className={cn('relative flex items-center w-full h-5 cursor-pointer select-none touch-none', className)}
+            className={cn('relative group/progress flex items-center w-full h-3 px-3 cursor-pointer select-none touch-none', className)}
             {...props}
         />
     )
@@ -26,7 +26,7 @@ const Track = forwardRef<
     return (
         <TrackPrimitive
             ref={ref}
-            className={cn('relative h-2 rounded-full grow bg-neutral-500/20', className)}
+            className={cn('relative transition-all duration-200 h-[2px] group-hover/progress:h-1 rounded-full grow bg-neutral-500/40', className)}
             {...props}
         />
     )
@@ -39,7 +39,7 @@ const Range = forwardRef<
     return (
         <RangePrimitive
             ref={ref}
-            className={cn('absolute h-full rounded-full bg-primary-500/20', className)}
+            className={cn('absolute h-full rounded-full bg-primary-400/80', className)}
             {...props}
         />
     )
@@ -52,7 +52,7 @@ const Thumb = forwardRef<
     return (
         <ThumbPrimitive
             ref={ref}
-            className={cn('block w-5 h-5 rounded-full bg-primary-400 focus:outline-none focus:shadow-[0_0_0_8px] focus:shadow-neutral-300/20', className)}
+            className={cn('block transition-all duration-75 w-0 h-0 group-hover/progress:w-3 group-hover/progress:h-3 rounded-full bg-primary-400 focus:w-3 focus:h-3 focus:outline-none focus:shadow-[0_0_0_8px] focus:shadow-neutral-300/20', className)}
             {...props}
         />
     )

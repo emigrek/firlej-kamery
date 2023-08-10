@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from 'react'
 
-import * as Slider from "@client/components/ui/Slider";
+import * as Progress from "@client/components/ui/Progress";
 import * as Tooltip from "@client/components/ui/Tooltip";
 
 import { formatRelative } from 'date-fns'
@@ -9,7 +9,7 @@ import { pl } from 'date-fns/locale'
 import { usePlayerStore, PlaybackAction } from '@client/stores/playerStore';
 import useCameraStore from '@client/stores/cameraStore';
 
-const PlayerSlider: FC = () => {
+const PlayerProgress: FC = () => {
     const { setState, setIndex } = usePlayerStore();
     const { filteredSnapshots, snapshot, setSnapshot } = useCameraStore();
     const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
@@ -29,7 +29,7 @@ const PlayerSlider: FC = () => {
 
     return (
         <Tooltip.Provider>
-            <Slider.Root
+            <Progress.Root
                 value={value}
                 onValueChange={onValueChange}
                 min={0}
@@ -40,21 +40,23 @@ const PlayerSlider: FC = () => {
                 onTouchStart={() => setTooltipVisible(true)}
                 onTouchEnd={() => setTooltipVisible(false)}
             >
-                <Slider.Track>
-                    <Slider.Range />
-                </Slider.Track>
+                <Progress.Track>
+                    <Progress.Range />
+                </Progress.Track>
                 <Tooltip.Root open={tooltipVisible}>
                     <Tooltip.Trigger asChild>
-                        <Slider.Thumb />
+                        <Progress.Thumb />
                     </Tooltip.Trigger>
-                    <Tooltip.Content sideOffset={10} align="center">
-                        {snapshot && formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })}
+                    <Tooltip.Content className='text-neutral-300' sideOffset={1} align="center">
+                        {   
+                            snapshot && formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })
+                        }
                         <Tooltip.Arrow />
                     </Tooltip.Content>
                 </Tooltip.Root>
-            </Slider.Root>
+            </Progress.Root>
         </Tooltip.Provider>
     )
 }
 
-export default PlayerSlider
+export default PlayerProgress

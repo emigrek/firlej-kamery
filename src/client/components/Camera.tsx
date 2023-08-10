@@ -21,7 +21,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
         latest: true
     };
     const { data, isLoading, isError, refetch } = useSnapshots(camera);
-    const { setSnapshots, setFilteredSnapshots, snapshot, setSnapshot, filter, setFilter, clear } = useCameraStore();
+    const { setSnapshots, setFilteredSnapshots, snapshot, setSnapshot, filter, clear } = useCameraStore();
 
     useEffect(() => {
         const filtered = [...data].filter(filter.function);
@@ -36,13 +36,14 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     }, [data, setFilteredSnapshots, setSnapshots, setSnapshot]);
 
     return (
-        <div className='flex flex-col'>
+        <div className='relative flex flex-col group/camera'>
             <Snapshot
                 snapshot={snapshot || defaultSnapshot}
                 zoomable
                 {...props}
             />
             <Player
+                className="z-30 absolute transition-opacity duration-200 opacity-0 inset-x-3 bottom-[0.40rem] rounded-b-lg group-hover/camera:opacity-100"
                 defaultSnapshot={defaultSnapshot}
                 isLoading={isLoading}
                 isError={isError}

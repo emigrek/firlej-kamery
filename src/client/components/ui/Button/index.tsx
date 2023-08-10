@@ -12,11 +12,11 @@ const buttonVariants = cva(
             variant: {
                 default: "text-neutral-200 bg-neutral-500/20 hover:bg-neutral-500/60 focus:ring-2 focus:ring-neutral-500/50",
                 primary: "text-neutral-100 bg-primary-300/20 hover:bg-primary-300/60 focus:ring-2 focus:ring-primary-300/50",
-                transparent: "text-neutral-100 bg-transparent hover:bg-neutral-500/10 focus:ring-2 focus:ring-neutral-500/20",
+                transparent: "text-neutral-100 bg-transparent hover:bg-neutral-300/20 focus:ring-2 focus:ring-neutral-300/20",
             },
             size: {
-                small: "px-4 h-8 text-sm gap-2",
-                medium: "px-5 h-12 text-base gap-2",
+                small: "px-2 h-8 text-sm gap-2",
+                medium: "px-4 h-12 text-base gap-2",
                 large: "px-6 h-16 text-lg gap-2"
             }
         },

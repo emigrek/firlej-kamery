@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import cameras from '@shared/cameras'
-
 import Grid from '@client/components/ui/Grid'
-import CameraPreview from '@client/components/CameraPreview'
+import Snapshot from '@client/components/Snapshot'
+import { Link } from 'react-router-dom';
 
 const GridView: FC = () => {
     return (
@@ -10,7 +10,17 @@ const GridView: FC = () => {
             {
                 cameras.map((camera, index) => (
                     <Grid.Cell key={index}>
-                        <CameraPreview camera={camera} />
+                        <Link to={`/camera/${encodeURIComponent(camera.name.toLowerCase())}`}>
+                            <Snapshot
+                                className='cursor-pointer'
+                                snapshot={{
+                                    cameraId: camera.id,
+                                    timestamp: Date.now(),
+                                    url: camera.url
+                                }}
+                                autoRefresh
+                            />
+                        </Link>
                     </Grid.Cell>
                 ))
             }
