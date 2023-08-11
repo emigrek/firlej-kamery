@@ -16,7 +16,8 @@ const GridView: FC = () => {
                                 snapshot={{
                                     cameraId: camera.id,
                                     timestamp: Date.now(),
-                                    url: camera.url
+                                    url: camera.url,
+                                    latest: true
                                 }}
                                 autoRefresh
                             />
