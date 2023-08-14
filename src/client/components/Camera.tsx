@@ -3,9 +3,12 @@ import { Camera as CameraInterface } from '@shared/cameras';
 
 import Snapshot from '@client/components/Snapshot';
 import Player from '@client/components/ui/Player';
+import Hoverable from '@client/components/Hoverable';
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
 import useCameraStore from '@client/stores/cameraStore';
+
+import { AnimatePresence } from 'framer-motion';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
@@ -36,20 +39,32 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     }, [data, setFilteredSnapshots, setSnapshots, setSnapshot]);
 
     return (
-        <div className='relative flex flex-col group/camera'>
-            <Snapshot
-                snapshot={snapshot || defaultSnapshot}
-                zoomable
-                {...props}
-            />
-            <Player
-                className="z-30 absolute transition-opacity duration-200 opacity-0 inset-x-3 bottom-[0.40rem] rounded-b-lg group-hover/camera:opacity-100"
-                defaultSnapshot={defaultSnapshot}
-                isLoading={isLoading}
-                isError={isError}
-                refetch={refetch}
-            />
-        </div>
+        <Hoverable className='relative flex flex-col group/camera'>
+            {
+                (isHovered, isTouch) => (
+                    <>
+                        <Snapshot
+                            snapshot={snapshot || defaultSnapshot}
+                            zoomable
+                            {...props}
+                        />
+                        <AnimatePresence>
+                            {
+                                (isHovered || isTouch) && (
+                                    <Player
+                                        className="z-30 absolute inset-x-3 bottom-[0.40rem] rounded-b-lg"
+                                        defaultSnapshot={defaultSnapshot}
+                                        isLoading={isLoading}
+                                        isError={isError}
+                                        refetch={refetch}
+                                    />
+                                )
+                            }
+                        </AnimatePresence>
+                    </>
+                )
+            }
+        </Hoverable>
     )
 }
 
