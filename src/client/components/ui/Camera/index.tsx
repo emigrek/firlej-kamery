@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes, useEffect } from 'react';
 import { Camera as CameraInterface } from '@shared/cameras';
 
-import Snapshot from '@client/components/Snapshot';
+import Snapshot from '@client/components/ui/Snapshot';
 import Player from '@client/components/ui/Player';
 import Hoverable from '@client/components/Hoverable';
 
@@ -9,6 +9,10 @@ import { useSnapshots } from '@client/hooks/useSnapshots';
 import useCameraStore from '@client/stores/cameraStore';
 
 import { AnimatePresence } from 'framer-motion';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useQueryErrorResetBoundary } from '@tanstack/react-query';
+
+import Error from './error';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
@@ -39,12 +43,13 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     }, [data, setFilteredSnapshots, setSnapshots, setSnapshot]);
 
     return (
-        <Hoverable className='relative flex flex-col group/camera'>
+        <Hoverable className='px-4 w-screen h-auto lg:w-auto lg:h-[60vh] aspect-video flex items-center relative group/camera'>
             {
                 (isHovered, isTouch) => (
                     <>
                         <Snapshot
                             snapshot={snapshot || defaultSnapshot}
+                            autoRefresh
                             zoomable
                             {...props}
                         />
@@ -52,7 +57,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
                             {
                                 (isHovered || isTouch) && (
                                     <Player
-                                        className="z-30 absolute inset-x-3 bottom-[0.40rem] rounded-b-lg"
+                                        className="absolute z-30 rounded-b-lg inset-x-4 bottom-2"
                                         defaultSnapshot={defaultSnapshot}
                                         isLoading={isLoading}
                                         isError={isError}
@@ -68,4 +73,28 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     )
 }
 
-export default Camera;  
+const CameraFallbackRender = ({ resetErrorBoundary }: { resetErrorBoundary: () => void }) => {
+    return (
+        <div className='px-4 w-screen h-auto lg:w-auto lg:h-[60vh] aspect-video relative'>
+            <Error onClick={resetErrorBoundary} />
+        </div>
+    )
+};
+
+const CameraErrorBoundary: FC<CameraProps> = ({ camera, ...props }) => {
+    const { reset } = useQueryErrorResetBoundary();
+
+    return (
+        <ErrorBoundary
+            onReset={reset}
+            fallbackRender={CameraFallbackRender}
+        >
+            <Camera
+                camera={camera}
+                {...props}
+            />
+        </ErrorBoundary>
+    )
+}
+
+export default CameraErrorBoundary;  

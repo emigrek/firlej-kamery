@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 
 import { HTMLMotionProps, motion as m } from 'framer-motion'
 import { cacheSnapshots } from '@client/utils/cacheSnapshots';
@@ -60,7 +60,7 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch, className, isError,
     return (
         <m.div
             className={
-                cn('flex flex-col text-white bg-gradient-to-b from-transparent to-neutral-950/60', className)
+                cn('flex flex-col-reverse md:flex-col text-white bg-gradient-to-b from-transparent to-neutral-950/70', className)
             }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -69,7 +69,7 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch, className, isError,
             {...props}
         >
             <Progress />
-            <div className='flex items-center justify-between px-2 pb-2'>
+            <div className='flex items-center justify-between px-2 md:pb-2'>
                 <Button
                     className='h-10 px-3 md:px-4 md:h-12'
                     variant={'transparent'}

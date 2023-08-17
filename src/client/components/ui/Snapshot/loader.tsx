@@ -11,7 +11,7 @@ const Loader: FC<LoaderProps> = ({ ...props }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.2 }}
       className="absolute inset-0 z-10 flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg bg-neutral-900"
       {...props}
     >

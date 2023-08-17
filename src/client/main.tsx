@@ -10,7 +10,13 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    }
+  }
+});
 
 import App from "@client/App";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

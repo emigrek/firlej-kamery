@@ -1,9 +1,9 @@
-import { FC, HTMLAttributes, ReactNode, useEffect, useState } from 'react'
+import { FC, HTMLAttributes, ReactNode, useState } from 'react'
 import { AnimatePresence } from 'framer-motion';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
-import Loader from '@client/components/Loader';
-import Error from '@client/components/Error';
+import Loader from './loader';
+import Error from './error';
 
 import { useTimer } from "react-use-precision-timer";
 import cn from '@client/utils/cn';
@@ -30,7 +30,7 @@ const Wrapper = ({ children, zoomable }: { children: ReactNode, zoomable?: boole
     )
 };
 
-const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick, ...props }) => {
+const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick, className, ...props }) => {
     const { url, cameraId, latest } = snapshot;
 
     const [date, setDate] = useState(Date.now);
@@ -61,29 +61,30 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
     }
 
     return (
-        <div {...props}>
-            <div className={cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900')}>
-                <AnimatePresence>
-                    {(loading && !error) && <Loader />}
-                    {error && <Error onClick={handleRefresh} />}
-                </AnimatePresence>
-                <Wrapper zoomable={zoomable}>
-                    <img
-                        key={date}
-                        style={{
-                            opacity: error ? 0 : 100
-                        }}
-                        src={
-                            latest ? `${url}?d=${date}` : url
-                        }
-                        onClick={onClick}
-                        onLoad={handleLoad}
-                        onError={handleError}
-                        alt={`camera-${cameraId}`}
-                        className="w-full h-full rounded-lg"
-                    />
-                </Wrapper>
-            </div>
+        <div 
+            className={cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900 p-[1px]', className)} 
+            {...props}
+        >
+            <AnimatePresence>
+                {(loading && !error) && <Loader />}
+                {error && <Error onClick={handleRefresh} />}
+            </AnimatePresence>
+            <Wrapper zoomable={zoomable}>
+                <img
+                    key={date}
+                    style={{
+                        opacity: error ? 0 : 100
+                    }}
+                    src={
+                        latest ? `${url}?d=${date}` : url
+                    }
+                    onClick={onClick}
+                    onLoad={handleLoad}
+                    onError={handleError}
+                    alt={`camera-${cameraId}`}
+                    className="w-full h-full rounded-lg"
+                />
+            </Wrapper>
         </div>
     )
 }

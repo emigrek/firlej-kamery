@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import cameras from '@shared/cameras'
-import Grid from '@client/components/ui/Grid'
-import Snapshot from '@client/components/Snapshot'
+
 import { Link } from 'react-router-dom';
+import Grid from '@client/components/ui/Grid'
+import Snapshot from '@client/components/ui/Snapshot'
 
 const GridView: FC = () => {
     return (

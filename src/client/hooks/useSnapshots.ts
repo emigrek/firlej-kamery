@@ -12,6 +12,7 @@ export const useSnapshots = (camera: Camera) => {
         cameraId: camera.id,
         timestamp: Date.now(),
         url: camera.url,
+        latest: true
     };
 
     const snapshots = useMemo(() => {
