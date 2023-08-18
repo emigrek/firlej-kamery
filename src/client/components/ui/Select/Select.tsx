@@ -35,7 +35,7 @@ const Icon = forwardRef<
     return (
         <IconPrimitive
             ref={ref}
-            className={cn('fill-neutral-200', className)}
+            className={cn('fill-primary-400', className)}
             {...props}
         />
     )
@@ -48,7 +48,7 @@ const Content = forwardRef<
     return (
         <ContentPrimitive
             ref={ref}
-            className={cn('z-30 py-2 rounded-lg text-neutral-200 bg-neutral-800', className)}
+            className={cn('z-30 py-2 rounded-lg text-neutral-200 bg-neutral-900', className)}
             {...props}
         />
     )
@@ -61,7 +61,7 @@ const Item = forwardRef<
     return (
         <ItemPrimitive
             ref={ref}
-            className={cn('flex items-center gap-2 cursor-pointer px-3 py-2 transition-all hover:bg-neutral-700', className)}
+            className={cn('flex items-center gap-2 cursor-pointer px-3 py-2 transition-all hover:bg-neutral-800', className)}
             {...props}
         />
     )

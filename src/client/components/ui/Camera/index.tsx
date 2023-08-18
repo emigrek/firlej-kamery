@@ -1,9 +1,11 @@
-import { FC, HTMLAttributes, useEffect } from 'react';
+import { FC, HTMLAttributes, useEffect, Suspense } from 'react';
 import { Camera as CameraInterface } from '@shared/cameras';
 
 import Snapshot from '@client/components/ui/Snapshot';
 import Player from '@client/components/ui/Player';
 import Hoverable from '@client/components/Hoverable';
+import Error from './error';
+import Loader from './loader';
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
 import useCameraStore from '@client/stores/cameraStore';
@@ -12,11 +14,15 @@ import { AnimatePresence } from 'framer-motion';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
-import Error from './error';
+import { cva } from 'class-variance-authority';
+import cn from '@client/utils/cn';
+import { PlaybackAction, usePlayerStore } from '@client/stores/playerStore';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
 }
+
+const CameraWrapper = cva('px-4 w-screen lg:w-auto lg:h-[60vh] aspect-video relative flex items-center');
 
 const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     const { id } = camera;
@@ -29,6 +35,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     };
     const { data, isLoading, isError, refetch } = useSnapshots(camera);
     const { setSnapshots, setFilteredSnapshots, snapshot, setSnapshot, filter, clear } = useCameraStore();
+    const { state } = usePlayerStore();
 
     useEffect(() => {
         const filtered = [...data].filter(filter.function);
@@ -43,7 +50,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     }, [data, setFilteredSnapshots, setSnapshots, setSnapshot]);
 
     return (
-        <Hoverable className='px-4 w-screen h-auto lg:w-auto lg:h-[60vh] aspect-video flex items-center relative group/camera'>
+        <Hoverable className={cn(CameraWrapper(), "group/camera")}>
             {
                 (isHovered, isTouch) => (
                     <>
@@ -55,7 +62,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
                         />
                         <AnimatePresence>
                             {
-                                (isHovered || isTouch) && (
+                                (isHovered || isTouch || state === PlaybackAction.Play) && (
                                     <Player
                                         className="absolute z-30 rounded-b-lg inset-x-4 bottom-2"
                                         defaultSnapshot={defaultSnapshot}
@@ -73,9 +80,9 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     )
 }
 
-const CameraFallbackRender = ({ resetErrorBoundary }: { resetErrorBoundary: () => void }) => {
+const CameraFallbackRender = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => {
     return (
-        <div className='px-4 w-screen h-auto lg:w-auto lg:h-[60vh] aspect-video relative'>
+        <div className={cn(CameraWrapper())}>
             <Error onClick={resetErrorBoundary} />
         </div>
     )
@@ -85,15 +92,23 @@ const CameraErrorBoundary: FC<CameraProps> = ({ camera, ...props }) => {
     const { reset } = useQueryErrorResetBoundary();
 
     return (
-        <ErrorBoundary
-            onReset={reset}
-            fallbackRender={CameraFallbackRender}
+        <Suspense
+            fallback={
+                <div className={cn(CameraWrapper())}>
+                    <Loader />
+                </div>
+            }
         >
-            <Camera
-                camera={camera}
-                {...props}
-            />
-        </ErrorBoundary>
+            <ErrorBoundary
+                onReset={reset}
+                fallbackRender={CameraFallbackRender}
+            >
+                <Camera
+                    camera={camera}
+                    {...props}
+                />
+            </ErrorBoundary>
+        </Suspense>
     )
 }
 

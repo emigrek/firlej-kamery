@@ -60,7 +60,7 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch, className, isError,
     return (
         <m.div
             className={
-                cn('flex flex-col-reverse md:flex-col text-white bg-gradient-to-b from-transparent to-neutral-950/70', className)
+                cn('flex flex-col-reverse md:flex-col text-white bg-gradient-to-b from-transparent to-neutral-950/80', className)
             }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

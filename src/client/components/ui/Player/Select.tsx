@@ -49,7 +49,7 @@ const PlayerSelect: FC = () => {
                                             {filter.label}
                                         </Select.ItemText>
                                         <Select.ItemIndicator>
-                                            <IoCheckmark className='w-3 h-3' />
+                                            <IoCheckmark className='w-3 h-3 text-primary' />
                                         </Select.ItemIndicator>
                                     </Select.Item>
                                 ))

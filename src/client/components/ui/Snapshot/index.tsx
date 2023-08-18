@@ -41,6 +41,7 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
         delay: REFRESH_INTERVAL,
         startImmediately: autoRefresh || false,
     }, () => {
+        setLoading(true);
         setDate(Date.now);
     });
 
@@ -62,7 +63,7 @@ const Snapshot: FC<SnapshotProps> = ({ snapshot, zoomable, autoRefresh, onClick,
 
     return (
         <div 
-            className={cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900 p-[1px]', className)} 
+            className={cn(zoomable && 'cursor-grab', 'relative w-full overflow-hidden aspect-video rounded-lg bg-neutral-900/30 backdrop-blur-sm p-[1px]', className)} 
             {...props}
         >
             <AnimatePresence>
