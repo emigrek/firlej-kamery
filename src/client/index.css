@@ -6,10 +6,8 @@ html,
 body {
     background-color: theme("colors.background.950");
     user-select: none;
-}
-
-* {
-    -webkit-user-drag: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 @layer base {

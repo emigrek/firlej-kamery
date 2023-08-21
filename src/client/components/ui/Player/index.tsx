@@ -1,6 +1,4 @@
-import { FC, useCallback, useState } from 'react'
-
-import { HTMLMotionProps, motion as m } from 'framer-motion'
+import { FC, useCallback, useState, HTMLAttributes } from 'react'
 import { cacheSnapshots } from '@client/utils/cacheSnapshots';
 import { IoPause, IoPlay } from 'react-icons/io5'
 
@@ -13,7 +11,7 @@ import useCameraStore from '@client/stores/cameraStore';
 import cn from '@client/utils/cn';
 import { usePlayerTimer } from './usePlayerTimer';
 
-interface PlayerProps extends HTMLMotionProps<'div'> {
+interface PlayerProps extends HTMLAttributes<HTMLDivElement> {
     defaultSnapshot: Snapshot
     isLoading: boolean
     isError: boolean
@@ -58,14 +56,10 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch, className, isError,
     }
 
     return (
-        <m.div
+        <div
             className={
                 cn('flex flex-col-reverse md:flex-col text-white bg-gradient-to-b from-transparent to-neutral-950/80', className)
             }
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
             {...props}
         >
             <Progress />
@@ -81,7 +75,7 @@ const Player: FC<PlayerProps> = ({ defaultSnapshot, refetch, className, isError,
                 />
                 <Select />
             </div>
-        </m.div>
+        </div>
     )
 }
 

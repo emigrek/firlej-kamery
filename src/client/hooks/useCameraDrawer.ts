@@ -2,7 +2,7 @@ import cameras from "@shared/cameras";
 import { useMemo } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
-export const useCameraModal = () => {
+export const useCameraDrawer = () => {
     const { pathname } = useLocation();
     const [searchParams] = useSearchParams();
 

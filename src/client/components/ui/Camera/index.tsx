@@ -3,26 +3,23 @@ import { Camera as CameraInterface } from '@shared/cameras';
 
 import Snapshot from '@client/components/ui/Snapshot';
 import Player from '@client/components/ui/Player';
-import Hoverable from '@client/components/Hoverable';
 import Error from './error';
 import Loader from './loader';
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
 import useCameraStore from '@client/stores/cameraStore';
 
-import { AnimatePresence } from 'framer-motion';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
 import { cva } from 'class-variance-authority';
 import cn from '@client/utils/cn';
-import { PlaybackAction, usePlayerStore } from '@client/stores/playerStore';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
 }
 
-const CameraWrapper = cva('px-4 w-screen lg:w-auto lg:h-[60vh] aspect-video relative flex items-center');
+const CameraWrapper = cva('w-[100dvw] relative aspect-video flex items-center lg:w-auto lg:h-[50dvh]');
 
 const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     const { id } = camera;
@@ -34,8 +31,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
         latest: true
     };
     const { data, isLoading, isError, refetch } = useSnapshots(camera);
-    const { setSnapshots, setFilteredSnapshots, snapshot, setSnapshot, filter, clear } = useCameraStore();
-    const { state } = usePlayerStore();
+    const { setSnapshots, filteredSnapshots, setFilteredSnapshots, snapshot, setSnapshot, filter, clear } = useCameraStore();
 
     useEffect(() => {
         const filtered = [...data].filter(filter.function);
@@ -50,33 +46,21 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     }, [data, setFilteredSnapshots, setSnapshots, setSnapshot]);
 
     return (
-        <Hoverable className={cn(CameraWrapper(), "group/camera")}>
-            {
-                (isHovered, isTouch) => (
-                    <>
-                        <Snapshot
-                            snapshot={snapshot || defaultSnapshot}
-                            autoRefresh
-                            zoomable
-                            {...props}
-                        />
-                        <AnimatePresence>
-                            {
-                                (isHovered || isTouch || state === PlaybackAction.Play) && (
-                                    <Player
-                                        className="absolute z-30 rounded-b-lg inset-x-4 bottom-2"
-                                        defaultSnapshot={defaultSnapshot}
-                                        isLoading={isLoading}
-                                        isError={isError}
-                                        refetch={refetch}
-                                    />
-                                )
-                            }
-                        </AnimatePresence>
-                    </>
-                )
-            }
-        </Hoverable>
+        <div className={cn(CameraWrapper(), "group/camera")}>
+            <Snapshot
+                snapshot={snapshot || defaultSnapshot}
+                autoRefresh
+                zoomable
+                {...props}
+            />
+            <Player
+                className="absolute z-30 transition-all duration-300 rounded-b-lg opacity-0 bottom-1 inset-x-2 group-hover/camera:opacity-100"
+                defaultSnapshot={defaultSnapshot}
+                isLoading={isLoading}
+                isError={isError}
+                refetch={refetch}
+            />
+        </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import { FC, useMemo, useState, useRef } from 'react'
+import { FC, useMemo, useState } from 'react'
 
 import * as Progress from "@client/components/ui/Progress";
 import * as Tooltip from "@client/components/ui/Tooltip";
@@ -48,7 +48,7 @@ const PlayerProgress: FC = () => {
                         <Progress.Thumb />
                     </Tooltip.Trigger>
                     <Tooltip.Content className='text-neutral-300' sideOffset={1} align="center">
-                        {   
+                        {
                             snapshot && formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })
                         }
                         <Tooltip.Arrow />

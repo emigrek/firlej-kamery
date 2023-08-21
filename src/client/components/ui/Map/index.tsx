@@ -50,7 +50,7 @@ const Map: FC = () => {
         <GoogleMap
             mapContainerStyle={{
                 width: '100vw',
-                height: '100vh'
+                height: '100dvh'
             }}
             options={options}
             center={defaultCenter}
