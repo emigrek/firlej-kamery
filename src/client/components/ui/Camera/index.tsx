@@ -1,73 +1,102 @@
-import { FC, HTMLAttributes, useEffect, Suspense } from 'react';
+import { FC, HTMLAttributes, Suspense, useMemo, useState } from 'react';
 import { Camera as CameraInterface } from '@shared/cameras';
+import { filters } from "@shared/filters";
 
-import Snapshot from '@client/components/ui/Snapshot';
-import Player from '@client/components/ui/Player';
-import Error from './error';
-import Loader from './loader';
+import * as Player from '@client/components/ui/Player';
+
+import BoundaryError from "./BoundaryError";
+import Loader from "./Loader";
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
-import useCameraStore from '@client/stores/cameraStore';
 
 import { ErrorBoundary } from 'react-error-boundary';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
-import { cva } from 'class-variance-authority';
 import cn from '@client/utils/cn';
+import { screenVariants } from '../Player/Screen';
+import { formatRelative } from 'date-fns';
+import { pl } from 'date-fns/locale';
+import FilterSelect from './Select';
+import ImageError from './ImageError';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
 }
 
-const CameraWrapper = cva('w-[100dvw] relative aspect-video flex items-center lg:w-auto lg:h-[50dvh]');
-
 const Camera: FC<CameraProps> = ({ camera, ...props }) => {
-    const { id } = camera;
+    const { data } = useSnapshots(camera);
+    const [filter, setFilter] = useState<SnapshotFilter | undefined>(filters.at(0));
 
-    const defaultSnapshot = {
-        cameraId: id,
-        timestamp: Date.now(),
-        url: camera.url,
-        latest: true
+    const srcSet = useMemo(() => {
+        return [...data]
+            .filter(filter?.function || (() => true))
+            .map(s => s.url);
+    }, [data, filter]);
+
+    const onFilterValueChange = (value: string) => {
+        const filter = filters.find(f => f.label === value);
+        if (!filter) return;
+
+        const srcSet = [...data]
+            .filter(filter.function)
+            .map(s => s.url);
+
+        if (!srcSet.length) return;
+
+        setFilter(filter);
+    }
+
+    const tooltipContent = (value: number) => {
+        const snapshotSource = srcSet.at(value);
+        const snapshot = data.find(s => s.url === snapshotSource);
+
+        if (!snapshot) return;
+
+        return (
+            formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })
+        )
     };
-    const { data, isLoading, isError, refetch } = useSnapshots(camera);
-    const { setSnapshots, filteredSnapshots, setFilteredSnapshots, snapshot, setSnapshot, filter, clear } = useCameraStore();
-
-    useEffect(() => {
-        const filtered = [...data].filter(filter.function);
-
-        setSnapshots(data);
-        setFilteredSnapshots(filtered);
-        setSnapshot(filtered.at(-1) || defaultSnapshot);
-
-        return () => {
-            clear();
-        }
-    }, [data, setFilteredSnapshots, setSnapshots, setSnapshot]);
-
+    
     return (
-        <div className={cn(CameraWrapper(), "group/camera")}>
-            <Snapshot
-                snapshot={snapshot || defaultSnapshot}
-                autoRefresh
-                zoomable
-                {...props}
-            />
-            <Player
-                className="absolute z-30 transition-all duration-300 rounded-b-lg opacity-0 bottom-1 inset-x-2 group-hover/camera:opacity-100"
-                defaultSnapshot={defaultSnapshot}
-                isLoading={isLoading}
-                isError={isError}
-                refetch={refetch}
-            />
-        </div>
+        <Player.Root sourceSet={srcSet} index={srcSet.length - 1}>
+            <Player.Content className='mx-2 overflow-hidden rounded-lg'>
+                <Player.Screen 
+                    loadingComponent={<Loader/>}
+                    errorComponent={<ImageError/>}
+                />
+                <Player.Controls>
+                    <Player.Controls.Progress
+                        tooltipContent={tooltipContent}
+                    />
+                    <Player.Controls.Bottom>
+                        <Player.Controls.Left>
+                            <Player.Controls.Prev />
+                            <Player.Controls.Play />
+                            <Player.Controls.Next />
+                        </Player.Controls.Left>
+                        <Player.Controls.Right>
+                            {
+                                filter && (
+                                    <FilterSelect
+                                        value={filter.label}
+                                        defaultValue={filter.label}
+                                        onValueChange={onFilterValueChange}
+                                    />
+                                )
+                            }
+                            <Player.Controls.Fullscreen />
+                        </Player.Controls.Right>
+                    </Player.Controls.Bottom>
+                </Player.Controls>
+            </Player.Content>
+        </Player.Root>
     )
 }
 
 const CameraFallbackRender = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => {
     return (
-        <div className={cn(CameraWrapper())}>
-            <Error onClick={resetErrorBoundary} />
+        <div className={cn(screenVariants())}>
+            <BoundaryError onClick={resetErrorBoundary} />
         </div>
     )
 };
@@ -78,7 +107,7 @@ const CameraErrorBoundary: FC<CameraProps> = ({ camera, ...props }) => {
     return (
         <Suspense
             fallback={
-                <div className={cn(CameraWrapper())}>
+                <div className={cn(screenVariants())}>
                     <Loader />
                 </div>
             }

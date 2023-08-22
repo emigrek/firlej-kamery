@@ -40,7 +40,6 @@ const CameraModal: FC = () => {
                                         Plaża <span className="font-bold">{camera?.name}</span>
                                     </Drawer.Title>
                                     <Camera
-                                        className='mx-2'
                                         camera={camera}
                                     />
                                 </>

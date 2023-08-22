@@ -1,10 +1,10 @@
 import { FC, HTMLAttributes } from 'react'
-import { TbDeviceCctvOff, TbRefresh } from 'react-icons/tb'
+import { TbDeviceCctvOff } from 'react-icons/tb'
 import { HTMLMotionProps, motion as m } from 'framer-motion';
 
-type ErrorProps = HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div">;
+type ImageErrorProps = HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div">;
 
-const Error: FC<ErrorProps> = ({ ...props }) => {
+const ImageError: FC<ImageErrorProps> = ({ ...props }) => {
     return (
         <m.div
             initial={{ opacity: 0 }}
@@ -15,17 +15,13 @@ const Error: FC<ErrorProps> = ({ ...props }) => {
             {...props}
         >
             <div className='relative my-1'>
-                <TbDeviceCctvOff className='w-8 h-8 text-red-500 group-hover:hidden lg:w-14 lg:h-14' />
-                <TbRefresh className='hidden w-8 h-8 text-sky-600 group-hover:block lg:w-14 lg:h-14' />
+                <TbDeviceCctvOff className='w-8 h-8 text-red-500 lg:w-14 lg:h-14' />
             </div>
             <h1 className='text-sm font-bold text-neutral-100 md:text-md lg:text-xl'>
                 Błąd obrazu z kamery
             </h1>
-            <p className='text-xs transition-all duration-100 border-b-2 md:text-sm text-neutral-400 border-b-transparent group-hover:border-b-2 group-hover:border-sky-600/50 group-hover:text-sky-600'>
-                Kliknij aby odświeżyć
-            </p>
         </m.div>
     )
 }
 
-export default Error;
+export default ImageError;

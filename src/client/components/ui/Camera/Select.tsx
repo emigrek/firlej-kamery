@@ -3,30 +3,20 @@ import { FC } from 'react'
 import * as Select from '@client/components/ui/Select';
 import { filters } from '@shared/filters';
 import { IoCheckmark, IoChevronDown } from 'react-icons/io5';
+import { PlaybackAction, usePlayerContext } from '../Player/context';
 
-import useCameraStore from '@client/stores/cameraStore';
-import { PlaybackAction, usePlayerStore } from '@client/stores/playerStore';
+interface FilterSelectProps {
+    value: string;
+    defaultValue: string;
+    onValueChange: (value: string) => void;
+}
 
-const PlayerSelect: FC = () => {
-    const { state } = usePlayerStore();
-    const { snapshots, setFilteredSnapshots, setSnapshot, filter, setFilter } = useCameraStore();
-
-    const onChange = (value: string) => {
-        const filter = filters.find(f => f.label === value);
-        if (!filter) return;
-
-        const filtered = [...snapshots].filter(filter.function);
-        setFilter(filter);
-        setFilteredSnapshots(filtered);
-
-        setSnapshot(filtered.at(-1) || null);
-    }
+const FilterSelect: FC<FilterSelectProps> = ({ ...props }) => {
+    const { state } = usePlayerContext();
 
     return (
         <Select.Root
-            defaultValue={filter.label}
-            value={filter.label}
-            onValueChange={onChange}
+            {...props}
             disabled={state === PlaybackAction.Play}
         >
             <Select.Trigger className='h-10 px-3 md:h-12' placeholder='select'>
@@ -62,4 +52,4 @@ const PlayerSelect: FC = () => {
     )
 }
 
-export default PlayerSelect;
+export default FilterSelect;

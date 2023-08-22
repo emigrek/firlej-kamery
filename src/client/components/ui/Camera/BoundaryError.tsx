@@ -2,9 +2,9 @@ import { FC, HTMLAttributes } from 'react'
 import { TbRefresh, TbWifiOff } from 'react-icons/tb'
 import { HTMLMotionProps, motion as m } from 'framer-motion';
 
-type ErrorProps = HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div">;
+type BoundaryErrorProps = HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div">;
 
-const Error: FC<ErrorProps> = ({ ...props }) => {
+const BoundaryError: FC<BoundaryErrorProps> = ({ ...props }) => {
     return (
         <m.div
             initial={{ opacity: 0 }}
@@ -28,4 +28,4 @@ const Error: FC<ErrorProps> = ({ ...props }) => {
     )
 }
 
-export default Error;
+export default BoundaryError;

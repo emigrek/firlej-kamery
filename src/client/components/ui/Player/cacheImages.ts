@@ -1,6 +1,4 @@
-export const cacheSnapshots = async (snapshots: Snapshot[], start?: number) => {
-    const srcs = snapshots.map(snapshot => snapshot.url);
-
+export const cacheImages = async (srcs: string[], start?: number) => {
     const promises = srcs.map((src, index) => {
         if (index < (start || 0)) return Promise.resolve();
         
