@@ -56,13 +56,14 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
             formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })
         )
     };
-    
+
     return (
         <Player.Root sourceSet={srcSet} index={srcSet.length - 1}>
             <Player.Content className='mx-2 overflow-hidden rounded-lg'>
-                <Player.Screen 
-                    loadingComponent={<Loader/>}
-                    errorComponent={<ImageError/>}
+                <Player.Screen
+                    loadingComponent={<Loader />}
+                    errorComponent={<ImageError />}
+                    size={'windowed'}
                 />
                 <Player.Controls>
                     <Player.Controls.Progress
@@ -95,7 +96,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
 
 const CameraFallbackRender = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => {
     return (
-        <div className={cn(screenVariants())}>
+        <div className={cn(screenVariants({ size: 'windowed' }))}>
             <BoundaryError onClick={resetErrorBoundary} />
         </div>
     )
@@ -107,7 +108,7 @@ const CameraErrorBoundary: FC<CameraProps> = ({ camera, ...props }) => {
     return (
         <Suspense
             fallback={
-                <div className={cn(screenVariants())}>
+                <div className={cn(screenVariants({ size: 'windowed' }))}>
                     <Loader />
                 </div>
             }

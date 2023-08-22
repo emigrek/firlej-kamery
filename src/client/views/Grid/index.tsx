@@ -1,9 +1,11 @@
 import { FC } from 'react'
 import cameras from '@shared/cameras'
-
 import { Link } from 'react-router-dom';
+
 import Grid from '@client/components/ui/Grid'
 import * as Player from "@client/components/ui/Player";
+import Loader from '@client/components/ui/Camera/Loader';
+import ImageError from '@client/components/ui/Camera/ImageError';
 
 const GridView: FC = () => {
     return (
@@ -14,7 +16,10 @@ const GridView: FC = () => {
                         <Link to={`/camera/${encodeURIComponent(camera.name.toLowerCase())}`}>
                             <Player.Root sourceSet={[camera.url]} index={0}>
                                 <Player.Content className='overflow-hidden rounded-lg'>
-                                    <Player.Screen size={'undefined'}/>
+                                    <Player.Screen
+                                        loadingComponent={<Loader />}
+                                        errorComponent={<ImageError />}
+                                    />
                                 </Player.Content>
                             </Player.Root>
                         </Link>

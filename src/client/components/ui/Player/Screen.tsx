@@ -10,17 +10,17 @@ import { usePlayerTimer } from "./usePlayerTimer";
 import { useErrorRefreshTimer } from "./useErrorRefreshTimer";
 
 const screenVariants = cva(
-    "select-none aspect-video",
+    "select-none aspect-video relative overflow-hidden",
     {
         variants: {
             size: {
                 undefined: "w-full h-full",
-                default: "w-[21rem] xs:w-[25rem] sm:w-auto sm:h-[20rem] md:h-[25rem] lg:h-[30rem]",
+                windowed: "w-full xs:w-full sm:w-auto sm:h-[20rem] md:h-[26rem] lg:h-[35rem]",
                 fullscreen: "w-screen h-screen"
             }
         },
         defaultVariants: {
-            size: "default"
+            size: "undefined"
         }
     }
 );
