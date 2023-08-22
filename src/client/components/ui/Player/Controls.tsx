@@ -67,7 +67,7 @@ interface PlayProps extends HTMLAttributes<HTMLButtonElement>,
 }
 
 function Play({ playIcon: PlayIcon, pauseIcon: PauseIcon, stopIcon: StopIcon, className, ...props }: PlayProps) {
-    const { state, toggle } = usePlayerContext();
+    const { state, toggle, preloading } = usePlayerContext();
 
     const playIcon = PlayIcon ? PlayIcon : IoPlay;
     const pauseIcon = PauseIcon ? PauseIcon : IoPause;
@@ -87,6 +87,7 @@ function Play({ playIcon: PlayIcon, pauseIcon: PauseIcon, stopIcon: StopIcon, cl
         <Button
             className={cn("h-10 px-3 md:px-4 md:h-12", className)}
             variant={'transparent'}
+            loading={preloading}
             onClick={toggle}
             iconRight={iconRight}
             {...props}

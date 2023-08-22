@@ -15,7 +15,7 @@ interface RootProps {
     children?: ReactNode;
 }
 
-const Root: FC<RootProps> = ({children, ...props }) => {
+const Root: FC<RootProps> = ({ children, ...props }) => {
     const [id, setId] = useState<string>(nanoid());
     const [state, setState] = useState<PlaybackAction>(props.state ?? PlaybackAction.Stop);
     const [index, setIndex] = useState<number>(props.index ?? 0);
@@ -25,6 +25,7 @@ const Root: FC<RootProps> = ({children, ...props }) => {
     const [fullscreen, setFullscreen] = useState<boolean>(props.fullscreen ?? false);
     const [progressTooltipVisible, setProgressTooltipVisible] = useState<boolean>(props.progressTooltipVisible ?? false);
     const [controlsVisible, setControlsVisible] = useState<boolean>(props.controlsVisible ?? true);
+    const [preloading, setPreloading] = useState<boolean>(false);
 
     const [controlsNode, setControlsNode] = useState<HTMLElement | null>(null);
     const [screenNode, setScreenNode] = useState<HTMLElement | null>(null);
@@ -57,15 +58,19 @@ const Root: FC<RootProps> = ({children, ...props }) => {
                 if (index >= sourceSet.length - 1) {
                     setIndex(0);
                 }
+                setPreloading(true);
                 cacheImages(sourceSet, index)
                     .then(() => setState(PlaybackAction.Play))
-                    .catch(() => setState(PlaybackAction.Play));
+                    .catch(() => setState(PlaybackAction.Play))
+                    .finally(() => setPreloading(false));
                 break;
             case PlaybackAction.Stop:
                 setIndex(0);
+                setPreloading(true);
                 cacheImages(sourceSet, index)
                     .then(() => setState(PlaybackAction.Play))
-                    .catch(() => setState(PlaybackAction.Play));
+                    .catch(() => setState(PlaybackAction.Play))
+                    .finally(() => setPreloading(false));
                 break;
         }
     }
@@ -86,7 +91,7 @@ const Root: FC<RootProps> = ({children, ...props }) => {
             document.onfullscreenchange = null;
         }
     }, [document]);
-    
+
     return (
         <PlayerContext.Provider value={{
             id,
@@ -107,6 +112,8 @@ const Root: FC<RootProps> = ({children, ...props }) => {
             setProgressTooltipVisible,
             controlsVisible,
             setControlsVisible,
+            preloading,
+            setPreloading,
             controlsNode,
             controlsRef,
             screenNode,
