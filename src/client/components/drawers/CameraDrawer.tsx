@@ -30,13 +30,13 @@ const CameraModal: FC = () => {
         <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={handleCameraDrawerClose}>
             <Drawer.Portal>
                 <Drawer.Overlay />
-                <Drawer.Content className="flex-1 py-4 rounded-t-xl">
+                <Drawer.Content className="flex-1 py-4">
                     <Drawer.Grabber className='bg-primary-300' />
                     <div className="mx-auto mb-20 select-none md:mb-8">
                         {
                             camera && (
                                 <>
-                                    <Drawer.Title className="px-4 mb-3 text-3xl text-center md:text-4xl text-neutral-100">
+                                    <Drawer.Title className="px-4 mb-4 text-3xl text-center md:text-4xl text-neutral-100">
                                         Plaża <span className="font-bold">{camera?.name}</span>
                                     </Drawer.Title>
                                     <Camera

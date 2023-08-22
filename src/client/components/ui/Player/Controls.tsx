@@ -21,7 +21,7 @@ function Controls({ className, ...props }: ControlsProps) {
             className={
                 cn(
                     "absolute inset-0 flex flex-col w-full h-full pointer-events-none",
-                    controlsVisible ? "transition-all duration-300 opacity-0 group-hover/player:opacity-100" : "opacity-0",
+                    controlsVisible ? "transition-all duration-300 opacity-0 group-hover/player:opacity-100 group-focus/player:opacity-100 group-active/player:opacity-100" : "opacity-0",
                     className
                 )
             }

@@ -17,6 +17,7 @@ const GridView: FC = () => {
                             <Player.Root sourceSet={[camera.url]} index={0}>
                                 <Player.Content className='overflow-hidden rounded-lg'>
                                     <Player.Screen
+                                        className='bg-neutral-900'
                                         loadingComponent={<Loader />}
                                         errorComponent={<ImageError />}
                                     />

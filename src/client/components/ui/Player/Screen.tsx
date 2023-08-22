@@ -15,7 +15,7 @@ const screenVariants = cva(
         variants: {
             size: {
                 undefined: "w-full h-full",
-                windowed: "w-full xs:w-full sm:w-auto sm:h-[20rem] md:h-[26rem] lg:h-[35rem]",
+                windowed: "w-[21rem] xs:w-[24rem] sm:w-auto sm:h-[20rem] md:h-[26rem] lg:h-[35rem]",
                 fullscreen: "w-screen h-screen"
             }
         },
