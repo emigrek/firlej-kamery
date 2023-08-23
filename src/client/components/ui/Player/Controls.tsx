@@ -13,15 +13,15 @@ import * as Tooltip from "@client/components/ui/Tooltip";
 interface ControlsProps extends HTMLAttributes<HTMLDivElement> { }
 
 function Controls({ className, ...props }: ControlsProps) {
-    const { controlsRef, controlsVisible } = usePlayerContext();
+    const { controlsRef } = usePlayerContext();
 
     return (
         <div 
             ref={controlsRef}
             className={
                 cn(
-                    "absolute inset-0 flex flex-col w-full h-full pointer-events-none",
-                    controlsVisible ? "transition-all duration-300 opacity-0 group-hover/player:opacity-100 group-focus/player:opacity-100 group-active/player:opacity-100" : "opacity-0",
+                    "z-10 absolute inset-0 flex flex-col w-full h-full pointer-events-none",
+                    "transition-all duration-300 opacity-0 group-hover/player:opacity-100 group-focus/player:opacity-100 group-active/player:opacity-100",
                     className
                 )
             }
