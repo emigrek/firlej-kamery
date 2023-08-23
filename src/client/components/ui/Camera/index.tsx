@@ -4,7 +4,7 @@ import { filters } from "@shared/filters";
 
 import * as Player from '@client/components/ui/Player';
 import BoundaryError from "./BoundaryError";
-import Loader from "./loader";
+import Loader from "./Loader";
 import FilterSelect from './FilterSelect';
 import ImageError from './ImageError';
 

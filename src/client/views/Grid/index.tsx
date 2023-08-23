@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Grid from '@client/components/ui/Grid'
 import * as Player from "@client/components/ui/Player";
-import Loader from '@client/components/ui/Camera/loader';
+import Loader from '@client/components/ui/Camera/Loader';
 import ImageError from '@client/components/ui/Camera/ImageError';
 
 const GridView: FC = () => {
