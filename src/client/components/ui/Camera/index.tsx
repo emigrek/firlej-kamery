@@ -3,21 +3,20 @@ import { Camera as CameraInterface } from '@shared/cameras';
 import { filters } from "@shared/filters";
 
 import * as Player from '@client/components/ui/Player';
-
 import BoundaryError from "./BoundaryError";
 import Loader from "./Loader";
+import FilterSelect from './Select';
+import ImageError from './ImageError';
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
+import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
 import { ErrorBoundary } from 'react-error-boundary';
-import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
 import cn from '@client/utils/cn';
 import { screenVariants } from '../Player/Screen';
 import { formatRelative } from 'date-fns';
 import { pl } from 'date-fns/locale';
-import FilterSelect from './Select';
-import ImageError from './ImageError';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
@@ -58,7 +57,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     };
 
     return (
-        <Player.Root sourceSet={srcSet} index={srcSet.length - 1}>
+        <Player.Root sourceSet={srcSet} index={srcSet.length - 1} {...props}>
             <Player.Content className='mx-2 overflow-hidden rounded-lg'>
                 <Player.Screen
                     loadingComponent={<Loader />}
