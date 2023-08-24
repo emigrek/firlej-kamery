@@ -1,27 +1,17 @@
-import { FC } from 'react'
-import { motion as m, HTMLMotionProps } from 'framer-motion';
-import { HTMLAttributes } from 'react';
-import Spinner from '@client/components/ui/Spinner';
+import { FC, HTMLAttributes } from 'react'
 import cn from '@client/utils/cn';
+import Spinner from '@client/components/ui/Spinner';
 
-type LoaderProps = HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div">;
+interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
+  iconClassName?: string
+}
 
-const Loader: FC<LoaderProps> = ({ className, ...props }) => {
+const Loader: FC<LoaderProps> = ({ className, iconClassName, ...props }) => {
   return (
-    <m.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className={cn("flex flex-col items-center justify-center w-full h-full overflow-hidden rounded-lg cursor-pointer bg-neutral-900 group", className)}
-      {...props}
-    >
-      <div className='relative w-16 h-16 md:w-24 md:h-24'>
-        <img src="/logo_firlej.png" alt="Firlej Logo" className="w-full h-full" />
-      </div>
-      <Spinner className='w-4 h-4 fill-primary' />
-    </m.div>
+    <div className={cn("absolute inset-0 flex items-center justify-center bg-neutral-900 text-primary gap-3", className)} {...props}>
+      <Spinner className={cn("w-6 h-6 md:w-9 md:h-9", iconClassName)} />
+    </div>
   )
 }
 
-export default Loader;
+export default Loader

@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import Camera from '@client/components/ui/Camera';
 import useMapStore from '@client/stores/mapStore';
-import { usePlayerStore, PlaybackAction } from '@client/stores/playerStore';
 import { useCameraDrawer } from '@client/hooks/useCameraDrawer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Drawer from "@client/components/ui/Drawer";
@@ -12,15 +11,10 @@ const CameraModal: FC = () => {
 
     const { map } = useMapStore();
     const { isOpen, camera, zoom } = useCameraDrawer();
-    const { setIndex, setState } = usePlayerStore();
 
     const handleCameraDrawerClose = () => {
         const rootRoute = pathname.split('/camera').at(0) || '/';
-
         map?.setZoom(zoom);
-        setIndex(0);
-        setState(PlaybackAction.Stop);
-
         navigate(rootRoute, {
             replace: true
         });

@@ -73,14 +73,8 @@ function Play({ playIcon: PlayIcon, pauseIcon: PauseIcon, stopIcon: StopIcon, cl
     const pauseIcon = PauseIcon ? PauseIcon : IoPause;
 
     const iconRight = useMemo(() => {
-        switch (state) {
-            case PlaybackAction.Play:
-                return pauseIcon;
-            case PlaybackAction.Pause:
-                return playIcon;
-            case PlaybackAction.Stop:
-                return playIcon;
-        }
+        if (state === PlaybackAction.Play) return pauseIcon;
+        return playIcon;
     }, [state]);
 
     return (
@@ -100,12 +94,12 @@ interface NextProps extends HTMLAttributes<HTMLButtonElement>,
     icon?: IconType
 }
 
-function Next({ icon: Icon, className, ...props }: NextProps) {
+function Next({ icon: Icon, ...props }: NextProps) {
     const { setIndex, sourceSet, index, setState } = usePlayerContext();
 
     const handleNext = () => {
         if (sourceSet.length - 1 === index) {
-            setIndex(0);
+            setState(PlaybackAction.Pause);
             return;
         }
 
@@ -115,8 +109,8 @@ function Next({ icon: Icon, className, ...props }: NextProps) {
 
     return (
         <Button
-            className={cn("h-10 px-3 md:px-4 md:h-12", className)}
             variant={'transparent'}
+            size={'small'}
             onClick={handleNext}
             iconRight={
                 Icon ? Icon : IoChevronForward
@@ -132,11 +126,11 @@ interface PrevProps extends HTMLAttributes<HTMLButtonElement>,
 }
 
 function Prev({ icon: Icon, className, ...props }: PrevProps) {
-    const { setIndex, sourceSet, index, setState } = usePlayerContext();
+    const { setIndex, index, setState } = usePlayerContext();
 
     const handlePrev = () => {
         if (index === 0) {
-            setIndex(sourceSet.length - 1);
+            setState(PlaybackAction.Pause);
             return;
         }
 
@@ -146,8 +140,8 @@ function Prev({ icon: Icon, className, ...props }: PrevProps) {
 
     return (
         <Button
-            className={cn("h-10 px-3 md:px-4 md:h-12", className)}
             variant={'transparent'}
+            size={'small'}
             onClick={handlePrev}
             iconRight={
                 Icon ? Icon : IoChevronBack

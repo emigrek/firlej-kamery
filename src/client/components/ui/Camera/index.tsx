@@ -58,7 +58,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
 
     return (
         <Player.Root sourceSet={srcSet} index={srcSet.length - 1} {...props}>
-            <Player.Content className='mx-2 overflow-hidden rounded-lg'>
+            <Player.Content className='mx-2 rounded'>
                 <Player.Screen
                     loadingComponent={<Loader />}
                     errorComponent={<ImageError />}

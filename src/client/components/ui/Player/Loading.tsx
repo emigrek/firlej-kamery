@@ -8,7 +8,7 @@ interface LoadingProps extends HTMLAttributes<HTMLDivElement> {
 
 const Loading: FC<LoadingProps> = ({ className, iconClassName, ...props }) => {
     return (
-        <div className={cn("absolute inset-0 flex items-center justify-center bg-neutral-950", className)} {...props}>
+        <div className={cn("absolute inset-0 flex items-center justify-center bg-neutral-900", className)} {...props}>
             <VscLoading className={cn("animate-spin w-6 h-6 md:w-9 md:h-9 text-white", iconClassName)} />
         </div>
     )

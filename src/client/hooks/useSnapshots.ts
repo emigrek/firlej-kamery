@@ -8,11 +8,11 @@ export const useSnapshots = (camera: Camera) => {
         queryKey: [camera.id],
         queryFn: () => fetchSnapshots(camera.id),
     });
+    
     const latest = {
         cameraId: camera.id,
         timestamp: Date.now(),
-        url: camera.url,
-        latest: true
+        url: camera.url
     };
 
     const snapshots = useMemo(() => {

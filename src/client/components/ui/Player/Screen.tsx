@@ -1,5 +1,5 @@
 import cn from "@client/utils/cn";
-import { HTMLAttributes, FC, useState, useMemo, useEffect, useCallback } from "react";
+import { HTMLAttributes, FC, useState, useMemo, useCallback } from "react";
 import { usePlayerContext } from "./context";
 import { PlaybackAction } from "./context";
 
@@ -41,15 +41,14 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
     const [refreshKey, setRefreshKey] = useState<number>(0);
 
     const src = useMemo(() => {
-        switch (state) {
-            case PlaybackAction.Play:
-                return sourceSet.at(index);
-            case PlaybackAction.Pause:
-                return sourceSet.at(index);
-            case PlaybackAction.Stop:
-                return sourceSet.at(-1);
+        setError(false);
+
+        if (state === PlaybackAction.Stop) {
+            return sourceSet.at(-1);
         }
-    }, [state, sourceSet, index]);
+
+        return sourceSet.at(index);
+    }, [state, sourceSet, index, setError]);
 
     const nextImage = useCallback(() => {
         if (index >= sourceSet.length - 1) {
@@ -62,14 +61,12 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
     }, [setState, sourceSet, index]);
 
     usePlayerTimer(nextImage, speed);
+
     useErrorRefreshTimer(() => {
         setError(false);
+        setLoading(true);
         setRefreshKey(Date.now());
     }, error);
-
-    const handleError = () => {
-        setError(true);
-    }
 
     return (
         <div
@@ -88,10 +85,8 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
                 key={refreshKey}
                 className={cn("object-cover inset-0 w-full h-full", imgClassName)}
                 onLoad={() => setLoading(false)}
-                style={{
-                    opacity: error ? 0 : 1
-                }}
-                onError={handleError}
+                onError={() => setError(true)}
+                style={{ opacity: error ? 0 : 1 }}
                 src={src}
                 alt={`Snapshot ${index} of ${sourceSet.length}`}
             />

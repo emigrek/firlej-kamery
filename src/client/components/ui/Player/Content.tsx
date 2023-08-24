@@ -11,7 +11,7 @@ const Content: FC<ContentProps> = ({ className, children, ...props }) => {
         <div
             className={
                 cn(
-                    "relative group/player",
+                    "relative overflow-hidden group/player",
                     `player-${id}`,
                     className
                 )

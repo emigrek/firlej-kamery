@@ -15,7 +15,7 @@ const GridView: FC = () => {
                     <Grid.Cell key={index}>
                         <Link to={`/camera/${encodeURIComponent(camera.name.toLowerCase())}`}>
                             <Player.Root sourceSet={[camera.url]} index={0}>
-                                <Player.Content className='overflow-hidden rounded-lg'>
+                                <Player.Content className='rounded'>
                                     <Player.Screen
                                         className='bg-neutral-900'
                                         loadingComponent={<Loader />}
