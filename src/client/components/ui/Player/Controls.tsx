@@ -34,9 +34,17 @@ function Controls({ className, ...props }: ControlsProps) {
 interface BaseControlProps extends HTMLAttributes<HTMLDivElement> { }
 
 function Bottom({ className, ...props }: BaseControlProps) {
+    const { sourceSet } = usePlayerContext();
+
     return (
         <div
-            className={cn("pointer-events-auto absolute bottom-0 pb-5 flex justify-between text-white w-full h-20 bg-gradient-to-b from-transparent to-neutral-950/90", className)}
+            className={
+                cn(
+                    "pointer-events-auto absolute bottom-0 flex justify-between text-white h-20 w-full bg-gradient-to-b from-transparent to-neutral-950/90",
+                    sourceSet.length > 1 ? "pb-5" : "pb-0",
+                    className
+                )
+            }
             {...props}
         />
     )
@@ -68,7 +76,7 @@ interface PlayProps extends HTMLAttributes<HTMLButtonElement>,
 }
 
 function Play({ playIcon: PlayIcon, pauseIcon: PauseIcon, stopIcon: StopIcon, className, ...props }: PlayProps) {
-    const { state, toggle, preloading } = usePlayerContext();
+    const { state, toggle, preloading, sourceSet } = usePlayerContext();
 
     const playIcon = PlayIcon ? PlayIcon : IoPlay;
     const pauseIcon = PauseIcon ? PauseIcon : IoPause;
@@ -77,6 +85,9 @@ function Play({ playIcon: PlayIcon, pauseIcon: PauseIcon, stopIcon: StopIcon, cl
         if (state === PlaybackAction.Play) return pauseIcon;
         return playIcon;
     }, [state]);
+
+    if (sourceSet.length <= 1)
+        return null;
 
     return (
         <Button
@@ -108,6 +119,9 @@ function Next({ icon: Icon, ...props }: NextProps) {
         setIndex(index + 1);
     }
 
+    if (sourceSet.length <= 1)
+        return null;
+
     return (
         <Button
             variant={'transparent'}
@@ -127,7 +141,7 @@ interface PrevProps extends HTMLAttributes<HTMLButtonElement>,
 }
 
 function Prev({ icon: Icon, className, ...props }: PrevProps) {
-    const { setIndex, index, setState } = usePlayerContext();
+    const { setIndex, index, setState, sourceSet } = usePlayerContext();
 
     const handlePrev = () => {
         if (index === 0) {
@@ -138,6 +152,9 @@ function Prev({ icon: Icon, className, ...props }: PrevProps) {
         setState(PlaybackAction.Pause);
         setIndex(index - 1);
     }
+
+    if (sourceSet.length <= 1)
+        return null;
 
     return (
         <Button
@@ -202,6 +219,9 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
         ) || 0
     }, [sourceSet, index]);
 
+    if (sourceSet.length <= 1)
+        return null;
+
     return (
         <Tooltip.Provider
             {...props}
@@ -226,7 +246,7 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                     <Tooltip.Trigger asChild>
                         <ProgressPrimitive.Thumb ref={progressThumbRef} />
                     </Tooltip.Trigger>
-                    <Tooltip.Portal 
+                    <Tooltip.Portal
                         container={progressThumbNode}
                     >
                         <Tooltip.Content collisionBoundary={playerNode} className='text-neutral-300' sideOffset={5} align="center">
@@ -244,8 +264,8 @@ interface IndicatorProps {
 }
 
 function Indicator({ indicatorContent }: IndicatorProps) {
-    const { sourceSet, index, progressTooltipVisible } = usePlayerContext();
-    return !progressTooltipVisible ? indicatorContent(index, sourceSet) : null;
+    const { sourceSet, index } = usePlayerContext();
+    return sourceSet.length > 1 ? indicatorContent(index, sourceSet) : null;
 }
 
 Controls.Bottom = Bottom;

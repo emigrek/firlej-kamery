@@ -16,7 +16,7 @@ const Content = forwardRef<
     return (
         <ContentPrimitive
             ref={ref}
-            className={cn('p-2 text-sm rounded-lg first-letter:uppercase bg-neutral-800', className)}
+            className={cn('p-1 font-semibold rounded-lg first-letter:uppercase bg-neutral-900', className)}
             {...props}
         />
     )

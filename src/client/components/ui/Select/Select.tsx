@@ -22,7 +22,7 @@ const Trigger = forwardRef<
     return (
         <TriggerPrimitive
             ref={ref}
-            className={cn('flex items-center h-12 text-base gap-2 px-4 transition duration-200 ease-in-out rounded-lg text-neutral-200 bg-transparent hover:bg-neutral-600/60 focus:ring-2 focus:ring-neutral-600/60', className)}
+            className={cn('flex items-center h-12 text-base gap-2 px-4 transition duration-200 ease-in-out rounded-lg text-neutral-200 bg-transparent hover:bg-neutral-600/60 focus:outline-none focus:ring-2 focus:ring-neutral-600/60', className)}
             {...props}
         />
     )

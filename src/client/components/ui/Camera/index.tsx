@@ -56,9 +56,17 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
         )
     };
 
+    const indicatorContent = (index: number, sourceSet: string[]) => {
+        return (
+            <div className='text-sm text-neutral-300'>
+                {index + 1}/{sourceSet.length}
+            </div>
+        )
+    };
+
     return (
         <Player.Root sourceSet={srcSet} index={srcSet.length - 1} {...props}>
-            <Player.Content 
+            <Player.Content
                 className='mx-2'
                 rounded={'md'}
                 size={'windowed'}
@@ -76,6 +84,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
                             <Player.Controls.Prev />
                             <Player.Controls.Play />
                             <Player.Controls.Next />
+                            <Player.Controls.Indicator indicatorContent={indicatorContent} />
                         </Player.Controls.Left>
                         <Player.Controls.Right>
                             {
