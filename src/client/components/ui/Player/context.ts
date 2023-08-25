@@ -7,8 +7,6 @@ enum PlaybackAction {
 }
 
 interface PlayerContext {
-    id: string;
-    setId: React.Dispatch<React.SetStateAction<string>>;
     state: PlaybackAction;
     setState: React.Dispatch<React.SetStateAction<PlaybackAction>>;
     speed: number;
@@ -27,10 +25,10 @@ interface PlayerContext {
     setPreloading: React.Dispatch<React.SetStateAction<boolean>>;
     toggle: () => void;
     clear: () => void;
-    screenRef: (node: HTMLElement | null) => void;
+    playerRef: (node: HTMLElement | null) => void;
     controlsRef: (node: HTMLElement | null) => void;
     progressThumbRef: (node: HTMLElement | null) => void;
-    screenNode: HTMLElement | null;
+    playerNode: HTMLElement | null;
     controlsNode: HTMLElement | null;
     progressThumbNode: HTMLElement | null;
 }

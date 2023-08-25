@@ -1,7 +1,6 @@
 import { FC, ReactNode, useState, useEffect, useCallback } from "react";
 import { PlayerContext } from "./context";
 import { PlaybackAction } from "./context";
-import { nanoid } from "nanoid";
 import { cacheImages } from "./cacheImages";
 
 interface RootProps {
@@ -16,7 +15,6 @@ interface RootProps {
 }
 
 const Root: FC<RootProps> = ({ children, ...props }) => {
-    const [id, setId] = useState<string>(nanoid());
     const [state, setState] = useState<PlaybackAction>(props.state ?? PlaybackAction.Stop);
     const [index, setIndex] = useState<number>(props.index ?? 0);
     const [initialIndex, setInitialIndex] = useState<number>(props.index ?? 0);
@@ -27,15 +25,15 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
     const [preloading, setPreloading] = useState<boolean>(false);
 
     const [controlsNode, setControlsNode] = useState<HTMLElement | null>(null);
-    const [screenNode, setScreenNode] = useState<HTMLElement | null>(null);
+    const [playerNode, setPlayerNode] = useState<HTMLElement | null>(null);
     const [progressThumbNode, setProgressThumbNode] = useState<HTMLElement | null>(null);
 
     const controlsRef = useCallback((node: HTMLElement | null) => {
         setControlsNode(node);
     }, []);
 
-    const screenRef = useCallback((node: HTMLElement | null) => {
-        setScreenNode(node);
+    const playerRef = useCallback((node: HTMLElement | null) => {
+        setPlayerNode(node);
     }, []);
 
     const progressThumbRef = useCallback((node: HTMLElement | null) => {
@@ -93,8 +91,6 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
 
     return (
         <PlayerContext.Provider value={{
-            id,
-            setId,
             state,
             setState,
             index,
@@ -113,8 +109,8 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
             setPreloading,
             controlsNode,
             controlsRef,
-            screenNode,
-            screenRef,
+            playerNode,
+            playerRef,
             progressThumbNode,
             progressThumbRef,
             toggle,

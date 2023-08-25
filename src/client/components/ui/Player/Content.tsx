@@ -33,11 +33,11 @@ const playerContentVariants = cva(
 interface ContentProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof playerContentVariants> { }
 
 const Content: FC<ContentProps> = ({ className, children, size, rounded, ...props }) => {
-    const { id, fullscreen } = usePlayerContext();
+    const { fullscreen, playerRef } = usePlayerContext();
 
     return (
         <div
-            id={id}
+            ref={playerRef}
             className={
                 cn(
                     playerContentVariants({ 

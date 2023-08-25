@@ -12,7 +12,7 @@ interface FilterSelectProps {
 }
 
 const FilterSelect: FC<FilterSelectProps> = ({ ...props }) => {
-    const { state, id } = usePlayerContext();
+    const { state, playerNode } = usePlayerContext();
 
     return (
         <Select.Root
@@ -25,7 +25,7 @@ const FilterSelect: FC<FilterSelectProps> = ({ ...props }) => {
                     <IoChevronDown />
                 </Select.Icon>
             </Select.Trigger>
-            <Select.Portal container={document.getElementById(id)}>
+            <Select.Portal container={playerNode} placeholder={'select'}>
                 <Select.Content>
                     <Select.Viewport>
                         <Select.Group>

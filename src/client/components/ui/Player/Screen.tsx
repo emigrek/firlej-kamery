@@ -8,6 +8,7 @@ import { usePlayerTimer } from "./usePlayerTimer";
 import { useErrorRefreshTimer } from "./useErrorRefreshTimer";
 import { usePlayerContext } from "./context";
 import { PlaybackAction } from "./context";
+import { playerContentVariants } from "./Content";
 
 interface ScreenProps extends HTMLAttributes<HTMLDivElement> {
     imgClassName?: string;
@@ -18,7 +19,7 @@ interface ScreenProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, errorComponent, ...props }) => {
-    const { state, sourceSet, index, screenRef, setState, setIndex, speed, initialIndex } = usePlayerContext();
+    const { state, sourceSet, index, setState, setIndex, speed, initialIndex, fullscreen } = usePlayerContext();
     const [loading, setLoading] = useState<boolean>(props.loading || true);
     const [error, setError] = useState<boolean>(props.error || false);
     const [refreshKey, setRefreshKey] = useState<number>(0);
@@ -53,15 +54,20 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
 
     return (
         <div
-            className={cn("select-none relative w-full h-full", className)}
-            ref={screenRef}
+            className={cn("select-none relative", className)}
             {...props}
         >
             {loading && (loadingComponent || <Loading />)}
             {error && (errorComponent || <Error />)}
             <img
                 key={refreshKey}
-                className={cn("object-cover inset-0", imgClassName)}
+                className={
+                    cn(
+                        "object-cover inset-0",
+                        playerContentVariants({ size: fullscreen ? "fullscreen" : "default" }),
+                        imgClassName
+                    )
+                }
                 onLoad={() => setLoading(false)}
                 onError={() => setError(true)}
                 style={{ opacity: error ? 0 : 1 }}

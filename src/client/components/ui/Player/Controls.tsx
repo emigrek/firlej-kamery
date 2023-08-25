@@ -159,14 +159,13 @@ interface FullscreenProps extends HTMLAttributes<HTMLButtonElement>,
 }
 
 function Fullscreen({ iconOn: IconOn, iconOff: IconOff, className, ...props }: FullscreenProps) {
-    const { fullscreen, id } = usePlayerContext();
+    const { fullscreen, playerNode } = usePlayerContext();
 
     const toggle = () => {
-        const player = document.getElementById(id);
-        if (!player) return;
+        if (!playerNode) return;
 
         if (!document.fullscreenElement) {
-            player.requestFullscreen();
+            playerNode.requestFullscreen();
         } else {
             document.exitFullscreen();
         }
@@ -190,7 +189,7 @@ interface ProgressProps extends HTMLAttributes<typeof ProgressPrimitive.Root> {
 }
 
 function Progress({ className, tooltipContent, ...props }: ProgressProps) {
-    const { sourceSet, setState, index, setIndex, progressTooltipVisible, setProgressTooltipVisible, progressThumbRef } = usePlayerContext();
+    const { sourceSet, setState, index, setIndex, progressTooltipVisible, setProgressTooltipVisible, progressThumbRef, progressThumbNode, playerNode } = usePlayerContext();
 
     const onValueChange = (value: number[]) => {
         setIndex(value[0]);
@@ -227,8 +226,10 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                     <Tooltip.Trigger asChild>
                         <ProgressPrimitive.Thumb ref={progressThumbRef} />
                     </Tooltip.Trigger>
-                    <Tooltip.Portal>
-                        <Tooltip.Content className='text-neutral-300' sideOffset={1} align="center">
+                    <Tooltip.Portal 
+                        container={progressThumbNode}
+                    >
+                        <Tooltip.Content collisionBoundary={playerNode} className='text-neutral-300' sideOffset={1} align="center">
                             {tooltipContent(value)}
                             <Tooltip.Arrow />
                         </Tooltip.Content>
