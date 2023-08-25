@@ -58,7 +58,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
 
     const indicatorContent = (index: number, sourceSet: string[]) => {
         return (
-            <div className='text-sm text-neutral-300'>
+            <div className='hidden text-sm text-neutral-300 md:block'>
                 {index + 1}/{sourceSet.length}
             </div>
         )
