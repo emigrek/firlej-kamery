@@ -229,9 +229,8 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                     <Tooltip.Portal 
                         container={progressThumbNode}
                     >
-                        <Tooltip.Content collisionBoundary={playerNode} className='text-neutral-300' sideOffset={1} align="center">
+                        <Tooltip.Content collisionBoundary={playerNode} className='text-neutral-300' sideOffset={5} align="center">
                             {tooltipContent(value)}
-                            <Tooltip.Arrow />
                         </Tooltip.Content>
                     </Tooltip.Portal>
                 </Tooltip.Root>
