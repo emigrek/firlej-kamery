@@ -1,7 +1,7 @@
 import Root from "./Root"
-import { Screen } from "./Screen"
+import Screen from "./Screen"
 import Controls from "./Controls"
-import Content from "./Content"
+import { Content } from "./Content"
 
 export {
     Root,

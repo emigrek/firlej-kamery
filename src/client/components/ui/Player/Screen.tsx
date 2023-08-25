@@ -1,32 +1,15 @@
 import cn from "@client/utils/cn";
 import { HTMLAttributes, FC, useState, useMemo, useCallback } from "react";
-import { usePlayerContext } from "./context";
-import { PlaybackAction } from "./context";
 
 import Loading from "./Loading";
 import Error from "./Error";
-import { VariantProps, cva } from "class-variance-authority";
+
 import { usePlayerTimer } from "./usePlayerTimer";
 import { useErrorRefreshTimer } from "./useErrorRefreshTimer";
+import { usePlayerContext } from "./context";
+import { PlaybackAction } from "./context";
 
-const screenVariants = cva(
-    "select-none aspect-video relative overflow-hidden",
-    {
-        variants: {
-            size: {
-                undefined: "w-full h-full",
-                windowed: "w-[21rem] xs:w-[24rem] sm:w-auto sm:h-[20rem] md:h-[26rem] lg:h-[35rem]",
-                fullscreen: "w-screen h-screen"
-            }
-        },
-        defaultVariants: {
-            size: "undefined"
-        }
-    }
-);
-
-
-interface ScreenProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof screenVariants> {
+interface ScreenProps extends HTMLAttributes<HTMLDivElement> {
     imgClassName?: string;
     loading?: boolean;
     loadingComponent?: JSX.Element;
@@ -34,8 +17,8 @@ interface ScreenProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeo
     errorComponent?: JSX.Element;
 }
 
-const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, errorComponent, size, ...props }) => {
-    const { state, sourceSet, index, fullscreen, screenRef, setState, setIndex, speed, initialIndex } = usePlayerContext();
+const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, errorComponent, ...props }) => {
+    const { state, sourceSet, index, screenRef, setState, setIndex, speed, initialIndex } = usePlayerContext();
     const [loading, setLoading] = useState<boolean>(props.loading || true);
     const [error, setError] = useState<boolean>(props.error || false);
     const [refreshKey, setRefreshKey] = useState<number>(0);
@@ -70,12 +53,7 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
 
     return (
         <div
-            className={cn(
-                screenVariants({
-                    size: fullscreen ? "fullscreen" : size
-                }),
-                className
-            )}
+            className={cn("select-none relative w-full h-full", className)}
             ref={screenRef}
             {...props}
         >
@@ -83,7 +61,7 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
             {error && (errorComponent || <Error />)}
             <img
                 key={refreshKey}
-                className={cn("object-cover inset-0 w-full h-full", imgClassName)}
+                className={cn("object-cover inset-0", imgClassName)}
                 onLoad={() => setLoading(false)}
                 onError={() => setError(true)}
                 style={{ opacity: error ? 0 : 1 }}
@@ -94,4 +72,4 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
     )
 }
 
-export { Screen, screenVariants };
+export default Screen;

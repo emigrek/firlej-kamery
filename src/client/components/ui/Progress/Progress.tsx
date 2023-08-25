@@ -39,7 +39,7 @@ const Range = forwardRef<
     return (
         <RangePrimitive
             ref={ref}
-            className={cn('absolute h-full rounded-full bg-primary-400/80', className)}
+            className={cn('absolute h-full rounded-full bg-primary-300 group-hover/progress:bg-primary-400', className)}
             {...props}
         />
     )

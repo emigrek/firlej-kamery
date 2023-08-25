@@ -3,5 +3,6 @@ export {
     Content,
     Provider,
     Root,
-    Trigger
+    Trigger,
+    Portal
 } from "./Tooltip"

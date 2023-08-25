@@ -12,20 +12,20 @@ interface FilterSelectProps {
 }
 
 const FilterSelect: FC<FilterSelectProps> = ({ ...props }) => {
-    const { state } = usePlayerContext();
+    const { state, id } = usePlayerContext();
 
     return (
         <Select.Root
             {...props}
             disabled={state === PlaybackAction.Play}
         >
-            <Select.Trigger className='h-10 px-3 md:h-12' placeholder='select'>
+            <Select.Trigger className='h-10 px-3 md:h-12'>
                 <Select.Value />
                 <Select.Icon>
                     <IoChevronDown />
                 </Select.Icon>
             </Select.Trigger>
-            <Select.Portal>
+            <Select.Portal container={document.getElementById(id)}>
                 <Select.Content>
                     <Select.Viewport>
                         <Select.Group>

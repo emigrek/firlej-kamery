@@ -13,15 +13,16 @@ import * as Tooltip from "@client/components/ui/Tooltip";
 interface ControlsProps extends HTMLAttributes<HTMLDivElement> { }
 
 function Controls({ className, ...props }: ControlsProps) {
-    const { controlsRef } = usePlayerContext();
+    const { controlsRef, state } = usePlayerContext();
 
     return (
-        <div 
+        <div
             ref={controlsRef}
             className={
                 cn(
                     "z-10 absolute inset-0 flex flex-col w-full h-full pointer-events-none",
                     "transition-all duration-300 opacity-0 group-hover/player:opacity-100 group-focus/player:opacity-100 group-active/player:opacity-100",
+                    state !== PlaybackAction.Play && "opacity-100",
                     className
                 )
             }
@@ -161,7 +162,7 @@ function Fullscreen({ iconOn: IconOn, iconOff: IconOff, className, ...props }: F
     const { fullscreen, id } = usePlayerContext();
 
     const toggle = () => {
-        const player = document.querySelector(`.player-${id}`);
+        const player = document.getElementById(id);
         if (!player) return;
 
         if (!document.fullscreenElement) {
@@ -226,10 +227,12 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                     <Tooltip.Trigger asChild>
                         <ProgressPrimitive.Thumb ref={progressThumbRef} />
                     </Tooltip.Trigger>
-                    <Tooltip.Content className='text-neutral-300' sideOffset={1} align="center">
-                        {tooltipContent(value)}
-                        <Tooltip.Arrow />
-                    </Tooltip.Content>
+                    <Tooltip.Portal>
+                        <Tooltip.Content className='text-neutral-300' sideOffset={1} align="center">
+                            {tooltipContent(value)}
+                            <Tooltip.Arrow />
+                        </Tooltip.Content>
+                    </Tooltip.Portal>
                 </Tooltip.Root>
             </ProgressPrimitive.Root>
         </Tooltip.Provider>

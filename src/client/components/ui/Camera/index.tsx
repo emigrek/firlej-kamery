@@ -13,10 +13,10 @@ import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
 import { ErrorBoundary } from 'react-error-boundary';
 
-import cn from '@client/utils/cn';
-import { screenVariants } from '../Player/Screen';
 import { formatRelative } from 'date-fns';
 import { pl } from 'date-fns/locale';
+
+import { playerContentVariants } from '@client/components/ui/Player/Content';
 
 interface CameraProps extends HTMLAttributes<HTMLDivElement> {
     camera: CameraInterface;
@@ -58,11 +58,14 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
 
     return (
         <Player.Root sourceSet={srcSet} index={srcSet.length - 1} {...props}>
-            <Player.Content className='mx-2 rounded'>
+            <Player.Content 
+                className='mx-2'
+                rounded={'md'}
+                size={'windowed'}
+            >
                 <Player.Screen
                     loadingComponent={<Loader />}
                     errorComponent={<ImageError />}
-                    size={'windowed'}
                 />
                 <Player.Controls>
                     <Player.Controls.Progress
@@ -95,7 +98,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
 
 const CameraFallbackRender = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => {
     return (
-        <div className={cn(screenVariants({ size: 'windowed' }))}>
+        <div className={playerContentVariants({ size: 'windowed', rounded: 'md' })}>
             <BoundaryError onClick={resetErrorBoundary} />
         </div>
     )
@@ -107,7 +110,7 @@ const CameraErrorBoundary: FC<CameraProps> = ({ camera, ...props }) => {
     return (
         <Suspense
             fallback={
-                <div className={cn(screenVariants({ size: 'windowed' }))}>
+                <div className={playerContentVariants({ size: 'windowed', rounded: 'md' })}>
                     <Loader />
                 </div>
             }

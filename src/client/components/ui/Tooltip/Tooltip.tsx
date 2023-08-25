@@ -3,6 +3,7 @@ import {
     Provider,
     Root,
     Trigger,
+    Portal,
     Content as ContentPrimitive,
     Arrow as ArrowPrimitive
 } from '@radix-ui/react-tooltip';
@@ -15,7 +16,7 @@ const Content = forwardRef<
     return (
         <ContentPrimitive
             ref={ref}
-            className={cn('z-30 p-2 text-sm rounded-xl first-letter:uppercase bg-neutral-800', className)}
+            className={cn('z-30 p-2 text-sm rounded-lg first-letter:uppercase bg-neutral-800', className)}
             {...props}
         />
     )
@@ -39,5 +40,6 @@ export {
     Root,
     Trigger,
     Content,
-    Arrow
+    Arrow,
+    Portal
 }
