@@ -61,7 +61,13 @@ const Item = forwardRef<
     return (
         <ItemPrimitive
             ref={ref}
-            className={cn('flex items-center gap-2 cursor-pointer px-3 py-2 transition-all hover:bg-neutral-800', className)}
+            className={
+                cn(
+                    'flex items-center gap-2 cursor-pointer px-3 py-2 transition-all hover:bg-neutral-800',
+                    'data-[disabled]:opacity-50',
+                    className
+                )
+            }
             {...props}
         />
     )

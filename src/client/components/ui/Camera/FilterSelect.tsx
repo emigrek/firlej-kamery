@@ -8,16 +8,21 @@ import { PlaybackAction, usePlayerContext } from '../Player/context';
 interface FilterSelectProps {
     value: string;
     defaultValue: string;
+    items: {
+        label: string;
+        value: string;
+        [key: string]: any;
+    }[],
     onValueChange: (value: string) => void;
 }
 
-const FilterSelect: FC<FilterSelectProps> = ({ ...props }) => {
+const FilterSelect: FC<FilterSelectProps> = ({ items, ...props }) => {
     const { state, playerNode } = usePlayerContext();
 
     return (
         <Select.Root
-            {...props}
             disabled={state === PlaybackAction.Play}
+            {...props}
         >
             <Select.Trigger className='h-10 px-3 md:h-12'>
                 <Select.Value />
@@ -33,10 +38,10 @@ const FilterSelect: FC<FilterSelectProps> = ({ ...props }) => {
                                 Przedział czasowy
                             </Select.Label>
                             {
-                                filters.map(filter => (
-                                    <Select.Item key={filter.label} value={filter.label}>
+                                items.map(item => (
+                                    <Select.Item key={item.label} {...item}>
                                         <Select.ItemText>
-                                            {filter.label}
+                                            {item.label}
                                         </Select.ItemText>
                                         <Select.ItemIndicator>
                                             <IoCheckmark className='w-3 h-3 text-primary' />

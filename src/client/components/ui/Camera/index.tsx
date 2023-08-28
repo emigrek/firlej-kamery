@@ -7,6 +7,7 @@ import BoundaryError from "./BoundaryError";
 import Loader from "./Loader";
 import FilterSelect from './FilterSelect';
 import ImageError from './ImageError';
+import IndicatorContent from './IndicatorContent';
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
@@ -31,16 +32,19 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
             .filter(filter?.function || (() => true))
             .map(s => s.url);
     }, [data, filter]);
+    const index = useMemo(() => srcSet.length - 1, [srcSet]);
+
+    const filterItems = useMemo(() => {
+        return filters.map(f => ({
+            label: f.label,
+            value: f.label,
+            disabled: Boolean(![...data].filter(f.function).length)
+        }))
+    }, [srcSet]);
 
     const onFilterValueChange = (value: string) => {
         const filter = filters.find(f => f.label === value);
         if (!filter) return;
-
-        const srcSet = [...data]
-            .filter(filter.function)
-            .map(s => s.url);
-
-        if (!srcSet.length) return;
 
         setFilter(filter);
     }
@@ -56,16 +60,8 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
         )
     };
 
-    const indicatorContent = (index: number, sourceSet: string[]) => {
-        return (
-            <div className='hidden text-sm text-neutral-300 md:block'>
-                {index + 1}/{sourceSet.length}
-            </div>
-        )
-    };
-
     return (
-        <Player.Root sourceSet={srcSet} index={srcSet.length - 1} {...props}>
+        <Player.Root sourceSet={srcSet} index={index} {...props}>
             <Player.Content
                 className='mx-2'
                 rounded={'md'}
@@ -84,12 +80,13 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
                             <Player.Controls.Prev />
                             <Player.Controls.Play />
                             <Player.Controls.Next />
-                            <Player.Controls.Indicator indicatorContent={indicatorContent} />
+                            <Player.Controls.Indicator indicatorContent={IndicatorContent} />
                         </Player.Controls.Left>
                         <Player.Controls.Right>
                             {
                                 filter && (
                                     <FilterSelect
+                                        items={filterItems}
                                         value={filter.label}
                                         defaultValue={filter.label}
                                         onValueChange={onFilterValueChange}
@@ -105,7 +102,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     )
 }
 
-const CameraFallbackRender = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => {
+const CameraFallbackRender = ({ resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => {
     return (
         <div className={playerContentVariants({ size: 'windowed', rounded: 'md' })}>
             <BoundaryError onClick={resetErrorBoundary} />

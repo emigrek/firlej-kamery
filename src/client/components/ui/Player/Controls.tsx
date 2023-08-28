@@ -1,5 +1,5 @@
 import cn from "@client/utils/cn";
-import { HTMLAttributes, useMemo } from "react";
+import { FC, HTMLAttributes, useMemo } from "react";
 import { Button, buttonVariants } from "../Button";
 import { PlaybackAction, usePlayerContext } from "./context";
 import { VariantProps } from "class-variance-authority";
@@ -249,8 +249,9 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                     <Tooltip.Portal
                         container={progressThumbNode}
                     >
-                        <Tooltip.Content collisionBoundary={playerNode} className='text-neutral-300' sideOffset={5} align="center">
+                        <Tooltip.Content collisionBoundary={playerNode} className="group-data-[fullscreen=true]/player:text-xl font-semibold first-letter:uppercase text-neutral-300" sideOffset={5} align="center">
                             {tooltipContent(value)}
+                            <Tooltip.Arrow/>
                         </Tooltip.Content>
                     </Tooltip.Portal>
                 </Tooltip.Root>
@@ -260,7 +261,7 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
 }
 
 interface IndicatorProps {
-    indicatorContent: (index: number, sourceSet: string[]) => React.ReactNode,
+    indicatorContent: (index: number, sourceSet: string[]) => React.ReactNode
 }
 
 function Indicator({ indicatorContent }: IndicatorProps) {

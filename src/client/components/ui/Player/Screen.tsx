@@ -70,7 +70,7 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
                 }
                 onLoad={() => setLoading(false)}
                 onError={() => setError(true)}
-                style={{ opacity: error ? 0 : 1 }}
+                style={{ opacity: (error || loading) ? 0 : 1 }}
                 src={src}
                 alt={`Snapshot ${index} of ${sourceSet.length}`}
             />

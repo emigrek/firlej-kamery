@@ -38,6 +38,7 @@ const Content: FC<ContentProps> = ({ className, children, size, rounded, ...prop
     return (
         <div
             ref={playerRef}
+            data-fullscreen={fullscreen}
             className={
                 cn(
                     playerContentVariants({ 

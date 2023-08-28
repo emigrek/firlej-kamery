@@ -16,7 +16,7 @@ const Content = forwardRef<
     return (
         <ContentPrimitive
             ref={ref}
-            className={cn('p-1 font-semibold rounded-lg first-letter:uppercase bg-neutral-900', className)}
+            className={cn('p-1 rounded bg-neutral-900', className)}
             {...props}
         />
     )
@@ -29,7 +29,7 @@ const Arrow = forwardRef<
     return (
         <ArrowPrimitive
             ref={ref}
-            className={cn('fill-neutral-800', className)}
+            className={cn('fill-neutral-900', className)}
             {...props}
         />
     )

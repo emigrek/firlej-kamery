@@ -25,7 +25,7 @@ const CameraModal: FC = () => {
             <Drawer.Portal>
                 <Drawer.Overlay />
                 <Drawer.Content className="flex-1 py-4">
-                    <Drawer.Grabber className='bg-primary-300' />
+                    <Drawer.Grabber />
                     <div className="mx-auto mb-20 select-none md:mb-8">
                         {
                             camera && (

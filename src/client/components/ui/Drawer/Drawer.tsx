@@ -30,7 +30,7 @@ const Content = forwardRef<
     return (
         <ContentPrimitive
             ref={ref}
-            className={cn("bg-neutral-800 flex flex-col rounded-t-3xl mt-24 fixed bottom-0 left-0 right-0 shadow-lg focus:outline-none focus:ring-2 focus:ring-neutral-300/20", className)}
+            className={cn("bg-neutral-800 flex flex-col rounded-t-3xl fixed bottom-0 left-0 right-0 shadow-lg focus:outline-none focus:ring-2 focus:ring-neutral-300/20", className)}
             {...props}
         />
     )
@@ -45,7 +45,7 @@ const Grabber = forwardRef<
     return (
         <div
             ref={ref}
-            className={cn("mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-neutral-700 mb-4 md:mb-8", className)}
+            className={cn("mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-neutral-700 mb-2 md:mb-4", className)}
             {...props}
         />
     )
