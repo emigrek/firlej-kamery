@@ -30,7 +30,7 @@ const Content = forwardRef<
     return (
         <ContentPrimitive
             ref={ref}
-            className={cn("bg-neutral-800 flex flex-col rounded-t-3xl fixed bottom-0 left-0 right-0 shadow-lg focus:outline-none focus:ring-2 focus:ring-neutral-300/20", className)}
+            className={cn("bg-neutral-800 flex flex-col rounded-t-3xl fixed bottom-0 left-0 right-0 shadow-lg focus:outline-none focus:ring-2 focus:ring-neutral-300/10", className)}
             {...props}
         />
     )

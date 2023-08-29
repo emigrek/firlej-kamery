@@ -2,20 +2,19 @@ import { FC } from 'react'
 import Camera from '@client/components/ui/Camera';
 import useMapStore from '@client/stores/mapStore';
 import { useCameraDrawer } from '@client/hooks/useCameraDrawer';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Drawer from "@client/components/ui/Drawer";
+import { useRootPath } from '@client/hooks/useRootPath';
 
 const CameraModal: FC = () => {
-    const { pathname } = useLocation();
     const navigate = useNavigate();
-
     const { map } = useMapStore();
     const { isOpen, camera, zoom } = useCameraDrawer();
+    const rootPath = useRootPath();
 
     const handleCameraDrawerClose = () => {
-        const rootRoute = pathname.split('/camera').at(0) || '/';
         map?.setZoom(zoom);
-        navigate(rootRoute, {
+        navigate(rootPath, {
             replace: true
         });
     };

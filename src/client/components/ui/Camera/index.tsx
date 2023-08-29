@@ -61,7 +61,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     };
 
     return (
-        <Player.Root sourceSet={srcSet} index={index} {...props}>
+        <Player.Root sourceSet={srcSet} index={index} ambientLight {...props}>
             <Player.Content
                 className='mx-2'
                 rounded={'md'}

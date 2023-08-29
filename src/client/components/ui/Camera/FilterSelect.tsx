@@ -1,11 +1,10 @@
 import { FC } from 'react'
 
 import * as Select from '@client/components/ui/Select';
-import { filters } from '@shared/filters';
 import { IoCheckmark, IoChevronDown } from 'react-icons/io5';
 import { PlaybackAction, usePlayerContext } from '../Player/context';
 
-interface FilterSelectProps {
+interface SettingsSelectProps {
     value: string;
     defaultValue: string;
     items: {
@@ -16,8 +15,8 @@ interface FilterSelectProps {
     onValueChange: (value: string) => void;
 }
 
-const FilterSelect: FC<FilterSelectProps> = ({ items, ...props }) => {
-    const { state, playerNode } = usePlayerContext();
+const SettingsSelect: FC<SettingsSelectProps> = ({ items, ...props }) => {
+    const { state, playerNode, fullscreen } = usePlayerContext();
 
     return (
         <Select.Root
@@ -30,7 +29,7 @@ const FilterSelect: FC<FilterSelectProps> = ({ items, ...props }) => {
                     <IoChevronDown />
                 </Select.Icon>
             </Select.Trigger>
-            <Select.Portal container={playerNode} placeholder={'select'}>
+            <Select.Portal container={fullscreen ? playerNode : undefined} placeholder={'select'}>
                 <Select.Content>
                     <Select.Viewport>
                         <Select.Group>
@@ -57,4 +56,4 @@ const FilterSelect: FC<FilterSelectProps> = ({ items, ...props }) => {
     )
 }
 
-export default FilterSelect;
+export default SettingsSelect;

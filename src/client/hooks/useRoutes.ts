@@ -1,18 +1,18 @@
 import { views } from "@client/views/views"
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useRootPath } from "./useRootPath";
 
 export const useRoutes = () => {
-    const { pathname } = useLocation();
+    const rootPath = useRootPath();
 
     return useMemo(() => {
         return views.map((view) => {
-            const active = (pathname.split('/camera').at(0) || '/') === view.link;
+            const active = rootPath === view.link;
 
             return {
                 active,
                 view: view
             }
         });
-    }, [views, pathname]);
+    }, [views, rootPath]);
 }

@@ -1,5 +1,5 @@
 import cn from "@client/utils/cn";
-import { HTMLAttributes, FC, useState, useMemo, useCallback } from "react";
+import { HTMLAttributes, FC, useState, useMemo, useCallback, useRef, useEffect } from "react";
 
 import Loading from "./Loading";
 import Error from "./Error";
@@ -9,6 +9,7 @@ import { useErrorRefreshTimer } from "./useErrorRefreshTimer";
 import { usePlayerContext } from "./context";
 import { PlaybackAction } from "./context";
 import { playerContentVariants } from "./Content";
+import { useAmbientLight } from "./useAmbientLight";
 
 interface ScreenProps extends HTMLAttributes<HTMLDivElement> {
     imgClassName?: string;
@@ -19,10 +20,12 @@ interface ScreenProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, errorComponent, ...props }) => {
-    const { state, sourceSet, index, setState, setIndex, speed, initialIndex, fullscreen } = usePlayerContext();
+    const { state, sourceSet, index, setState, setIndex, speed, initialIndex, fullscreen, ambientLight } = usePlayerContext();
     const [loading, setLoading] = useState<boolean>(props.loading || true);
     const [error, setError] = useState<boolean>(props.error || false);
     const [refreshKey, setRefreshKey] = useState<number>(0);
+
+    const { imageRef, canvasRef } = useAmbientLight();
 
     const src = useMemo(() => {
         setError(false);
@@ -53,13 +56,14 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
     }, error);
 
     return (
-        <div
+        <section
             className={cn("select-none relative", className)}
             {...props}
         >
             {loading && (loadingComponent || <Loading />)}
             {error && (errorComponent || <Error />)}
             <img
+                ref={imageRef}
                 key={refreshKey}
                 className={
                     cn(
@@ -74,7 +78,18 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
                 src={src}
                 alt={`Snapshot ${index} of ${sourceSet.length}`}
             />
-        </div>
+            {
+                ambientLight && (
+                    <canvas
+                        ref={canvasRef}
+                        className="fixed top-0 left-0 visible w-full h-full overflow-visible -z-10 blur-xl opacity-40"
+                        aria-hidden="true"
+                        width={16}
+                        height={9}
+                    />
+                )
+            }
+        </section>
     )
 }
 

@@ -4,7 +4,7 @@ import { usePlayerContext } from './context';
 import { VariantProps, cva } from 'class-variance-authority';
 
 const playerContentVariants = cva(
-    "relative overflow-hidden group/player select-none aspect-video",
+    "relative group/player select-none aspect-video overflow-hidden",
     {
         variants: {
             size: {
@@ -36,21 +36,23 @@ const Content: FC<ContentProps> = ({ className, children, size, rounded, ...prop
     const { fullscreen, playerRef } = usePlayerContext();
 
     return (
-        <div
-            ref={playerRef}
-            data-fullscreen={fullscreen}
-            className={
-                cn(
-                    playerContentVariants({ 
-                        size: fullscreen ? "fullscreen" : size,
-                        rounded 
-                    }),
-                    className
-                )
-            }
-            {...props}
-        >
-            {children}
+        <div className='transform scale-100'>
+            <div
+                ref={playerRef}
+                data-fullscreen={fullscreen}
+                className={
+                    cn(
+                        playerContentVariants({
+                            size: fullscreen ? "fullscreen" : size,
+                            rounded
+                        }),
+                        className
+                    )
+                }
+                {...props}
+            >
+                {children}
+            </div>
         </div>
     )
 }

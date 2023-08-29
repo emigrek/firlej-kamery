@@ -10,6 +10,7 @@ interface RootProps {
     fullscreen?: boolean;
     progressTooltipVisible?: boolean;
     controlsVisible?: boolean;
+    ambientLight?: boolean;
     sourceSet: string[];
     children?: ReactNode;
 }
@@ -22,6 +23,7 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
     const [sourceSet, setSourceSet] = useState<string[]>(props.sourceSet);
     const [fullscreen, setFullscreen] = useState<boolean>(props.fullscreen ?? false);
     const [progressTooltipVisible, setProgressTooltipVisible] = useState<boolean>(props.progressTooltipVisible ?? false);
+    const [ambientLight, setAmbientLight] = useState<boolean>(props.ambientLight ?? false);
     const [preloading, setPreloading] = useState<boolean>(false);
 
     const [controlsNode, setControlsNode] = useState<HTMLElement | null>(null);
@@ -105,6 +107,8 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
             setFullscreen,
             progressTooltipVisible,
             setProgressTooltipVisible,
+            ambientLight,
+            setAmbientLight,
             preloading,
             setPreloading,
             controlsNode,
