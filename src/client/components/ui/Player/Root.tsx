@@ -23,7 +23,6 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
     const [sourceSet, setSourceSet] = useState<string[]>(props.sourceSet);
     const [fullscreen, setFullscreen] = useState<boolean>(props.fullscreen ?? false);
     const [progressTooltipVisible, setProgressTooltipVisible] = useState<boolean>(props.progressTooltipVisible ?? false);
-    const [ambientLight, setAmbientLight] = useState<boolean>(props.ambientLight ?? false);
     const [preloading, setPreloading] = useState<boolean>(false);
 
     const [controlsNode, setControlsNode] = useState<HTMLElement | null>(null);
@@ -107,8 +106,7 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
             setFullscreen,
             progressTooltipVisible,
             setProgressTooltipVisible,
-            ambientLight,
-            setAmbientLight,
+            ambientLight: props.ambientLight ?? true,
             preloading,
             setPreloading,
             controlsNode,

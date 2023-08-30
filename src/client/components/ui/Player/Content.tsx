@@ -36,22 +36,23 @@ const Content: FC<ContentProps> = ({ className, children, size, rounded, ...prop
     const { fullscreen, playerRef } = usePlayerContext();
 
     return (
-        <div className='transform scale-100'>
-            <div
-                ref={playerRef}
-                data-fullscreen={fullscreen}
-                className={
-                    cn(
-                        playerContentVariants({
-                            size: fullscreen ? "fullscreen" : size,
-                            rounded
-                        }),
-                        className
-                    )
-                }
-                {...props}
-            >
-                {children}
+        <div ref={playerRef}>
+            <div className='transform scale-100'>
+                <div
+                    data-fullscreen={fullscreen}
+                    className={
+                        cn(
+                            playerContentVariants({
+                                size: fullscreen ? "fullscreen" : size,
+                                rounded
+                            }),
+                            className
+                        )
+                    }
+                    {...props}
+                >
+                    {children}
+                </div>
             </div>
         </div>
     )

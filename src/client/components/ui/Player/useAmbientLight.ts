@@ -5,7 +5,11 @@ export const useAmbientLight = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
 
-    useEffect(() => {
+    const draw = () => {
+        canvasCtxRef.current?.drawImage(imageRef.current!, 0, 0, 16, 9);
+    }
+
+    const init = () => {
         const canvas = canvasRef.current;
         const image = imageRef.current;
 
@@ -16,18 +20,17 @@ export const useAmbientLight = () => {
 
         canvasCtxRef.current = ctx;
 
-        const draw = () => {
-            ctx.drawImage(imageRef.current!, 0, 0, 16, 9);
-        }
+        imageRef.current?.addEventListener("load", draw);
+    }
 
-        imageRef.current?.addEventListener("load", draw)
+    useEffect(() => {
+        init();
+        draw();
 
         return () => {
-            canvasCtxRef.current = null;
-
             imageRef.current?.removeEventListener("load", draw);
         }
-    }, []);
+    }, [canvasRef.current, imageRef.current]);
 
     return {
         imageRef,

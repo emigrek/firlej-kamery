@@ -1,45 +1,18 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import {
     Root,
-    Value,
     Portal,
-    Viewport,
-    ItemText,
     Group,
-    Trigger as TriggerPrimitive,
-    Icon as IconPrimitive,
+    Trigger,
+    RadioGroup,
+    Arrow as ArrowPrimitive,
+    RadioItem as RadioItemPrimitive,
     Content as ContentPrimitive,
     Item as ItemPrimitive,
     ItemIndicator as ItemIndicatorPrimitive,
     Label as LabelPrimitive
-} from '@radix-ui/react-select';
+} from '@radix-ui/react-dropdown-menu';
 import cn from '@client/utils/cn';
-
-const Trigger = forwardRef<
-    ElementRef<typeof TriggerPrimitive>,
-    ComponentPropsWithoutRef<typeof TriggerPrimitive>
->(({ className, ...props }, ref) => {
-    return (
-        <TriggerPrimitive
-            ref={ref}
-            className={cn('flex items-center h-12 text-base gap-2 px-4 transition duration-200 ease-in-out rounded-lg text-neutral-200 bg-transparent hover:bg-neutral-600/60 focus:outline-none focus:ring-2 focus:ring-neutral-600/60', className)}
-            {...props}
-        />
-    )
-});
-
-const Icon = forwardRef<
-    ElementRef<typeof IconPrimitive>,
-    ComponentPropsWithoutRef<typeof IconPrimitive>
->(({ className, ...props }, ref) => {
-    return (
-        <IconPrimitive
-            ref={ref}
-            className={cn('fill-primary-400', className)}
-            {...props}
-        />
-    )
-});
 
 const Content = forwardRef<
     ElementRef<typeof ContentPrimitive>,
@@ -73,6 +46,25 @@ const Item = forwardRef<
     )
 });
 
+const RadioItem = forwardRef<
+    ElementRef<typeof RadioItemPrimitive>,
+    ComponentPropsWithoutRef<typeof RadioItemPrimitive>
+>(({ className, ...props }, ref) => {
+    return (
+        <RadioItemPrimitive
+            ref={ref}
+            className={
+                cn(
+                    'flex items-center gap-2 cursor-pointer px-3 py-2 transition-all hover:bg-neutral-800',
+                    'data-[disabled]:opacity-50',
+                    className
+                )
+            }
+            {...props}
+        />
+    )
+});
+
 const ItemIndicator = forwardRef<
     ElementRef<typeof ItemIndicatorPrimitive>,
     ComponentPropsWithoutRef<typeof ItemIndicatorPrimitive>
@@ -93,7 +85,33 @@ const Label = forwardRef<
     return (
         <LabelPrimitive
             ref={ref}
-            className={cn('text-neutral-400 text-xs px-5 py-2', className)}
+            className={cn('text-neutral-400 text-xs flex items-center gap-2 text-center px-5 py-2', className)}
+            {...props}
+        />
+    )
+});
+
+const RightSlot = forwardRef<
+    ElementRef<'div'>,
+    ComponentPropsWithoutRef<'div'>
+>(({ className, ...props }, ref) => {
+    return (
+        <div
+            ref={ref}
+            className={cn('ml-auto flex items-center', className)}
+            {...props}
+        />
+    )
+});
+
+const Arrow = forwardRef<
+    ElementRef<typeof ArrowPrimitive>,
+    ComponentPropsWithoutRef<typeof ArrowPrimitive>
+>(({ className, ...props }, ref) => {
+    return (
+        <ArrowPrimitive
+            ref={ref}
+            className={cn('fill-neutral-900', className)}
             {...props}
         />
     )
@@ -101,15 +119,15 @@ const Label = forwardRef<
 
 export {
     Root,
-    Trigger,
-    Icon,
     Content,
+    Trigger,
     Item,
-    Value,
     Portal,
-    Viewport,
-    ItemText,
     ItemIndicator,
     Group,
-    Label
+    RadioGroup,
+    RadioItem,
+    Label,
+    RightSlot,
+    Arrow
 };

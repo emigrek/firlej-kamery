@@ -1,13 +1,14 @@
 import { FC, HTMLAttributes, Suspense, useMemo, useState } from 'react';
 import { Camera as CameraInterface } from '@shared/cameras';
 import { filters } from "@shared/filters";
+import { useLocalStorage } from 'usehooks-ts'
 
 import * as Player from '@client/components/ui/Player';
 import BoundaryError from "./BoundaryError";
 import Loader from "./Loader";
-import FilterSelect from './FilterSelect';
 import ImageError from './ImageError';
 import IndicatorContent from './IndicatorContent';
+import Settings from "./Settings";
 
 import { useSnapshots } from '@client/hooks/useSnapshots';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
@@ -25,7 +26,9 @@ interface CameraProps extends HTMLAttributes<HTMLDivElement> {
 
 const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     const { data } = useSnapshots(camera);
+
     const [filter, setFilter] = useState<SnapshotFilter | undefined>(filters.at(0));
+    const [ambientLight, setAmbientLight] = useLocalStorage<boolean>('player-ambientlight', true);
 
     const srcSet = useMemo(() => {
         return [...data]
@@ -33,21 +36,6 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
             .map(s => s.url);
     }, [data, filter]);
     const index = useMemo(() => srcSet.length - 1, [srcSet]);
-
-    const filterItems = useMemo(() => {
-        return filters.map(f => ({
-            label: f.label,
-            value: f.label,
-            disabled: Boolean(![...data].filter(f.function).length)
-        }))
-    }, [srcSet]);
-
-    const onFilterValueChange = (value: string) => {
-        const filter = filters.find(f => f.label === value);
-        if (!filter) return;
-
-        setFilter(filter);
-    }
 
     const tooltipContent = (value: number) => {
         const snapshotSource = srcSet.at(value);
@@ -61,9 +49,8 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     };
 
     return (
-        <Player.Root sourceSet={srcSet} index={index} ambientLight {...props}>
+        <Player.Root sourceSet={srcSet} index={index} ambientLight={ambientLight} {...props}>
             <Player.Content
-                className='mx-2'
                 rounded={'md'}
                 size={'windowed'}
             >
@@ -83,16 +70,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
                             <Player.Controls.Indicator indicatorContent={IndicatorContent} />
                         </Player.Controls.Left>
                         <Player.Controls.Right>
-                            {
-                                filter && (
-                                    <FilterSelect
-                                        items={filterItems}
-                                        value={filter.label}
-                                        defaultValue={filter.label}
-                                        onValueChange={onFilterValueChange}
-                                    />
-                                )
-                            }
+                            <Settings snapshots={data} filter={filter} setFilter={setFilter} ambientLight={ambientLight} setAmbientLight={setAmbientLight} />
                             <Player.Controls.Fullscreen />
                         </Player.Controls.Right>
                     </Player.Controls.Bottom>

@@ -82,7 +82,7 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
                 ambientLight && (
                     <canvas
                         ref={canvasRef}
-                        className="fixed top-0 left-0 visible w-full h-full overflow-visible -z-10 blur-xl opacity-40"
+                        className="fixed top-0 left-0 w-full h-full -z-10 blur-xl opacity-40"
                         aria-hidden="true"
                         width={16}
                         height={9}
