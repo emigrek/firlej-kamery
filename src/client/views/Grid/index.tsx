@@ -14,7 +14,7 @@ const GridView: FC = () => {
                 cameras.map((camera, index) => (
                     <Grid.Cell key={index}>
                         <Link to={`/camera/${encodeURIComponent(camera.name.toLowerCase())}`}>
-                            <Player.Root sourceSet={[camera.url]} index={0}>
+                            <Player.Root ambientLights={false} sourceSet={[camera.url]} index={0}>
                                 <Player.Content rounded={'md'}>
                                     <Player.Screen
                                         className='bg-neutral-900'

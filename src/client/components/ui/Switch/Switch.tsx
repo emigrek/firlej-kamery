@@ -33,7 +33,7 @@ const Thumb = forwardRef<
             ref={ref}
             className={
                 cn(
-                    'block w-5 h-5 bg-neutral-300 rounded-full',
+                    'block w-5 h-5 bg-neutral-300 rounded-full shadow-inner',
                     'transition-transform data-[state="checked"]:translate-x-5',
                     className
                 )

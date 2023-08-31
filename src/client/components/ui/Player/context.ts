@@ -23,15 +23,17 @@ interface PlayerContext {
     setProgressTooltipVisible: React.Dispatch<React.SetStateAction<boolean>>;
     preloading: boolean;
     setPreloading: React.Dispatch<React.SetStateAction<boolean>>;
-    ambientLight: boolean;
+    ambientLights: boolean;
     toggle: () => void;
     clear: () => void;
     playerRef: (node: HTMLElement | null) => void;
     controlsRef: (node: HTMLElement | null) => void;
     progressThumbRef: (node: HTMLElement | null) => void;
+    imageRef: (node: HTMLImageElement | null) => void;
     playerNode: HTMLElement | null;
     controlsNode: HTMLElement | null;
     progressThumbNode: HTMLElement | null;
+    imageNode: HTMLImageElement | null;
 }
 
 export const PlayerContext = React.createContext<PlayerContext | undefined>(undefined);

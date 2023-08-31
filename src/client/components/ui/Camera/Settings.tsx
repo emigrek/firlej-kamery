@@ -1,23 +1,26 @@
 import { FC, useMemo } from 'react'
 
 import { usePlayerContext } from '../Player/context';
+import { filters } from '@shared/filters';
+
 import * as DropdownMenu from '@client/components/ui/DropdownMenu';
 import * as Switch from '@client/components/ui/Switch';
 import { Button } from '@client/components/ui/Button';
+
 import { HiCheck, HiCog } from 'react-icons/hi';
-import { filters } from '@shared/filters';
 import { MdHourglassBottom } from 'react-icons/md';
+import { IoPlay } from 'react-icons/io5';
 
 interface SettingsProps {
     snapshots: Snapshot[];
     filter?: SnapshotFilter;
     setFilter: React.Dispatch<React.SetStateAction<SnapshotFilter | undefined>>;
-    ambientLight: boolean;
-    setAmbientLight: React.Dispatch<React.SetStateAction<boolean>>;
+    ambientLights: boolean;
+    setAmbientLights: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Settings: FC<SettingsProps> = ({ snapshots, filter, setFilter, ambientLight, setAmbientLight }) => {
-    const { controlsNode, playerNode, fullscreen } = usePlayerContext();
+const Settings: FC<SettingsProps> = ({ snapshots, filter, setFilter, ambientLights, setAmbientLights }) => {
+    const { controlsNode } = usePlayerContext();
 
     const filterItems = useMemo(() => {
         return filters.map(f => ({
@@ -34,9 +37,9 @@ const Settings: FC<SettingsProps> = ({ snapshots, filter, setFilter, ambientLigh
         setFilter(filter);
     };
 
-    const onAmbientLightSelectHandler = (e: Event) => {
+    const onAmbientLightsSelectHandler = (e: Event) => {
         e.preventDefault();
-        setAmbientLight(!ambientLight);
+        setAmbientLights(prev => !prev);
     }
 
     return (
@@ -52,10 +55,14 @@ const Settings: FC<SettingsProps> = ({ snapshots, filter, setFilter, ambientLigh
             <DropdownMenu.Portal container={controlsNode}>
                 <DropdownMenu.Content className='min-w-[190px]' side={'top'} sideOffset={2}>
                     <DropdownMenu.Group>
-                        <DropdownMenu.Item onSelect={onAmbientLightSelectHandler}>
-                            Ambient Light
+                        <DropdownMenu.Label>
+                            <IoPlay />
+                            Odtwarzacz
+                        </DropdownMenu.Label>
+                        <DropdownMenu.Item onSelect={onAmbientLightsSelectHandler}>
+                            Ambient Lights
                             <DropdownMenu.RightSlot>
-                                <Switch.Root checked={ambientLight}>
+                                <Switch.Root checked={ambientLights}>
                                     <Switch.Thumb />
                                 </Switch.Root>
                             </DropdownMenu.RightSlot>
@@ -83,7 +90,7 @@ const Settings: FC<SettingsProps> = ({ snapshots, filter, setFilter, ambientLigh
                             ))
                         }
                     </DropdownMenu.RadioGroup>
-                    <DropdownMenu.Arrow/>
+                    <DropdownMenu.Arrow />
                 </DropdownMenu.Content>
             </DropdownMenu.Portal>
         </DropdownMenu.Root>

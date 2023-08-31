@@ -1,6 +1,5 @@
 import { FC, ReactNode, useState, useEffect, useCallback } from "react";
-import { PlayerContext } from "./context";
-import { PlaybackAction } from "./context";
+import { PlayerContext, PlaybackAction } from "./context";
 import { cacheImages } from "./cacheImages";
 
 interface RootProps {
@@ -10,7 +9,7 @@ interface RootProps {
     fullscreen?: boolean;
     progressTooltipVisible?: boolean;
     controlsVisible?: boolean;
-    ambientLight?: boolean;
+    ambientLights?: boolean;
     sourceSet: string[];
     children?: ReactNode;
 }
@@ -28,6 +27,9 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
     const [controlsNode, setControlsNode] = useState<HTMLElement | null>(null);
     const [playerNode, setPlayerNode] = useState<HTMLElement | null>(null);
     const [progressThumbNode, setProgressThumbNode] = useState<HTMLElement | null>(null);
+    const [imageNode, setImageNode] = useState<HTMLImageElement | null>(null);
+
+    const ambientLights = props.ambientLights ?? true;
 
     const controlsRef = useCallback((node: HTMLElement | null) => {
         setControlsNode(node);
@@ -39,6 +41,10 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
 
     const progressThumbRef = useCallback((node: HTMLElement | null) => {
         setProgressThumbNode(node);
+    }, []);
+
+    const imageRef = useCallback((node: HTMLImageElement | null) => {
+        setImageNode(node);
     }, []);
 
     useEffect(() => {
@@ -106,7 +112,7 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
             setFullscreen,
             progressTooltipVisible,
             setProgressTooltipVisible,
-            ambientLight: props.ambientLight ?? true,
+            ambientLights,
             preloading,
             setPreloading,
             controlsNode,
@@ -115,6 +121,8 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
             playerRef,
             progressThumbNode,
             progressThumbRef,
+            imageNode,
+            imageRef,
             toggle,
             clear,
         }}>

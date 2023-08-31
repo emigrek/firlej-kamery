@@ -28,7 +28,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     const { data } = useSnapshots(camera);
 
     const [filter, setFilter] = useState<SnapshotFilter | undefined>(filters.at(0));
-    const [ambientLight, setAmbientLight] = useLocalStorage<boolean>('player-ambientlight', true);
+    const [ambientLights, setAmbientLights] = useLocalStorage<boolean>('player-ambientlights', true);
 
     const srcSet = useMemo(() => {
         return [...data]
@@ -49,7 +49,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
     };
 
     return (
-        <Player.Root sourceSet={srcSet} index={index} ambientLight={ambientLight} {...props}>
+        <Player.Root sourceSet={srcSet} index={index} ambientLights={ambientLights} {...props}>
             <Player.Content
                 rounded={'md'}
                 size={'windowed'}
@@ -70,7 +70,7 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
                             <Player.Controls.Indicator indicatorContent={IndicatorContent} />
                         </Player.Controls.Left>
                         <Player.Controls.Right>
-                            <Settings snapshots={data} filter={filter} setFilter={setFilter} ambientLight={ambientLight} setAmbientLight={setAmbientLight} />
+                            <Settings snapshots={data} filter={filter} setFilter={setFilter} ambientLights={ambientLights} setAmbientLights={setAmbientLights} />
                             <Player.Controls.Fullscreen />
                         </Player.Controls.Right>
                     </Player.Controls.Bottom>

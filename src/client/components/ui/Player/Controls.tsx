@@ -40,7 +40,7 @@ function Bottom({ className, ...props }: BaseControlProps) {
         <div
             className={
                 cn(
-                    "pointer-events-auto absolute bottom-0 flex justify-between text-white h-20 w-full bg-gradient-to-b from-transparent to-neutral-950/90",
+                    "pointer-events-auto absolute bottom-0 px-1 flex justify-between text-white h-20 w-full bg-gradient-to-b from-transparent to-neutral-950/90",
                     sourceSet.length > 1 ? "pb-5" : "pb-0",
                     className
                 )
@@ -201,7 +201,7 @@ function Fullscreen({ iconOn: IconOn, iconOff: IconOff, className, ...props }: F
     )
 }
 
-interface ProgressProps extends HTMLAttributes<typeof ProgressPrimitive.Root> {
+interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
     tooltipContent: (value: number) => React.ReactNode
 }
 
@@ -223,40 +223,42 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
         return null;
 
     return (
-        <Tooltip.Provider
+        <div
+            className="absolute bottom-0 z-10 w-full px-2 mb-2 pointer-events-auto"
             {...props}
         >
-            <ProgressPrimitive.Root
-                value={[value]}
-                onValueChange={onValueChange}
-                className={cn("absolute bottom-0 z-10 mb-2 pointer-events-auto", className)}
-                min={0}
-                max={sourceSet.length - 1}
-                step={1}
-                onMouseEnter={() => setProgressTooltipVisible(true)}
-                onMouseLeave={() => setProgressTooltipVisible(false)}
-                onTouchStart={() => setProgressTooltipVisible(true)}
-                onTouchEnd={() => setProgressTooltipVisible(false)}
-                onTouchCancel={() => setProgressTooltipVisible(false)}
-            >
-                <ProgressPrimitive.Track>
-                    <ProgressPrimitive.Range />
-                </ProgressPrimitive.Track>
-                <Tooltip.Root open={progressTooltipVisible}>
-                    <Tooltip.Trigger asChild>
-                        <ProgressPrimitive.Thumb ref={progressThumbRef} />
-                    </Tooltip.Trigger>
-                    <Tooltip.Portal
-                        container={progressThumbNode}
-                    >
-                        <Tooltip.Content collisionBoundary={playerNode} className="group-data-[fullscreen=true]/player:text-xl font-semibold first-letter:uppercase text-neutral-300" sideOffset={5} align="center">
-                            {tooltipContent(value)}
-                            <Tooltip.Arrow/>
-                        </Tooltip.Content>
-                    </Tooltip.Portal>
-                </Tooltip.Root>
-            </ProgressPrimitive.Root>
-        </Tooltip.Provider>
+            <Tooltip.Provider>
+                <ProgressPrimitive.Root
+                    value={[value]}
+                    onValueChange={onValueChange}
+                    min={0}
+                    max={sourceSet.length - 1}
+                    step={1}
+                    onMouseEnter={() => setProgressTooltipVisible(true)}
+                    onMouseLeave={() => setProgressTooltipVisible(false)}
+                    onTouchStart={() => setProgressTooltipVisible(true)}
+                    onTouchEnd={() => setProgressTooltipVisible(false)}
+                    onTouchCancel={() => setProgressTooltipVisible(false)}
+                >
+                    <ProgressPrimitive.Track>
+                        <ProgressPrimitive.Range />
+                    </ProgressPrimitive.Track>
+                    <Tooltip.Root open={progressTooltipVisible}>
+                        <Tooltip.Trigger asChild>
+                            <ProgressPrimitive.Thumb ref={progressThumbRef} />
+                        </Tooltip.Trigger>
+                        <Tooltip.Portal
+                            container={progressThumbNode}
+                        >
+                            <Tooltip.Content collisionBoundary={playerNode} className="group-data-[fullscreen=true]/player:text-xl font-semibold first-letter:uppercase text-neutral-300" sideOffset={5} align="center">
+                                {tooltipContent(value)}
+                                <Tooltip.Arrow />
+                            </Tooltip.Content>
+                        </Tooltip.Portal>
+                    </Tooltip.Root>
+                </ProgressPrimitive.Root>
+            </Tooltip.Provider>
+        </div>
     )
 }
 
