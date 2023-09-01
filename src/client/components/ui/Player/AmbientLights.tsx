@@ -40,7 +40,7 @@ const AmbientLights: FC<AmbientLightsProps> = ({ ...props }) => {
         <motion.div
             className='fixed top-0 left-0 w-full h-full -z-10 blur-xl'
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
+            animate={{ opacity: 0.7 }}
             exit={{ opacity: 0 }}
             transition={{
                 duration: 5
