@@ -21,24 +21,22 @@ interface CameraCellProps {
 }
 
 const CameraCell: FC<CameraCellProps> = ({ camera }) => {
-    const { id, url, name } = camera;
-    const [refreshKey, setRefreshKey] = useState<string>(`${id}${Date.now()}`);
+    const { url, name } = camera;
+    const [date, setDate] = useState<number>(Date.now());
 
     useTimer({
         delay: 1000 * 60 * 2,
         startImmediately: true
     }, () => {
-        setRefreshKey(`${id}${Date.now()}`);
+        setDate(Date.now());
     });
 
     return (
         <Grid.Cell>
             <Link to={`/camera/${encodeURIComponent(name.toLowerCase())}`}>
-                <Player.Root ambientLights={false} sourceSet={[url]} index={0}>
+                <Player.Root ambientLights={false} sourceSet={[`${url}?d=${date}`]} index={0}>
                     <Player.Content rounded={'md'}>
                         <Player.Screen
-                            className='bg-neutral-900'
-                            refreshKey={refreshKey}
                             loadingComponent={<Loader />}
                             errorComponent={<ImageError />}
                         />

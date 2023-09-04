@@ -12,35 +12,23 @@ import { playerContentVariants } from "./Content";
 
 interface ScreenProps extends HTMLAttributes<HTMLDivElement> {
     imgClassName?: string;
-    refreshKey?: string;
-    loading?: boolean;
     loadingComponent?: JSX.Element;
-    error?: boolean;
     errorComponent?: JSX.Element;
 }
 
-const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, errorComponent, refreshKey, ...props }) => {
-    const { state, sourceSet, index, setState, setIndex, speed, initialIndex, fullscreen, imageRef } = usePlayerContext();
-    const [loading, setLoading] = useState<boolean>(props.loading ?? true);
-    const [error, setError] = useState<boolean>(props.error ?? false);
+const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, errorComponent, ...props }) => {
+    const { state, sourceSet, index, setState, setIndex, speed, initialIndex, fullscreen, imageRef, imageError, imageLoading, setImageError, setImageLoading } = usePlayerContext();
     const [date, setDate] = useState<number>(Date.now());
 
-    const key = useMemo(() => {
-        if (refreshKey) return refreshKey;
-        return date.toString();
-    }, [refreshKey, date]);
-
     const src = useMemo(() => {
-        setError(false);
-
         if (state === PlaybackAction.Stop) {
             return sourceSet.at(-1);
         }
 
         return sourceSet.at(index);
-    }, [state, sourceSet, index, setError]);
+    }, [state, sourceSet, index]);
 
-    const nextImage = useCallback(() => {
+    usePlayerTimer(useCallback(() => {
         if (index >= sourceSet.length - 1) {
             setState(PlaybackAction.Stop);
             setIndex(initialIndex);
@@ -48,23 +36,20 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
         }
 
         setIndex(prev => prev + 1);
-    }, [setState, sourceSet, index]);
-
-    usePlayerTimer(nextImage, speed);
+    }, [setState, setIndex, sourceSet, index]), speed);
 
     useErrorRefreshTimer(() => {
-        setError(false);
-        setLoading(true);
+        setImageLoading(true);
         setDate(Date.now());
-    }, error);
+    }, imageError);
 
     return (
         <section
-            className={cn("select-none relative", className)}
+            className={cn("select-none relative bg-neutral-900", className)}
             {...props}
         >
-            {loading && (loadingComponent ?? <Loading />)}
-            {error && (errorComponent ?? <Error />)}
+            {imageLoading && (loadingComponent ?? <Loading />)}
+            {imageError && (errorComponent ?? <Error />)}
             <img
                 ref={imageRef}
                 className={
@@ -74,10 +59,10 @@ const Screen: FC<ScreenProps> = ({ className, imgClassName, loadingComponent, er
                         imgClassName
                     )
                 }
-                onLoad={() => setLoading(false)}
-                onError={() => setError(true)}
-                style={{ opacity: (error || loading) ? 0 : 1 }}
-                src={`${src}?d=${key}`}
+                onLoad={() => setImageLoading(false)}
+                onError={() => setImageError(true)}
+                style={{ opacity: (imageError || imageLoading) ? 0 : 1 }}
+                src={imageError ? `${src}?d=${date}` : src}
                 alt={`Image ${index} of ${sourceSet.length}`}
             />
             <AmbientLights />

@@ -1,5 +1,5 @@
 import cn from "@client/utils/cn";
-import { FC, HTMLAttributes, useMemo } from "react";
+import { HTMLAttributes, useMemo } from "react";
 import { Button, buttonVariants } from "../Button";
 import { PlaybackAction, usePlayerContext } from "./context";
 import { VariantProps } from "class-variance-authority";
@@ -206,9 +206,10 @@ interface ProgressProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 function Progress({ className, tooltipContent, ...props }: ProgressProps) {
-    const { sourceSet, setState, index, setIndex, progressTooltipVisible, setProgressTooltipVisible, progressThumbRef, progressThumbNode, playerNode } = usePlayerContext();
+    const { sourceSet, setState, index, setIndex, setImageLoading, progressTooltipVisible, setProgressTooltipVisible, progressThumbRef, progressThumbNode, playerNode } = usePlayerContext();
 
     const onValueChange = (value: number[]) => {
+        setImageLoading(true);
         setIndex(value[0]);
         setState(PlaybackAction.Pause);
     }
@@ -234,6 +235,7 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                     min={0}
                     max={sourceSet.length - 1}
                     step={1}
+                    minStepsBetweenThumbs={1}
                     onMouseEnter={() => setProgressTooltipVisible(true)}
                     onMouseLeave={() => setProgressTooltipVisible(false)}
                     onTouchStart={() => setProgressTooltipVisible(true)}
@@ -250,7 +252,7 @@ function Progress({ className, tooltipContent, ...props }: ProgressProps) {
                         <Tooltip.Portal
                             container={progressThumbNode}
                         >
-                            <Tooltip.Content collisionBoundary={playerNode} className="group-data-[fullscreen=true]/player:text-xl font-semibold first-letter:uppercase text-neutral-300" sideOffset={5} align="center">
+                            <Tooltip.Content collisionBoundary={playerNode} sideOffset={5} align="center">
                                 {tooltipContent(value)}
                                 <Tooltip.Arrow />
                             </Tooltip.Content>

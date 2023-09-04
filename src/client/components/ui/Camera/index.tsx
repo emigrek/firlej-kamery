@@ -35,7 +35,6 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
             .filter(filter?.function || (() => true))
             .map(s => s.url);
     }, [data, filter]);
-    const index = useMemo(() => srcSet.length - 1, [srcSet]);
 
     const tooltipContent = (value: number) => {
         const snapshotSource = srcSet.at(value);
@@ -44,12 +43,14 @@ const Camera: FC<CameraProps> = ({ camera, ...props }) => {
         if (!snapshot) return;
 
         return (
-            formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })
+            <div className="group-data-[fullscreen=true]/player:text-xl font-semibold first-letter:uppercase text-neutral-300">
+                {formatRelative(new Date(snapshot.timestamp), new Date(), { locale: pl })}
+            </div>
         )
     };
 
     return (
-        <Player.Root sourceSet={srcSet} index={index} ambientLights={ambientLights} {...props}>
+        <Player.Root sourceSet={srcSet} index={srcSet.length - 1} ambientLights={ambientLights} {...props}>
             <Player.Content
                 rounded={'md'}
                 size={'windowed'}

@@ -23,6 +23,8 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
     const [fullscreen, setFullscreen] = useState<boolean>(props.fullscreen ?? false);
     const [progressTooltipVisible, setProgressTooltipVisible] = useState<boolean>(props.progressTooltipVisible ?? false);
     const [preloading, setPreloading] = useState<boolean>(false);
+    const [imageLoading, setImageLoading] = useState<boolean>(true);
+    const [imageError, setImageError] = useState<boolean>(false);
 
     const [controlsNode, setControlsNode] = useState<HTMLElement | null>(null);
     const [playerNode, setPlayerNode] = useState<HTMLElement | null>(null);
@@ -64,17 +66,21 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
                 }
                 setPreloading(true);
                 cacheImages(sourceSet, index)
-                    .then(() => setState(PlaybackAction.Play))
                     .catch(() => setState(PlaybackAction.Play))
-                    .finally(() => setPreloading(false));
+                    .finally(() => {
+                        setState(PlaybackAction.Play);
+                        setPreloading(false);
+                    });
                 break;
             case PlaybackAction.Stop:
                 setIndex(0);
                 setPreloading(true);
                 cacheImages(sourceSet, index)
-                    .then(() => setState(PlaybackAction.Play))
                     .catch(() => setState(PlaybackAction.Play))
-                    .finally(() => setPreloading(false));
+                    .finally(() => {
+                        setState(PlaybackAction.Play);
+                        setPreloading(false);
+                    });
                 break;
         }
     }
@@ -115,6 +121,10 @@ const Root: FC<RootProps> = ({ children, ...props }) => {
             ambientLights,
             preloading,
             setPreloading,
+            imageLoading,
+            setImageLoading,
+            imageError,
+            setImageError,
             controlsNode,
             controlsRef,
             playerNode,

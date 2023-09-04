@@ -14,8 +14,8 @@ const Root = forwardRef<
             ref={ref}
             className={
                 cn(
-                    'relative rounded-full w-10 h-5 bg-neutral-700',
-                    'transition-colors data-[state="checked"]:bg-primary-500',
+                    'relative rounded-full w-9 h-5 bg-transparent border-2 border-neutral-300 hover:border-neutral-100',
+                    'transition-colors data-[state="checked"]:border-primary-500',
                     className
                 )
             }
@@ -33,8 +33,9 @@ const Thumb = forwardRef<
             ref={ref}
             className={
                 cn(
-                    'block w-5 h-5 bg-neutral-200 rounded-full shadow-xl ring-2 ring-neutral-200',
-                    'transition-transform data-[state="checked"]:translate-x-5',
+                    'block w-3 h-3 bg-neutral-100 rounded-full mx-1',
+                    'transition-transform data-[state="checked"]:translate-x-3',
+                    'data-[state="checked"]:bg-primary-500',
                     className
                 )
             }

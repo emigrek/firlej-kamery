@@ -23,6 +23,10 @@ interface PlayerContext {
     setProgressTooltipVisible: React.Dispatch<React.SetStateAction<boolean>>;
     preloading: boolean;
     setPreloading: React.Dispatch<React.SetStateAction<boolean>>;
+    imageLoading: boolean;
+    setImageLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    imageError: boolean;
+    setImageError: React.Dispatch<React.SetStateAction<boolean>>;
     ambientLights: boolean;
     toggle: () => void;
     clear: () => void;
