@@ -24,7 +24,6 @@ Fill .env file
 ```
 # CLIENT
 VITE_GOOGLE_MAPS_API_KEY=
-VITE_GOOGLE_ANALYTICS_ID=
 
 # SERVER (optional)
 HOST=
